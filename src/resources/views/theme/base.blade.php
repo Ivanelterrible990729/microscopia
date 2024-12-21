@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html class="opacity-0 theme-1 light" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="opacity-0" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <!-- BEGIN: Head -->
     <head>
         <meta charset="utf-8">
