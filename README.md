@@ -9,3 +9,4 @@ Ejecute los siguientes comandos:
 - `docker-compose up -d --build `
 - `docker-compose exec app bash`
 - `php artisan migrate`
+- `npm install && npm run build`
