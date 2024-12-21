@@ -1,0 +1,67 @@
+services:
+    app:
+        image: "php8.2-node18"
+        container_name: "app_microscopia"
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: unless-stopped
+        tty: true
+        environment:
+            SERVICE_NAME: app
+            SERVICE_TAGS: dev
+        working_dir: /var/www
+        volumes:
+            - ./src:/var/www
+            - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+            - ./nginx/conf.d:/etc/nginx/conf.d
+            - /mnt/storage/web-files/practicas-archivos/:/var/archivo_practicas
+            - /mnt/storage/backups/:/var/respaldo
+            #- /home/ivanelterrible/.ssh/:/home/www/.ssh/
+        networks:
+            - app-network
+
+    webserver:
+        image: "nginx:alpine3.18-slim"
+        container_name: "webserver_microscopia"
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "8080:80"
+        volumes:
+            - ./src:/var/www
+            - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+            - ./nginx/conf.d:/etc/nginx/conf.d
+            - /mnt/storage/web-files/practicas-archivos/:/var/archivo_practicas
+            - /mnt/storage/backups/:/var/respaldo
+        networks:
+            - app-network
+        depends_on:
+            - app
+
+    db:
+        image: "mariadb:10.8.2"
+        container_name: "db_microscopia"
+        restart: unless-stopped
+        tty: true
+        environment:
+            MYSQL_ROOT_PASSWORD: root-laravel
+            MYSQL_DATABASE: laravel
+            MYSQL_USER: laravel
+            MYSQL_PASSWORD: laravel
+        volumes:
+            - dbdata:/var/lib/mysql
+            - /mnt/storage/backups/:/var/respaldo
+        ports:
+            - "3306:3306"
+        networks:
+            - app-network
+
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    dbdata:
+        driver: local
