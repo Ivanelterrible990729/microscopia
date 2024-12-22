@@ -17,6 +17,7 @@
         <!-- END: CSS Assets-->
 
         @vite('resources/css/app.css')
+        @livewireStyles
     </head>
     <!-- END: Head -->
 
@@ -33,5 +34,7 @@
         @vite('resources/js/components/base/theme-color.js')
         @stack('scripts')
         <!-- END: Pages, layouts, components JS Assets-->
+
+        @livewireScripts
     </body>
 </html>
