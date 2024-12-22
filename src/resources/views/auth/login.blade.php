@@ -1,7 +1,7 @@
 @extends('../theme/base')
 
 @section('head')
-    <title>{{ config('app.name') }} - Iniciar Sesión </title>
+    <title>{{ config('app.name') }} - Iniciar sesión </title>
 @endsection
 
 @section('content')
@@ -75,7 +75,7 @@
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
 
-                                <h2 class="intro-x text-center text-2xl xl:text-4xl font-bold xl:text-left mt-5 xl:mt-0">
+                                <h2 class="intro-x text-center text-2xl xl:text-3xl font-bold xl:text-left mt-5 xl:mt-0">
                                     Inicio de sesión
                                 </h2>
 
@@ -89,7 +89,7 @@
                                         autofocus
                                         autocomplete="username"
                                         class="intro-x block min-w-full px-4 py-3 xl:min-w-[450px]"
-                                        placeholder="Correo electrónico"
+                                        placeholder="{{ __('Email') }}"
                                     />
                                     <x-base.form-input
                                         id="password"
@@ -98,7 +98,7 @@
                                         required
                                         autocomplete="current-password"
                                         class="intro-x mt-4 block min-w-full px-4 py-3 xl:min-w-[450px]"
-                                        placeholder="Contraseña"
+                                        placeholder="{{ __('Password') }}"
                                     />
                                 </div>
 
@@ -111,11 +111,11 @@
                                             type="checkbox"
                                         />
                                         <label class="cursor-pointer select-none" for="remember-me">
-                                            Recuérdame
+                                            {{ __('Remember me') }}
                                         </label>
                                     </div>
                                     <a href="{{ route('password.request') }}">
-                                        ¿Olvidó su contraseña?
+                                        {{ __('Forgot your password?') }}
                                     </a>
                                 </div>
 
@@ -124,7 +124,7 @@
                                         class="w-full px-4 py-3 align-top xl:mr-3"
                                         variant="primary"
                                     >
-                                        Iniciar Sesión
+                                        {{ __('Log in') }}
                                     </x-base.button>
                                 </div>
                             </form>
