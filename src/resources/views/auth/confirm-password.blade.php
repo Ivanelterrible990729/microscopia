@@ -49,7 +49,7 @@
                     <div class="flex flex-col w-full">
 
                         <div class="text-right flex justify-end pt-0 xl:pt-4 xl:-mb-10">
-                            <x-theme-switcher />
+                            <x-dark-mode-switcher />
                         </div>
 
                         <div
