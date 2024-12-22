@@ -66,48 +66,70 @@
                                 </div>
                             </div>
 
-                            <h2 class="intro-x text-center text-2xl xl:text-4xl font-bold xl:text-left mt-5 xl:mt-0">
-                                Inicio de sesión
-                            </h2>
-
-                            <div class="intro-x mt-5">
-                                <x-base.form-input
-                                    class="intro-x block min-w-full px-4 py-3 xl:min-w-[450px]"
-                                    type="text"
-                                    placeholder="Correo electrónico"
-                                />
-                                <x-base.form-input
-                                    class="intro-x mt-4 block min-w-full px-4 py-3 xl:min-w-[450px]"
-                                    type="password"
-                                    placeholder="Contraseña"
-                                />
-                            </div>
-
-                            <div class="intro-x mt-4 flex text-xs text-slate-600 dark:text-slate-500 sm:text-sm">
-                                <div class="mr-auto flex items-center">
-                                    <x-base.form-check.input
-                                        class="mr-2 border"
-                                        id="remember-me"
-                                        type="checkbox"
-                                    />
-                                    <label
-                                        class="cursor-pointer select-none"
-                                        for="remember-me"
-                                    >
-                                        Recuérdame
-                                    </label>
+                            @session('status')
+                                <div class="mb-4 font-medium text-sm text-green-600">
+                                    {{ $value }}
                                 </div>
-                                <a href="">¿Olvidó su contraseña?</a>
-                            </div>
+                            @endsession
 
-                            <div class="intro-x mt-5 text-center xl:mt-8 xl:text-left">
-                                <x-base.button
-                                    class="w-full px-4 py-3 align-top xl:mr-3"
-                                    variant="primary"
-                                >
-                                    Iniciar Sesión
-                                </x-base.button>
-                            </div>
+                            <form method="POST" action="{{ route('login') }}">
+                                @csrf
+
+                                <h2 class="intro-x text-center text-2xl xl:text-4xl font-bold xl:text-left mt-5 xl:mt-0">
+                                    Inicio de sesión
+                                </h2>
+
+                                <div class="intro-x mt-8">
+                                    <x-base.form-input
+                                        id="email"
+                                        type="email"
+                                        name="email"
+                                        :value="old('email')"
+                                        required
+                                        autofocus
+                                        autocomplete="username"
+                                        class="intro-x block min-w-full px-4 py-3 xl:min-w-[450px]"
+                                        placeholder="Correo electrónico"
+                                    />
+                                    <x-base.form-input
+                                        id="password"
+                                        type="password"
+                                        name="password"
+                                        required
+                                        autocomplete="current-password"
+                                        class="intro-x mt-4 block min-w-full px-4 py-3 xl:min-w-[450px]"
+                                        placeholder="Contraseña"
+                                    />
+                                </div>
+
+                                <div class="intro-x mt-4 flex text-xs text-slate-600 dark:text-slate-500 sm:text-sm">
+                                    <div class="mr-auto flex items-center">
+                                        <x-base.form-check.input
+                                            class="mr-2 border"
+                                            id="remember-me"
+                                            name="remember"
+                                            type="checkbox"
+                                        />
+                                        <label class="cursor-pointer select-none" for="remember-me">
+                                            Recuérdame
+                                        </label>
+                                    </div>
+                                    <a href="{{ route('password.request') }}">
+                                        ¿Olvidó su contraseña?
+                                    </a>
+                                </div>
+
+                                <div class="intro-x mt-5 text-center xl:mt-8 xl:text-left">
+                                    <x-base.button
+                                        class="w-full px-4 py-3 align-top xl:mr-3"
+                                        variant="primary"
+                                    >
+                                        Iniciar Sesión
+                                    </x-base.button>
+                                </div>
+                            </form>
+
+                            <x-validation-errors class="mt-8 intro-x" />
                         </div>
                     </div>
                 </div>
