@@ -9,13 +9,13 @@
     <div class="flex h-full items-center">
 
         <!-- BEGIN: Logo -->
-        <a href="" class="-intro-x hidden md:flex xl:w-[180px]">
+        <a href="" class="-intro-x hidden md:flex items-center xl:w-[180px]">
             <img
                 class="w-6"
                 src="{{ Vite::asset('resources/images/logo.svg') }}"
                 alt="Microscopía ITRANS"
             />
-            <span class="ml-3 font-medium text-white hidden xl:block">
+            <span class="ml-3 text-white hidden xl:block">
                 {{ config('app.name') }}
             </span>
         </a>
@@ -82,7 +82,7 @@
 
                 <x-base.menu.divider class="bg-white/[0.08]" />
 
-                <x-base.menu.item class="hover:bg-white/5">
+                <x-base.menu.item class="hover:bg-white/5" href="{{ route('profile.show') }}">
                     <x-base.lucide
                         class="mr-2 h-4 w-4"
                         icon="User"
