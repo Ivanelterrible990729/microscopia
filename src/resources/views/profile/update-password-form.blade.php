@@ -16,7 +16,7 @@
                 name="current_password"
                 wire:model="state.current_password"
                 autocomplete="current-password"
-                class="intro-x mt-1 block min-w-full px-4 py-3 xl:min-w-[450px]"
+                class="mt-1 block min-w-full px-4 py-3 xl:min-w-[450px]"
             />
             <x-input-error for="current_password" class="mt-2" />
         </div>
@@ -29,7 +29,7 @@
                 name="password"
                 wire:model="state.password"
                 autocomplete="new-password"
-                class="intro-x mt-1 block min-w-full px-4 py-3 xl:min-w-[450px]"
+                class="mt-1 block min-w-full px-4 py-3 xl:min-w-[450px]"
             />
             <x-input-error for="password" class="mt-2" />
         </div>
@@ -42,7 +42,7 @@
                 name="password_confirmation"
                 wire:model="state.password_confirmation"
                 autocomplete="new-password"
-                class="intro-x mt-1 block min-w-full px-4 py-3 xl:min-w-[450px]"
+                class="mt-1 block min-w-full px-4 py-3 xl:min-w-[450px]"
             />
             <x-input-error for="password_confirmation" class="mt-2" />
         </div>

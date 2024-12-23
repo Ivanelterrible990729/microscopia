@@ -62,7 +62,7 @@
                 wire:model="state.name"
                 required
                 autocomplete="name"
-                class="intro-x mt-1 block min-w-full px-4 py-3 xl:min-w-[450px]"
+                class="mt-1 block min-w-full px-4 py-3 xl:min-w-[450px]"
             />
             <x-input-error for="name" class="mt-2" />
         </div>
@@ -77,7 +77,7 @@
                 wire:model="state.email"
                 required
                 autocomplete="username"
-                class="intro-x mt-1 block min-w-full px-4 py-3 xl:min-w-[450px]"
+                class="mt-1 block min-w-full px-4 py-3 xl:min-w-[450px]"
             />
             <x-input-error for="email" class="mt-2" />
 
