@@ -32,12 +32,6 @@ export default defineConfig({
                 // CSS Themes
                 "resources/css/themes/enigma/side-nav.css",
                 "resources/css/themes/enigma/top-nav.css",
-                "resources/css/themes/icewall/side-nav.css",
-                "resources/css/themes/icewall/top-nav.css",
-                "resources/css/themes/rubick/side-nav.css",
-                "resources/css/themes/rubick/top-nav.css",
-                "resources/css/themes/tinker/side-nav.css",
-                "resources/css/themes/tinker/top-nav.css",
 
                 // CSS Components
                 "resources/css/components/mobile-menu.css",
@@ -98,9 +92,6 @@ export default defineConfig({
                 "resources/js/pages/validation.js",
 
                 // JS Themes
-                "resources/js/themes/rubick.js",
-                "resources/js/themes/icewall.js",
-                "resources/js/themes/tinker.js",
                 "resources/js/themes/enigma.js",
 
                 // JS Base Components
@@ -126,9 +117,6 @@ export default defineConfig({
 
                 // JS Components
                 "resources/js/components/themes/enigma/top-bar.js",
-                "resources/js/components/themes/icewall/top-bar.js",
-                "resources/js/components/themes/rubick/top-bar.js",
-                "resources/js/components/themes/tinker/top-bar.js",
                 "resources/js/components/donut-chart.js",
                 "resources/js/components/horizontal-bar-chart.js",
                 "resources/js/components/line-chart.js",
