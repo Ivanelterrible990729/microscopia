@@ -6,26 +6,22 @@
     '[&.mobile-menu--active]:before:visible [&.mobile-menu--active]:before:opacity-100',
 ])>
     <div class="flex h-[70px] items-center px-3 sm:px-8">
-        <a
-            class="mr-auto flex"
-            href=""
-        >
+        <a class="mr-auto flex" href="">
             <img
                 class="w-6"
                 src="{{ Vite::asset('resources/images/logo.svg') }}"
-                alt="Midone - Tailwind Admin Dashboard Template"
+                alt="Microscopía ITRANS"
             />
         </a>
-        <a
-            class="mobile-menu-toggler"
-            href="#"
-        >
+
+        <a class="mobile-menu-toggler" href="#">
             <x-base.lucide
                 class="h-8 w-8 -rotate-90 transform text-white"
                 icon="BarChart2"
             />
         </a>
     </div>
+
     <div @class([
         'scrollable h-screen z-20 top-0 left-0 w-[270px] -ml-[100%] bg-primary transition-all duration-300 ease-in-out dark:bg-darkmode-800',
         '[&[data-simplebar]]:fixed [&_.simplebar-scrollbar]:before:bg-black/50',

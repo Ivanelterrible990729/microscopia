@@ -1,4 +1,4 @@
-<div x-data="{ theme: localStorage.getItem('appearance-mode') || 'light' }" class="flex items-center">
+<div x-data="{ theme: localStorage.getItem('appearance-mode') || 'light' }" class="intro-x flex items-center">
     <!-- Checkbox para el switch -->
     <label class="relative flex items-center cursor-pointer">
         <input
