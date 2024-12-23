@@ -19,7 +19,7 @@
             <span x-show="theme === 'light'" class="text-yellow-500 font-bold">
                 <x-base.lucide icon="sun"/>
             </span>
-            <span x-show="theme === 'dark'" class="text-yellow-500 font-bold">
+            <span x-show="theme === 'dark'" class="text-blue-700 font-bold">
                 <x-base.lucide icon="moon"/>
             </span>
         </div>
