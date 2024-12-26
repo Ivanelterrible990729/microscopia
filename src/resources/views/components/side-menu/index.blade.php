@@ -83,6 +83,22 @@
                 </li>
             @endif
         @endforeach
+
+        <li class="side-nav__divider my-6"></li>
+
+        <li>
+            <x-base.button
+                class="px-4 py-3 bg-white hover:bg-white/70 border rounded-lg w-full hover:text-primary"
+                as="a"
+                href="{{ route('larecipe.show', '1.0') }}"
+            >
+                <x-base.lucide
+                    icon="book-text"
+                    class="w-5 h-5 mr-2"
+                />
+                {{ __("User's Manual") }}
+            </x-base.button>
+        </li>
     </ul>
 </nav>
 <!-- END: Side Menu -->

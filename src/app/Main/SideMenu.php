@@ -33,7 +33,7 @@ class SideMenu
 
             'imagenes' => [
                 'icon' => 'images',
-                'title' => __('Image Management'),
+                'title' => __('Image management'),
                 'route_name' => 'login',
             ],
         ];
