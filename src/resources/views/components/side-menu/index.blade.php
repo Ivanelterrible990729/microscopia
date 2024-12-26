@@ -96,7 +96,7 @@
                     icon="book-text"
                     class="w-5 h-5 mr-2"
                 />
-                {{ __("User's Manual") }}
+                {{ __("User's manual") }}
             </x-base.button>
         </li>
     </ul>

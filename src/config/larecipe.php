@@ -126,8 +126,8 @@ return [
         'fa_v4_shims'    => true, // Add FontAwesome v4 shims prevent BC break
         'show_side_bar'  => true,
         'colors'         => [
-            'primary'    => '#787AF6',
-            'secondary'  => '#2b9cf2'
+            'primary'    => '#064E3B',
+            'secondary'  => '#F1F5F9'
         ],
 
         'theme_order'    => null // ['LaRecipeDarkTheme', 'customTheme']
