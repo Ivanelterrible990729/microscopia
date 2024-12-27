@@ -15,7 +15,7 @@ class RoleController extends Controller
     {
         Gate::authorize('ViewAny', Role::class);
 
-        return view('roles.index');
+        return view('role.index');
     }
 
     /**

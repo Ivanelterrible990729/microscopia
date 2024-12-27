@@ -206,7 +206,11 @@
     "Roles": "Roles",
     "Image management": "Gestión de imágenes",
     "User's manual": "Manual de usuario",
+
     "Return": "Regresar",
     "Version": "Versión",
-    "Collapse": "Colapsar"
+    "Collapse": "Colapsar",
+
+    "Created at": "Creado el",
+    "Updated at": "Actualizado el"
 }

@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class VerRolesTest extends TestCase
+class ViewRolesTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 

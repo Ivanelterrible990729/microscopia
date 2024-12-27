@@ -13,19 +13,20 @@
 @endsection
 
 @section('subcontent')
-    <div class="intro-y max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="intro-y mt-8 flex items-center mb-5">
-            <x-base.lucide
-                icon="shield-ellipsis"
-                class="mr-2"
-            />
-            <h2 class="mr-auto text-xl font-medium">
-                {{ __('Roles') }}
-            </h2>
-        </div>
-
-        <div class="intro-y box mt-5 p-5">
-            <x-welcome />
-        </div>
+    <div class="intro-y mt-8 flex items-center mb-5">
+        <x-base.lucide
+            icon="shield-ellipsis"
+            class="mr-2"
+        />
+        <h2 class="mr-auto text-xl font-medium">
+            {{ __('Roles') }}
+        </h2>
     </div>
+
+    <div class="intro-y box mt-5 p-5">
+        <livewire:role.roles-table />
+    </div>
+
+    <div class="hidden sm:table-header-group"></div>
+    <div class="border border-b-2 sm:border-b-0"></div>
 @endsection
