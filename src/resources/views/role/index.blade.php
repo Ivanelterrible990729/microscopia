@@ -24,6 +24,6 @@
     </div>
 
     <div class="intro-y box mt-5 p-5">
-        <livewire:role.roles-table />
+        <livewire:listados.roles-table />
     </div>
 @endsection

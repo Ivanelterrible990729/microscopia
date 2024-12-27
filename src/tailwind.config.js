@@ -14,8 +14,7 @@ module.exports = {
         // Rappasoft Data-Tables
         './vendor/rappasoft/laravel-livewire-tables/resources/views/*.blade.php',
         './vendor/rappasoft/laravel-livewire-tables/resources/views/**/*.blade.php',
-        './app/Livewire/*.php',
-        './app/Livewire/**/*.php',
+        './app/Livewire/Listados/*.php',
     ],
     darkMode: "class",
     theme: {

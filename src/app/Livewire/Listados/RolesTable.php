@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Role;
+namespace App\Livewire\Listados;
 
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
