@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
             User::factory()->create([
                 'name' => 'Iván Alejandro Alvarez Chávez',
                 'email' => 'ivanalejandro290799@gmail.com',
-            ]);
+            ])->assignRole(RoleEnum::Desarrollador->value);
         } else {                                // Usuarios de prueba para desarrollo y testing
             foreach (RoleEnum::array() as $roleValue => $roleName) {
                 User::factory()->create([

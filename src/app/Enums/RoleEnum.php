@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-use App\Concerns\EnumToArray;
+use App\Concerns\Enums\EnumToArray;
 
 /**
  * Enumerado para mostrar las modalidades del App\Models\PlanDocencia.
