@@ -9,7 +9,14 @@ const toRGB = (value) => {
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: ["./resources/**/*.{php,html,js,jsx,ts,tsx}"],
+    content: [
+        "./resources/**/*.{php,html,js,jsx,ts,tsx}",
+        // Rappasoft Data-Tables
+        './vendor/rappasoft/laravel-livewire-tables/resources/views/*.blade.php',
+        './vendor/rappasoft/laravel-livewire-tables/resources/views/**/*.blade.php',
+        './app/Livewire/*.php',
+        './app/Livewire/**/*.php',
+    ],
     darkMode: "class",
     theme: {
         extend: {

@@ -5,6 +5,7 @@ namespace App\Livewire\Role;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
 use Spatie\Permission\Models\Role;
 
 class RolesTable extends DataTableComponent
@@ -23,9 +24,18 @@ class RolesTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Id", "id")
-                ->sortable()
-                ->searchable(),
+            LinkColumn::make('Id')
+                ->title(fn($row) => $row->id)
+                ->location(fn($row) => route('roles.show', $row->id))
+                ->attributes(fn($row) => [
+                    'class' => 'text-primary underline',
+                ])
+                ->sortable(
+                    fn(Builder $query, string $direction) => $query->orderBy('id', $direction)
+                )
+                ->searchable(
+                    fn(Builder $query, $searchTerm) => $query->orWhere('id', 'like', "%$searchTerm%")
+                ),
             Column::make("Name", "name")
                 ->sortable()
                 ->searchable(),
