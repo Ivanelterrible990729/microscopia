@@ -39,10 +39,22 @@
             </x-base.popover.button>
             <x-base.popover.panel class="mt-2 w-[280px] p-5 sm:w-[350px]">
                 <div class="mb-5 font-medium">{{ __('Notifications') }}</div>
-
             </x-base.popover.panel>
         </x-base.popover>
         <!-- END: Notifications -->
+
+        @can ('viewLogViewer')
+            <div class="mr-4 sm:mr-6">
+                <div class="intro-x">
+                    <a href="{{ route('log-viewer.index') }}" class="text-white/70">
+                        <x-base.lucide
+                            class="h-5 w-5 dark:text-slate-500"
+                            icon="Bug"
+                        />
+                    </a>
+                </div>
+            </div>
+        @endcan
 
         <!-- BEGIN: Darkmode Switcher -->
         <div class="z-10 mr-4 sm:mr-6">
