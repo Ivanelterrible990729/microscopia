@@ -26,7 +26,7 @@ class RolesTable extends DataTableComponent
         return [
             LinkColumn::make('Id')
                 ->title(fn($row) => $row->id)
-                ->location(fn($row) => route('roles.show', $row->id))
+                ->location(fn($row) => route('role.show', $row->id))
                 ->attributes(fn($row) => [
                     'class' => 'text-blue-700 hover:text-blue-500 underline',
                 ])

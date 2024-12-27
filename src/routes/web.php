@@ -16,6 +16,6 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('admin/roles', [RoleController::class, 'index'])->name('roles.index');
-    Route::get('admin/role/{role}', [RoleController::class, 'show'])->name('roles.show');
+    Route::get('admin/roles', [RoleController::class, 'index'])->name('role.index');
+    Route::get('admin/roles/{role}', [RoleController::class, 'show'])->name('role.show');
 });

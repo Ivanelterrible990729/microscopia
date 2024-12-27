@@ -21,7 +21,7 @@ class SideMenu
             'roles' => [
                 'icon' => 'shield-ellipsis',
                 'title' => __('Roles'),
-                'route_name' => 'roles.index',
+                'route_name' => 'role.index',
             ],
             'users' => [
                 'icon' => 'users',
