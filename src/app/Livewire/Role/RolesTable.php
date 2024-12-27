@@ -28,7 +28,7 @@ class RolesTable extends DataTableComponent
                 ->title(fn($row) => $row->id)
                 ->location(fn($row) => route('roles.show', $row->id))
                 ->attributes(fn($row) => [
-                    'class' => 'text-primary underline',
+                    'class' => 'text-blue-700 hover:text-blue-500 underline',
                 ])
                 ->sortable(
                     fn(Builder $query, string $direction) => $query->orderBy('id', $direction)
