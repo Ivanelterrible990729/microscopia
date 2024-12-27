@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Role;
 
+use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Spatie\Permission\Models\Role;
@@ -17,25 +18,32 @@ class RolesTable extends DataTableComponent
         $this->setTheadAttributes([
             'class' => 'hidden sm:table-header-group',
         ]);
-
-        $this->setTrAttributes(function($row, $index) {
-            return [
-                'class' => 'border border-b-2 sm:border-b-0',
-            ];
-        });
     }
 
     public function columns(): array
     {
         return [
             Column::make("Id", "id")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             Column::make("Name", "name")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             Column::make(__("Created at"), "created_at")
                 ->sortable(),
             Column::make(__("Updated at"), "updated_at")
                 ->sortable(),
         ];
+    }
+
+    public function builder(): Builder
+    {
+        return Role::query()
+            ->select([
+                'id',
+                'name',
+                'created_at',
+                'updated_at'
+            ]);
     }
 }

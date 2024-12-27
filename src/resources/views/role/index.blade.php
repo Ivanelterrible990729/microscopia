@@ -26,7 +26,4 @@
     <div class="intro-y box mt-5 p-5">
         <livewire:role.roles-table />
     </div>
-
-    <div class="hidden sm:table-header-group"></div>
-    <div class="border border-b-2 sm:border-b-0"></div>
 @endsection
