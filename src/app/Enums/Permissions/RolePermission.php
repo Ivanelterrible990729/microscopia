@@ -3,6 +3,7 @@
 namespace App\Enums\Permissions;
 
 use App\Concerns\Enums\HasPermissions;
+use App\Enums\RoleEnum;
 
 enum RolePermission: string
 {
@@ -16,10 +17,10 @@ enum RolePermission: string
     public static function map(): array
     {
         return [
-            self::Ver->value => ['Desarrollador'],
-            self::Crear->value => ['Desarrollador'],
-            self::Editar->value => ['Desarrollador'],
-            self::Eliminar->value => ['Desarrollador'],
+            self::Ver->value => [RoleEnum::Desarrollador],
+            self::Crear->value => [RoleEnum::Desarrollador],
+            self::Editar->value => [RoleEnum::Desarrollador],
+            self::Eliminar->value => [RoleEnum::Desarrollador],
         ];
     }
 }
