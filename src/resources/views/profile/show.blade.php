@@ -16,14 +16,17 @@
 @endsection
 
 @section('subcontent')
-    <div class="intro-y mt-8 flex items-center">
-        <x-base.lucide icon="user" class="mr-2" />
-        <h2 class="mr-auto text-lg font-medium">
-            {{ __('Profile') }}
-        </h2>
-    </div>
+    <div class="intro-x max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="intro-x mt-8 flex items-center mb-5">
+            <x-base.lucide
+                icon="user"
+                class="mr-2"
+            />
+            <h2 class="mr-auto text-xl font-medium">
+                {{ __('Profile') }}
+            </h2>
+        </div>
 
-    <div class="intro-x max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
         @if (Laravel\Fortify\Features::canUpdateProfileInformation())
             @livewire('profile.update-profile-information-form')
 

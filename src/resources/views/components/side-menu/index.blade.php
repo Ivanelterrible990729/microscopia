@@ -88,7 +88,7 @@
 
         <li>
             <x-base.button
-                class="px-4 py-3 bg-white hover:bg-white/70 border rounded-lg w-full hover:text-primary"
+                class="px-4 py-3 bg-white dark:bg-slate-700 hover:bg-white/70 border rounded-lg w-full hover:text-primary"
                 as="a"
                 href="{{ route('larecipe.show', '1.0') }}"
             >

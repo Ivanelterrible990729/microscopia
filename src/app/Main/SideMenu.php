@@ -18,14 +18,14 @@ class SideMenu
 
             'divider',
 
-            'users' => [
-                'icon' => 'users',
-                'title' => __('Users'),
-                'route_name' => 'login',
-            ],
             'roles' => [
                 'icon' => 'shield-ellipsis',
                 'title' => __('Roles'),
+                'route_name' => 'roles.index',
+            ],
+            'users' => [
+                'icon' => 'users',
+                'title' => __('Users'),
                 'route_name' => 'login',
             ],
 
