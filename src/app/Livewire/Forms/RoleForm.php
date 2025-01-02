@@ -36,7 +36,7 @@ class RoleForm extends Form
     public function update()
     {
         $this->validate();
-        $this->roleModel->update([$this->role]);
+        $this->roleModel->update($this->role);
 
         return $this->roleModel->refresh();
     }
