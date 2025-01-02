@@ -26,7 +26,7 @@
                     </div>
                     <x-base.button
                         as="a"
-                        href="{{ route('dashboard') }}"
+                        href="{{ url()->previous() }}"
                         class="px-4 py-3 mt-10 text-white border-white intro-x dark:border-darkmode-400 dark:text-slate-200"
                     >
                         {{ __('Return') }}
