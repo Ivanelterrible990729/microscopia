@@ -41,6 +41,8 @@
     "Created.": "Creado.",
     "Current Password": "Contraseña actual",
     "Dashboard": "Inicio",
+    "Details": "Detalles",
+    "Edit": "Editar",
     "Delete": "Eliminar",
     "Delete Account": "Borrar cuenta",
     "Delete API Token": "Borrar token API",
@@ -131,6 +133,7 @@
     "results": "resultados",
     "Role": "Rol",
     "Save": "Guardar",
+    "Update": "Actualizar",
     "Saved.": "Guardado.",
     "Select A New Photo": "Seleccione una nueva foto",
     "Server Error": "Error del servidor",
@@ -212,5 +215,10 @@
     "Collapse": "Colapsar",
 
     "Created at": "Creado el",
-    "Updated at": "Actualizado el"
+    "Updated at": "Actualizado el",
+
+    "Edit role": "Editar rol",
+    "Role name": "Nombre del rol",
+    "Guard name": "Guard name",
+    "The role has been successfully updated.": "El rol se ha actualizado con éxito."
 }

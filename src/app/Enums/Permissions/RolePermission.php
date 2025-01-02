@@ -9,6 +9,7 @@ enum RolePermission: string
 {
     use HasPermissions;
 
+    case ViewAny = 'role.ver-cualquiera';
     case View = 'role.ver';
     case Create = 'role.crear';
     case Update = 'role.editar';
@@ -17,6 +18,7 @@ enum RolePermission: string
     public static function map(): array
     {
         return [
+            self::ViewAny->value => [RoleEnum::Desarrollador],
             self::View->value => [RoleEnum::Desarrollador],
             self::Create->value => [RoleEnum::Desarrollador],
             self::Update->value => [RoleEnum::Desarrollador],
