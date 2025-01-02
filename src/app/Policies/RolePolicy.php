@@ -15,7 +15,7 @@ class RolePolicy
      */
     public function viewAny(User $user): Response
     {
-        return $user->hasPermissionTo(RolePermission::View)
+        return $user->hasPermissionTo(RolePermission::ViewAny)
             ? Response::allow()
             : Response::deny(__('#RP-VA-'. Auth::id() .': Usted no cuenta con permisos para realizar esta acción'), 403);
     }
@@ -23,9 +23,11 @@ class RolePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Role $spatiePermissionModelsRole): bool
+    public function view(User $user, Role $role): Response
     {
-        return false;
+        return $user->hasPermissionTo(RolePermission::View)
+            ? Response::allow()
+            : Response::deny(__('#RP-VI-'. Auth::id() .': Usted no cuenta con permisos para realizar esta acción'), 403);
     }
 
     /**
@@ -39,9 +41,11 @@ class RolePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Role $spatiePermissionModelsRole): bool
+    public function update(User $user, Role $role): Response
     {
-        return false;
+        return $user->hasPermissionTo(RolePermission::Update)
+            ? Response::allow()
+            : Response::deny(__('#RP-UP-'. Auth::id() .': Usted no cuenta con permisos para realizar esta acción'), 403);
     }
 
     /**

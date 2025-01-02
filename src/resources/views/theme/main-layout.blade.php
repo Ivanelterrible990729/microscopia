@@ -25,6 +25,8 @@
                 "before:content-[''] before:w-full before:h-px before:block",
             ])>
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <x-themes.enigma.alert />
+
                     @yield('subcontent')
                 </div>
             </div>

@@ -13,25 +13,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        Gate::authorize('ViewAny', Role::class);
+        Gate::authorize('viewAny', Role::class);
 
         return view('role.index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -39,23 +23,9 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        //
-    }
+        Gate::authorize('view', $role);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Role $role)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Role $role)
-    {
-        //
+        return view('role.show', compact('role'));
     }
 
     /**
