@@ -33,7 +33,7 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        Gate::authorize('destroy', $role);
+        Gate::authorize('delete', $role);
 
         $role->delete();
 

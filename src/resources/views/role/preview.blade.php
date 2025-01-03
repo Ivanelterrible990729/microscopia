@@ -26,30 +26,34 @@
     </div>
     <div class="col-span-3 lg:col-span-1 border-t lg:border-t-0 border-l-0 lg:border-l p-5">
         <div class="text-center">
-            <x-base.button
-                x-on:click="modoEdicion = true"
-                class="align-top mr-2"
-                variant="warning"
-            >
-                <x-base.lucide
-                    icon="edit"
-                    class="mr-2"
-                />
-                {{ __('Edit') }}
-            </x-base.button>
-            <x-base.button
-                onclick="dispatchModal('modal-delete-role', 'show')"
-                class="align-top"
-                variant="danger"
-            >
-                <x-base.lucide
-                    icon="trash-2"
-                    class="mr-2"
-                />
-                {{ __('Delete') }}
-            </x-base.button>
+            @can(App\Enums\Permissions\RolePermission::Update)
+                <x-base.button
+                    x-on:click="modoEdicion = true"
+                    class="align-top mr-2"
+                    variant="warning"
+                >
+                    <x-base.lucide
+                        icon="edit"
+                        class="mr-2"
+                    />
+                    {{ __('Edit') }}
+                </x-base.button>
+            @endcan
+            @can(App\Enums\Permissions\RolePermission::Delete)
+                <x-base.button
+                    onclick="dispatchModal('modal-delete-role', 'show')"
+                    class="align-top"
+                    variant="danger"
+                >
+                    <x-base.lucide
+                        icon="trash-2"
+                        class="mr-2"
+                    />
+                    {{ __('Delete') }}
+                </x-base.button>
 
-            @include('role.modal.modal-delete')
+                @include('role.modal.modal-delete')
+            @endcan
         </div>
     </div>
 </div>

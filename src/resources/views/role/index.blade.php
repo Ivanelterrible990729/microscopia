@@ -22,21 +22,23 @@
             {{ __('Roles') }}
         </h2>
 
-        <x-base.button
-            onclick="dispatchModal('modal-create-role', 'show')"
-            variant="primary"
-        >
-            <x-base.lucide
-                icon="plus"
-                class="mr-2"
-            />
-            {{ __('Create role') }}
-        </x-base.button>
+        @can(App\Enums\Permissions\RolePermission::Create)
+            <x-base.button
+                onclick="dispatchModal('modal-create-role', 'show')"
+                variant="primary"
+            >
+                <x-base.lucide
+                    icon="plus"
+                    class="mr-2"
+                />
+                {{ __('Create role') }}
+            </x-base.button>
+
+            @include('role.modal.modal-create')
+        @endcan
     </div>
 
     <div class="intro-y box mt-5 p-5">
         <livewire:listados.roles-table />
     </div>
-
-    @include('role.modal.modal-create')
 @endsection
