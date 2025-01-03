@@ -220,5 +220,10 @@
     "Edit role": "Editar rol",
     "Role name": "Nombre del rol",
     "Guard name": "Guard name",
-    "The role has been successfully updated.": "El rol se ha actualizado con éxito."
+    "The role has been successfully updated.": "El rol se ha actualizado con éxito.",
+
+    "Delete role": "Eliminar rol",
+    "Are you sure to delete the selected role?": "¿Está usted seguro de eliminar el rol seleccionado?",
+    "This process cannot be undone": "Este proceso no se puede deshacer",
+    "The role has been successfully removed.": "El rol se ha eliminado con éxito."
 }

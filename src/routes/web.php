@@ -18,4 +18,5 @@ Route::middleware([
 
     Route::get('admin/roles', [RoleController::class, 'index'])->name('role.index');
     Route::get('admin/roles/{role}', [RoleController::class, 'show'])->name('role.show');
+    Route::delete('admin/roles/{role}', [RoleController::class, 'destroy'])->name('role.destroy');
 });

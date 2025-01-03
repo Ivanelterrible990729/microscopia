@@ -28,7 +28,7 @@
         <div class="text-center sm:text-right">
             <x-base.button
                 x-on:click="modoEdicion = true"
-                class="px-4 py-3 align-top mr-2"
+                class="align-top mr-2"
                 variant="warning"
             >
                 <x-base.lucide
@@ -38,7 +38,8 @@
                 {{ __('Edit') }}
             </x-base.button>
             <x-base.button
-                class="px-4 py-3 align-top"
+                x-on:click="dispatchModal('modal-delete-role', 'show')"
+                class="align-top"
                 variant="danger"
             >
                 <x-base.lucide
@@ -47,6 +48,8 @@
                 />
                 {{ __('Delete') }}
             </x-base.button>
+
+            @include('role.modal.modal-delete')
         </div>
     </div>
 </div>

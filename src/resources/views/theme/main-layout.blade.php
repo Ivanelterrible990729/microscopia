@@ -46,4 +46,5 @@
 
 @pushOnce('scripts')
     @vite('resources/js/themes/enigma.js')
+    @vite('resources/js/pages/modal.js')
 @endPushOnce

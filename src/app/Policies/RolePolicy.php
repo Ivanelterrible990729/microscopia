@@ -51,9 +51,11 @@ class RolePolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Role $spatiePermissionModelsRole): bool
+    public function delete(User $user, Role $role): Response
     {
-        return false;
+        return $user->hasPermissionTo(RolePermission::Delete)
+            ? Response::allow()
+            : Response::deny(__('#RP-DE-'. Auth::id() .': Usted no cuenta con permisos para realizar esta acción'), 403);
     }
 
     /**
