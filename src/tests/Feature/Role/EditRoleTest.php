@@ -84,7 +84,7 @@ class EditRoleTest extends TestCase
     public function test_funcionamiento_al_editar_un_rol()
     {
         $this->actingAs($this->desarrollador);
-        $response = $this->get(route('role.index'));
+        $response = $this->get(route('role.show', $this->role));
         $roleName =  $this->faker->word();
 
         // Valida que no haya errores y redireccionamiento.

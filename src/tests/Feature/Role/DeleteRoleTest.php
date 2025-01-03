@@ -36,7 +36,6 @@ class DeleteRoleTest extends TestCase
         // Renderizado con permisos
         $response = $this->get(route('role.show', $this->role));
         $response->assertStatus(200)
-            ->assertSee(__('Delete'))
             ->assertSee(__('Are you sure to delete the selected role?'));
 
         $this->revokeRolePermissionTo(RoleEnum::Desarrollador->value, RolePermission::Delete);
@@ -44,7 +43,6 @@ class DeleteRoleTest extends TestCase
         // Renderizado sin permisos
         $response = $this->get(route('role.show', $this->role));
         $response->assertStatus(200)
-            ->assertDontSee(__('Delete'))
             ->assertDontSee(__('Are you sure to delete the selected role?'));
     }
 

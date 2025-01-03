@@ -234,6 +234,6 @@
 
     "Select the permissions you want to relate to the role": "Seleccione los permisos que desea relacionar con el rol",
     "Relate permissions": "Relacionar permisos",
-    "You must select at least one permit to relate it to the role.": "Debe seleccionar al menos un permiso para relacionarlo al rol.",
+    "Please select the permissions listed below.": "Por favor, seleccione los permisos enlistados a continuación.",
     "The permissions have been successfully related.": "Los permisos se han relacionado con éxito."
 }

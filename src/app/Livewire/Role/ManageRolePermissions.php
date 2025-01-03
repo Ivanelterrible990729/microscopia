@@ -60,7 +60,7 @@ class ManageRolePermissions extends Component
         $this->validate(rules: [
             'selectedPermissions' => 'array|min:0'
         ], messages: [
-            'selectedPermissions' => __('You must select at least one permit to relate it to the role.'),
+            'selectedPermissions' => __('Please select the permissions listed below.'),
         ]);
 
         if (request()->user()->cannot(RolePermission::ManagePermissions)) {

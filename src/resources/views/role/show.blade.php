@@ -52,7 +52,9 @@
         </div>
 
         <div class="intro-y box mt-5" x-show="!modoEdicion">
-            <livewire:role.manage-role-permissions :role="$role" />
+            @can(App\Enums\Permissions\RolePermission::ManagePermissions)
+                <livewire:role.manage-role-permissions :role="$role" />
+            @endcan
         </div>
     </div>
 @endsection

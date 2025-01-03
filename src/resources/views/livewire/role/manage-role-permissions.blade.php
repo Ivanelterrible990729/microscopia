@@ -44,15 +44,17 @@
     </x-base.dialog.description>
 
     <x-base.dialog.footer>
-        <x-base.button
-            wire:click='storePermissions'
-            variant="success"
-        >
-            <x-base.lucide
-                icon="shield-check"
-                class="mr-2"
-            />
-            {{ __('Relate permissions') }}
-        </x-base.button>
+        @can(App\Enums\Permissions\RolePermission::ManagePermissions)
+            <x-base.button
+                wire:click='storePermissions'
+                variant="success"
+            >
+                <x-base.lucide
+                    icon="shield-check"
+                    class="mr-2"
+                />
+                {{ __('Relate permissions') }}
+            </x-base.button>
+        @endcan
     </x-base.dialog.footer>
 </div>

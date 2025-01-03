@@ -9,13 +9,13 @@ enum RolePermission: string
 {
     use HasPermissions;
 
-    case ViewAny = 'role.ver-cualquiera';
-    case View = 'role.ver';
-    case Create = 'role.crear';
-    case Update = 'role.editar';
-    case Delete = 'role.eliminar';
-    case ManagePermissions = 'role.administrar-permisos';
-    case AssignRoles = 'role.asignar-roles';
+    case ViewAny = 'role.Ver cualquiera';
+    case View = 'role.Ver';
+    case Create = 'role.Crear';
+    case Update = 'role.Editar';
+    case Delete = 'role.Eliminar';
+    case ManagePermissions = 'role.Administrar permisos';
+    case AssignRoles = 'role.Asignar roles';
 
     public static function map(): array
     {
