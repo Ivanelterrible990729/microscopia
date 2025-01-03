@@ -217,6 +217,9 @@
     "Created at": "Creado el",
     "Updated at": "Actualizado el",
 
+    "Create role": "Crear rol",
+    "The role has been successfully stored.": "El rol se ha almacenado con éxito.",
+
     "Edit role": "Editar rol",
     "Role name": "Nombre del rol",
     "Guard name": "Guard name",

@@ -33,6 +33,14 @@ class RoleForm extends Form
         ];
     }
 
+    public function store()
+    {
+        $this->validate();
+        $this->roleModel = Role::create($this->role);
+
+        return $this->roleModel;
+    }
+
     public function update()
     {
         $this->validate();

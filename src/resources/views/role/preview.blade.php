@@ -1,4 +1,4 @@
-<div class="grid grid-cols-3 gap-4">
+<div class="grid grid-cols-3 gap-4 p-5">
     <div class="col-span-3 sm:col-span-1 p-5">
         <div class="flex items-center">
             <x-base.lucide
@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="col-span-3 sm:col-span-1 border-t sm:border-t-0 border-l-0 sm:border-l p-5">
-        <div class="text-center sm:text-right">
+        <div class="text-center">
             <x-base.button
                 x-on:click="modoEdicion = true"
                 class="align-top mr-2"

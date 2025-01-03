@@ -21,9 +21,22 @@
         <h2 class="mr-auto text-xl font-medium">
             {{ __('Roles') }}
         </h2>
+
+        <x-base.button
+            onclick="dispatchModal('modal-create-role', 'show')"
+            variant="primary"
+        >
+            <x-base.lucide
+                icon="plus"
+                class="mr-2"
+            />
+            {{ __('Create role') }}
+        </x-base.button>
     </div>
 
     <div class="intro-y box mt-5 p-5">
         <livewire:listados.roles-table />
     </div>
+
+    @include('role.modal.modal-create')
 @endsection

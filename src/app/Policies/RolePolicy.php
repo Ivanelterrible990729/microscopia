@@ -33,9 +33,11 @@ class RolePolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user): Response
     {
-        return false;
+        return $user->hasPermissionTo(RolePermission::Create)
+            ? Response::allow()
+            : Response::deny(__('#RP-CR-'. Auth::id() .': Usted no cuenta con permisos para realizar esta acción'), 403);
     }
 
     /**

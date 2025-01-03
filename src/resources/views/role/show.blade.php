@@ -16,7 +16,6 @@
 @endsection
 
 @section('subcontent')
-
     <div class="intro-y mt-8 flex items-center mb-5">
         <x-base.lucide
             icon="cog"
@@ -27,17 +26,20 @@
         </h2>
     </div>
 
-    <div class="intro-y box mt-5 p-5" x-data="{modoEdicion: false}">
-        <div x-show="!modoEdicion">
-            @include('role.preview')
+    <div x-data="{modoEdicion: false}">
+        <div class="intro-y box mt-5" x-show="!modoEdicion">
+                @include('role.preview')
         </div>
-        <div x-show="modoEdicion">
+        <div class="box mt-5" x-show="modoEdicion"
+            x-transition:enter.duration.200ms
+            x-transition:leave.duration.300ms
+        >
             <livewire:role.edit-role :role="$role" />
         </div>
-    </div>
 
-    <div class="intro-y box mt-5 p-5">
-        Permisos
+        <div class="intro-y box mt-5 p-5" x-show="!modoEdicion">
+            Permisos
+        </div>
     </div>
 @endsection
 
