@@ -18,12 +18,12 @@ class SideMenu
 
             'divider',
 
-            'roles' => [
+            'role.*' => [
                 'icon' => 'shield-ellipsis',
                 'title' => __('Roles'),
                 'route_name' => 'role.index',
             ],
-            'users' => [
+            'user.*' => [
                 'icon' => 'users',
                 'title' => __('Users'),
                 'route_name' => 'login',
@@ -31,7 +31,7 @@ class SideMenu
 
             'divider',
 
-            'imagenes' => [
+            'imagen.*' => [
                 'icon' => 'images',
                 'title' => __('Image management'),
                 'route_name' => 'login',

@@ -32,7 +32,6 @@
         </div>
         <div class="box mt-5" x-show="modoEdicion"
             x-transition:enter.duration.200ms
-            x-transition:leave.duration.300ms
         >
             <livewire:role.edit-role :role="$role" />
         </div>
