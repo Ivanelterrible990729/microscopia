@@ -88,15 +88,17 @@
 
         <li>
             <x-base.button
-                class="px-4 py-3 bg-white dark:bg-slate-700 hover:bg-white/70 border rounded-lg w-full hover:text-primary"
+                class="px-4 py-3 bg-black border rounded-lg w-full text-white"
                 as="a"
                 href="{{ route('larecipe.show', '1.0') }}"
             >
                 <x-base.lucide
                     icon="book-text"
-                    class="w-5 h-5 mr-2"
+                    class="w-5 h-5 mr-0 xl:mr-2"
                 />
-                {{ __("User's manual") }}
+                <span class="hidden xl:block">
+                    {{ __("User's manual") }}
+                </span>
             </x-base.button>
         </li>
     </ul>

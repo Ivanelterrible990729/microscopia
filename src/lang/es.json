@@ -228,5 +228,8 @@
     "Delete role": "Eliminar rol",
     "Are you sure to delete the selected role?": "¿Está usted seguro de eliminar el rol seleccionado?",
     "This process cannot be undone": "Este proceso no se puede deshacer",
-    "The role has been successfully removed.": "El rol se ha eliminado con éxito."
+    "The role has been successfully removed.": "El rol se ha eliminado con éxito.",
+
+    "Select the permissions you want to relate to the role": "Seleccione los permisos que desea relacionar con el rol",
+    "Relate permissions": "Relacionar permisos"
 }

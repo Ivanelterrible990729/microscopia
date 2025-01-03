@@ -28,16 +28,15 @@
 
     <div x-data="{modoEdicion: false}">
         <div class="intro-y box mt-5" x-show="!modoEdicion">
-                @include('role.preview')
+            @include('role.preview')
         </div>
-        <div class="box mt-5" x-show="modoEdicion"
-            x-transition:enter.duration.200ms
-        >
+
+        <div class="box mt-5" x-show="modoEdicion" x-transition:enter.duration.200ms>
             <livewire:role.edit-role :role="$role" />
         </div>
 
         <div class="intro-y box mt-5 p-5" x-show="!modoEdicion">
-            Permisos
+            <livewire:role.manage-role-permissions :role="$role" />
         </div>
     </div>
 @endsection

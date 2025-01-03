@@ -1,5 +1,5 @@
 <div class="grid grid-cols-3 gap-4 p-5">
-    <div class="col-span-3 sm:col-span-1 p-5">
+    <div class="col-span-3 lg:col-span-1 p-5">
         <div class="flex items-center">
             <x-base.lucide
                 icon="shield-ellipsis"
@@ -10,8 +10,8 @@
             </h2>
         </div>
     </div>
-    <div class="col-span-3 sm:col-span-1 border-t sm:border-t-0 border-l-0 sm:border-l p-5">
-        <div class="text-center sm:text-left">
+    <div class="col-span-3 lg:col-span-1 border-t lg:border-t-0 border-l-0 lg:border-l p-5">
+        <div class="text-center lg:text-left">
             <h3 class="text-base font-medium mb-5">{{ __('Details') }}</h3>
 
             <div class="mb-2">
@@ -24,7 +24,7 @@
             </div>
         </div>
     </div>
-    <div class="col-span-3 sm:col-span-1 border-t sm:border-t-0 border-l-0 sm:border-l p-5">
+    <div class="col-span-3 lg:col-span-1 border-t lg:border-t-0 border-l-0 lg:border-l p-5">
         <div class="text-center">
             <x-base.button
                 x-on:click="modoEdicion = true"
@@ -38,7 +38,7 @@
                 {{ __('Edit') }}
             </x-base.button>
             <x-base.button
-                x-on:click="dispatchModal('modal-delete-role', 'show')"
+                onclick="dispatchModal('modal-delete-role', 'show')"
                 class="align-top"
                 variant="danger"
             >
