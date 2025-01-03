@@ -1,24 +1,30 @@
-(function () {
-    "use strict";
+// Esta función abre y cierra el modal
+// especificado a través de su id.
 
-    // Show modal
-    $("#programmatically-show-modal").on("click", function () {
-        const el = document.querySelector("#programmatically-modal");
-        const modal = tailwind.Modal.getOrCreateInstance(el);
-        modal.show();
-    });
+function dispatchModal(id, action = 'toggle') {
+    const el = document.querySelector("#" + id);
+    const modal = tailwind.Modal.getOrCreateInstance(el);
 
-    // Hide modal
-    $("#programmatically-hide-modal").on("click", function () {
-        const el = document.querySelector("#programmatically-modal");
-        const modal = tailwind.Modal.getOrCreateInstance(el);
-        modal.hide();
-    });
+    switch (action) {
+        case 'toggle':
+            modal.toggle();
+            break;
 
-    // Toggle modal
-    $("#programmatically-toggle-modal").on("click", function () {
-        const el = document.querySelector("#programmatically-modal");
-        const modal = tailwind.Modal.getOrCreateInstance(el);
-        modal.toggle();
-    });
-})();
+        case 'show':
+            modal.show();
+            break;
+
+        case 'hide':
+            modal.hide();
+            break;
+
+        default:
+            console.log('Error: Unknown action in dispatchModal() function');
+            return;
+    }
+}
+
+// Hacer la función accesible globalmente
+// de manera que se puede llamar en las vistas blade
+
+window.dispatchModal = dispatchModal;

@@ -41,6 +41,8 @@
     "Created.": "Creado.",
     "Current Password": "Contraseña actual",
     "Dashboard": "Inicio",
+    "Details": "Detalles",
+    "Edit": "Editar",
     "Delete": "Eliminar",
     "Delete Account": "Borrar cuenta",
     "Delete API Token": "Borrar token API",
@@ -131,6 +133,7 @@
     "results": "resultados",
     "Role": "Rol",
     "Save": "Guardar",
+    "Update": "Actualizar",
     "Saved.": "Guardado.",
     "Select A New Photo": "Seleccione una nueva foto",
     "Server Error": "Error del servidor",
@@ -200,9 +203,37 @@
     "You may not delete your personal team.": "No se puede borrar su equipo personal.",
     "You may not leave a team that you created.": "No se puede abandonar un equipo que usted creó.",
     "Your email address is unverified.": "Su dirección de correo electrónico no está verificada.",
+    "You do not have permissions to perform this action.": "Usted no cuenta con permisos para realizar esta acción.",
 
     "Notifications": "Notificaciones",
     "Users": "Usuarios",
     "Roles": "Roles",
-    "Image Management": "Gestión de imágenes"
+    "Image management": "Gestión de imágenes",
+    "User's manual": "Manual de usuario",
+
+    "Return": "Regresar",
+    "Version": "Versión",
+    "Collapse": "Colapsar",
+
+    "Created at": "Creado el",
+    "Updated at": "Actualizado el",
+
+    "Create role": "Crear rol",
+    "The role has been successfully stored.": "El rol se ha almacenado con éxito.",
+
+    "Edit role": "Editar rol",
+    "Be sure to spell both the role name and the guard name correctly.": "Asegurese de escribir correctamente tanto el nombre del rol como el guard name.",
+    "Role name": "Nombre del rol",
+    "Guard name": "Guard name",
+    "The role has been successfully updated.": "El rol se ha actualizado con éxito.",
+
+    "Delete role": "Eliminar rol",
+    "Are you sure to delete the selected role?": "¿Está usted seguro de eliminar el rol seleccionado?",
+    "This process cannot be undone.": "Este proceso no se puede deshacer.",
+    "The role has been successfully removed.": "El rol se ha eliminado con éxito.",
+
+    "Select the permissions you want to relate to the role": "Seleccione los permisos que desea relacionar con el rol",
+    "Relate permissions": "Relacionar permisos",
+    "Please select the permissions listed below.": "Por favor, seleccione los permisos enlistados a continuación.",
+    "The permissions have been successfully related.": "Los permisos se han relacionado con éxito."
 }

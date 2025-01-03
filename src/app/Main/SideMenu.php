@@ -18,22 +18,22 @@ class SideMenu
 
             'divider',
 
-            'users' => [
-                'icon' => 'users',
-                'title' => __('Users'),
-                'route_name' => 'login',
-            ],
-            'roles' => [
+            'role.*' => [
                 'icon' => 'shield-ellipsis',
                 'title' => __('Roles'),
+                'route_name' => 'role.index',
+            ],
+            'user.*' => [
+                'icon' => 'users',
+                'title' => __('Users'),
                 'route_name' => 'login',
             ],
 
             'divider',
 
-            'imagenes' => [
+            'imagen.*' => [
                 'icon' => 'images',
-                'title' => __('Image Management'),
+                'title' => __('Image management'),
                 'route_name' => 'login',
             ],
         ];

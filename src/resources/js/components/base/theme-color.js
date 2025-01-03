@@ -1,7 +1,7 @@
 // Set theme color on page load
 if (localStorage.getItem("theme-color") === null) {
-    localStorage.setItem("theme-color", "default");
-    $("html").attr("class", "default");
+    localStorage.setItem("theme-color", "theme-1");
+    $("html").attr("class", "theme-1");
 } else {
     $("html").attr("class", localStorage.getItem("theme-color"));
 }

@@ -81,6 +81,8 @@
                                     Inicio de sesión
                                 </h2>
 
+                                <x-validation-errors class="mt-8 intro-x" />
+
                                 <div class="intro-x mt-8">
                                     <x-base.form-input
                                         id="email"
@@ -130,8 +132,6 @@
                                     </x-base.button>
                                 </div>
                             </form>
-
-                            <x-validation-errors class="mt-8 intro-x" />
                         </div>
                     </div>
                 </div>

@@ -1,10 +1,12 @@
 @props(['icon' => null, 'width' => 24, 'height' => 24])
 
-<i
+<div wire:ignore>
+    <i
     data-tw-merge
     data-lucide="{{ uncamelize($icon, '-') }}"
     {{ $attributes->class(merge(['stroke-1.5 w-5 h-5', $attributes->whereStartsWith('class')->first()]))->merge($attributes->whereDoesntStartWith('class')->getAttributes()) }}
-></i>
+    ></i>
+</div>
 
 @pushOnce('vendors')
     @vite('resources/js/vendors/lucide.js')

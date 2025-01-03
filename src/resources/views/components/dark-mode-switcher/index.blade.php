@@ -6,7 +6,7 @@
             class="sr-only peer"
             x-on:change="
                 theme = theme === 'light' ? 'dark' : 'light';
-                document.documentElement.setAttribute('class', theme);
+                document.documentElement.setAttribute('class', 'theme-1 ' +  theme);
                 localStorage.setItem('appearance-mode', theme);
             "
             :checked="theme === 'dark'"
