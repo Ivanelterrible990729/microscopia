@@ -17,7 +17,7 @@ class RolePolicy
     {
         return $user->hasPermissionTo(RolePermission::ViewAny)
             ? Response::allow()
-            : Response::deny(__('#RP-VA-'. Auth::id() .': Usted no cuenta con permisos para realizar esta acción'), 403);
+            : Response::deny(__('#RP-VA-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
     }
 
     /**
@@ -27,7 +27,7 @@ class RolePolicy
     {
         return $user->hasPermissionTo(RolePermission::View)
             ? Response::allow()
-            : Response::deny(__('#RP-VI-'. Auth::id() .': Usted no cuenta con permisos para realizar esta acción'), 403);
+            : Response::deny(__('#RP-VI-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
     }
 
     /**
@@ -37,7 +37,7 @@ class RolePolicy
     {
         return $user->hasPermissionTo(RolePermission::Create)
             ? Response::allow()
-            : Response::deny(__('#RP-CR-'. Auth::id() .': Usted no cuenta con permisos para realizar esta acción'), 403);
+            : Response::deny(__('#RP-CR-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
     }
 
     /**
@@ -47,7 +47,7 @@ class RolePolicy
     {
         return $user->hasPermissionTo(RolePermission::Update)
             ? Response::allow()
-            : Response::deny(__('#RP-UP-'. Auth::id() .': Usted no cuenta con permisos para realizar esta acción'), 403);
+            : Response::deny(__('#RP-UP-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
     }
 
     /**
@@ -57,7 +57,7 @@ class RolePolicy
     {
         return $user->hasPermissionTo(RolePermission::Delete)
             ? Response::allow()
-            : Response::deny(__('#RP-DE-'. Auth::id() .': Usted no cuenta con permisos para realizar esta acción'), 403);
+            : Response::deny(__('#RP-DE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
     }
 
     /**

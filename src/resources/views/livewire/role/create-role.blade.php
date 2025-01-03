@@ -7,6 +7,8 @@
 
     <form wire:submit="storeRole">
         <x-base.dialog.description>
+            <x-validation-errors class="mb-5" />
+
             @include('livewire.role.form-fields')
         </x-base.dialog.description>
 
@@ -15,7 +17,7 @@
                 class="mr-2"
                 data-tw-dismiss="modal"
                 type="button"
-                variant="outline-secondary"
+                variant="secondary"
             >
             <x-base.lucide
                 icon="undo-2"

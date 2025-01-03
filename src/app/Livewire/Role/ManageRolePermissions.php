@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Role;
 
+use App\Enums\Permissions\RolePermission;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Spatie\Permission\Models\Permission;
@@ -12,7 +13,7 @@ class ManageRolePermissions extends Component
     /**
      * Rol definido para calcular los permisos seleccionados
      */
-    protected Role $role;
+    public Role $role;
 
     /**
      * Almacena los permisos seleccionados para el rol especificado.
@@ -51,8 +52,30 @@ class ManageRolePermissions extends Component
         return view('livewire.role.manage-role-permissions');
     }
 
+    /**
+     * Relaciona los permisos al rol especificado
+     */
     public function storePermissions()
     {
-        dd($this->selectedPermissions);
+        $this->validate(rules: [
+            'selectedPermissions' => 'array|min:0'
+        ], messages: [
+            'selectedPermissions' => __('You must select at least one permit to relate it to the role.'),
+        ]);
+
+        if (request()->user()->cannot(RolePermission::ManagePermissions)) {
+            $this->addError('autorization', __('You do not have permissions to perform this action.'));
+            return;
+        }
+
+        $this->role->syncPermissions($this->selectedPermissions);
+
+        return redirect()->route('role.show', $this->role)->with([
+            'alert' => [
+                'variant' => 'soft-primary',
+                'icon' => 'check-circle',
+                'message' => __('The permissions have been successfully related.')
+            ]
+        ]);
     }
 }

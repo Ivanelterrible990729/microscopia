@@ -10,7 +10,7 @@
             <div class="mt-5 text-slate-500">
                 {{ __('Are you sure to delete the selected role?') }}
                 <br/>
-                {{ __('This process cannot be undone') }}
+                {{ __('This process cannot be undone.') }}
             </div>
         </div>
 

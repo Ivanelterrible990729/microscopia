@@ -31,11 +31,25 @@
             @include('role.preview')
         </div>
 
-        <div class="box mt-5" x-show="modoEdicion" x-transition:enter.duration.200ms>
-            <livewire:role.edit-role :role="$role" />
+        <div class="md:grid md:grid-cols-3 md:gap-6 mt-5" x-show="modoEdicion" x-transition:enter.duration.200ms>
+            <x-section-title>
+                <x-slot name="title">
+                    {{ __('Edit role') }}
+                </x-slot>
+
+                <x-slot name="description">
+                    {{ __('Be sure to spell both the role name and the guard name correctly.') }}
+                </x-slot>
+            </x-section-title>
+
+            <div class="mt-5 md:mt-0 md:col-span-2">
+                <div class="box">
+                    <livewire:role.edit-role :role="$role" />
+                </div>
+            </div>
         </div>
 
-        <div class="intro-y box mt-5 p-5" x-show="!modoEdicion">
+        <div class="intro-y box mt-5" x-show="!modoEdicion">
             <livewire:role.manage-role-permissions :role="$role" />
         </div>
     </div>

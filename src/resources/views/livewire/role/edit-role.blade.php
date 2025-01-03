@@ -1,12 +1,8 @@
 <div>
-    <x-base.dialog.title>
-        <h2 class="mr-auto text-base font-medium">
-            {{ __('Edit role') }}
-        </h2>
-    </x-base.dialog.title>
-
     <form wire:submit="updateRole">
         <x-base.dialog.description>
+            <x-validation-errors class="mb-5" />
+
             @include('livewire.role.form-fields')
         </x-base.dialog.description>
 

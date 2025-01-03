@@ -13,7 +13,7 @@
                 $formInputSize == 'lg' ? 'text-lg py-1.5 px-4' : null,
                 $rounded ? 'rounded-full' : null,
                 $attributes->whereStartsWith('class')->first(),
-                $errors->has($attributes->get('name', 'wire:model')) ? 'border-red-400 focus:ring-red-600 focus:ring-opacity-40' : 'border-slate-200',
+                $errors->has($attributes->get('name', 'wire:model')) ? 'border-red-400 dark:border-red-400 focus:ring-red-600 focus:ring-opacity-40' : 'border-slate-200',
             ]),
         )->merge($attributes->whereDoesntStartWith('class')->getAttributes()) }}
 />

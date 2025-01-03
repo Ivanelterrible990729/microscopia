@@ -1,5 +1,3 @@
-<x-validation-errors class="mb-5" />
-
 <div class="mt-5 mb-3">
     <x-base.form-label
         for="roleForm.role.name"
