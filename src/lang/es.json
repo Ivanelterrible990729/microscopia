@@ -49,6 +49,7 @@
     "Delete Team": "Borrar equipo",
     "Disable": "Deshabilitar",
     "Done.": "Hecho.",
+    "Download Profile Photo": "Descargar Foto de Perfil",
     "Edit Profile": "Editar perfil",
     "Editor": "Editor",
     "Editor users have the ability to read, create, and update.": "Los editores están habilitados para leer, crear y actualizar.",
@@ -235,5 +236,8 @@
     "Select the permissions you want to relate to the role": "Seleccione los permisos que desea relacionar con el rol",
     "Relate permissions": "Relacionar permisos",
     "Please select the permissions listed below.": "Por favor, seleccione los permisos enlistados a continuación.",
-    "The permissions have been successfully related.": "Los permisos se han relacionado con éxito."
+    "The permissions have been successfully related.": "Los permisos se han relacionado con éxito.",
+
+    "Prefix": "Prefijo",
+    "Job title": "Cargo"
 }
