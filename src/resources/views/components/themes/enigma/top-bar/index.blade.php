@@ -67,10 +67,10 @@
             <x-base.menu.button class="intro-x zoom-in flex flex-row items-center">
                 <div class="hidden sm:flex flex-col text-right mr-3">
                     <div class="font-medium text-white">
-                        {{ Auth::user()->name }}
+                        {{ Auth::user()->prefijo . ' ' . Auth::user()->name }}
                     </div>
                     <div class="mt-0.5 text-xs text-white/70 dark:text-slate-500">
-                        {{ Auth::user()->email }}
+                        {{ Auth::user()->cargo }}
                     </div>
                 </div>
 
@@ -87,6 +87,9 @@
             >
                 <x-base.menu.header class="font-normal">
                     <div class="font-medium">{{ Auth::user()->name }}</div>
+                    <div class="mt-0.5 text-xs text-white/70 dark:text-slate-500">
+                        {{ Auth::user()->cargo }}
+                    </div>
                     <div class="mt-0.5 text-xs text-white/70 dark:text-slate-500">
                         {{ Auth::user()->email }}
                     </div>
