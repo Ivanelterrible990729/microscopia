@@ -21,14 +21,14 @@
             icon="cog"
             class="mr-2"
         />
-        <h2 class="mr-auto text-xl font-medium">
+        <h2 class="mr-auto text-lg font-medium">
             {{ __('Manage Role') }}
         </h2>
     </div>
 
     <div x-data="{modoEdicion: false}">
         <div class="intro-y box mt-5" x-show="!modoEdicion">
-            @include('role.preview')
+            @include('role.preview.info')
         </div>
 
         <div class="md:grid md:grid-cols-3 md:gap-6 mt-5" x-show="modoEdicion" x-transition:enter.duration.200ms>
