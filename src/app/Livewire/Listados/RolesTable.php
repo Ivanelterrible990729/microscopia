@@ -19,6 +19,12 @@ class RolesTable extends DataTableComponent
         $this->setTheadAttributes([
             'class' => 'hidden sm:table-header-group',
         ]);
+
+        $this->setTdAttributes(function(Column $column, $row, $columnIndex, $rowIndex) {
+            return [
+                'class' => 'max-w-[16rem] truncate hover:whitespace-normal',
+            ];
+        });
     }
 
     public function columns(): array

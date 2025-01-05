@@ -26,7 +26,7 @@ class SideMenu
             'user.*' => [
                 'icon' => 'users',
                 'title' => __('Users'),
-                'route_name' => 'login',
+                'route_name' => 'user.index',
             ],
 
             'divider',

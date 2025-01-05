@@ -17,7 +17,9 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/users/{user}/profile-photo/download', [UserController::class, 'downloadProfilePhoto'])
+    Route::get('admin/users', [UserController::class, 'index'])->name('user.index');
+    Route::get('admin/users/{user}', [UserController::class, 'show'])->name('user.show');
+    Route::get('admin/users/{user}/profile-photo/download', [UserController::class, 'downloadProfilePhoto'])
         ->name('user.profile-photo.download');
 
     Route::get('admin/roles', [RoleController::class, 'index'])->name('role.index');
