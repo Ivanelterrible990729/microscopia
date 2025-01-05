@@ -4,6 +4,7 @@ namespace Tests\Feature\User;
 
 use App\Concerns\Tests\CustomMethods;
 use App\Enums\RoleEnum;
+use App\Livewire\Listados\UsersTable;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -39,6 +40,7 @@ class ViewUsersTest extends TestCase
         $response = $this->get(route('user.index'));
         $response->assertStatus(200);
         $response->assertSee(__('Users'));
+        $response->assertSeeLivewire(UsersTable::class);
     }
 
     public function test_permisos_para_ver_un_rol_en_especifico(): void
@@ -54,6 +56,7 @@ class ViewUsersTest extends TestCase
         $this->actingAs($this->desarrollador);
         $response = $this->get(route('user.show', $user));
         $response->assertStatus(200);
-        $response->assertSee(__('Manage Role'));
+        $response->assertSee(__('User'));
+        $response->assertSee($user->name);
     }
 }

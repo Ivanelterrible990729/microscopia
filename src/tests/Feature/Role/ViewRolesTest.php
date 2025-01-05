@@ -4,6 +4,7 @@ namespace Tests\Feature\Role;
 
 use App\Concerns\Tests\CustomMethods;
 use App\Enums\RoleEnum;
+use App\Livewire\Listados\RolesTable;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -40,6 +41,7 @@ class ViewRolesTest extends TestCase
         $response = $this->get(route('role.index'));
         $response->assertStatus(200);
         $response->assertSee(__('Roles'));
+        $response->assertSeeLivewire(RolesTable::class);
     }
 
     public function test_permisos_para_ver_un_rol_en_especifico(): void
@@ -56,5 +58,6 @@ class ViewRolesTest extends TestCase
         $response = $this->get(route('role.show', $rol));
         $response->assertStatus(200);
         $response->assertSee(__('Manage Role'));
+        $response->assertSee($rol->name);
     }
 }
