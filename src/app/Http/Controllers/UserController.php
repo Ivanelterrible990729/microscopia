@@ -37,7 +37,17 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        Gate::authorize('delete', $user);
+
+        $user->delete();
+
+        return redirect(route('user.index'))->with([
+            'alert' => [
+                'variant' => 'soft-primary',
+                'icon' => 'check-circle',
+                'message' => __('The user has been successfully removed.')
+            ]
+        ]);
     }
 
     public function downloadProfilePhoto(User $user): StreamedResponse

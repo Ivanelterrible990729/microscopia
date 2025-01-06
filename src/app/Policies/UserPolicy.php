@@ -46,16 +46,18 @@ class UserPolicy
     public function personify(User $user, User $model): Response
     {
         return $user->hasPermissionTo(UserPermission::Personify) && $model->id != $user->id && Session::missing('personified_by')
-        ? Response::allow()
-        : Response::deny(__('#UP-CR-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
+            ? Response::allow()
+            : Response::deny(__('#UP-PE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, User $model): bool
+    public function delete(User $user, User $model): Response
     {
-        return false;
+        return $user->hasPermissionTo(UserPermission::Delete) && $model->id != $user->id
+            ? Response::allow()
+            : Response::deny(__('#UP-DE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
     }
 
     /**

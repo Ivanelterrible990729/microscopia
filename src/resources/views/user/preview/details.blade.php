@@ -76,17 +76,21 @@
             @endcan
         </div>
         <div class="mt-2 flex items-center justify-center lg:justify-start">
-            <x-base.button
-                onclick="dispatchModal('modal-delete-role', 'show')"
-                class="align-top"
-                variant="danger"
-            >
-                <x-base.lucide
-                    icon="trash-2"
-                    class="mr-2"
-                />
-                {{ __('Delete') }}
-            </x-base.button>
+            @can('delete', $user)
+                <x-base.button
+                    onclick="dispatchModal('modal-delete-user', 'show')"
+                    class="align-top"
+                    variant="danger"
+                >
+                    <x-base.lucide
+                        icon="trash-2"
+                        class="mr-2"
+                    />
+                    {{ __('Delete') }}
+                </x-base.button>
+
+                @include('user.modal.modal-delete')
+            @endcan
         </div>
     </div>
 </div>
