@@ -22,7 +22,7 @@
             {{ __('Users') }}
         </h2>
 
-        {{-- @can(App\Enums\Permissions\RolePermission::Create) --}}
+        @can(App\Enums\Permissions\UserPermission::Create)
             <x-base.button
                 onclick="dispatchModal('modal-create-user', 'show')"
                 variant="primary"
@@ -34,8 +34,8 @@
                 {{ __('Create user') }}
             </x-base.button>
 
-            {{-- @include('user.modal.modal-create') --}}
-        {{-- @endcan --}}
+            @include('user.modal.modal-create')
+        @endcan
     </div>
 
     <div class="intro-y box mt-5 p-5">

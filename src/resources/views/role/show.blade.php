@@ -28,14 +28,20 @@
 
     <div x-data="{modoEdicion: false}">
         <div class="intro-y box mt-5" x-show="!modoEdicion">
-            @include('role.preview.info')
+            @include('role.preview.details')
         </div>
 
         <div class="md:grid md:grid-cols-3 md:gap-6 mt-5" x-show="modoEdicion" x-transition:enter.duration.200ms>
             @can(App\Enums\Permissions\RolePermission::Update)
                 <x-section-title>
                     <x-slot name="title">
-                        {{ __('Edit role') }}
+                        <div class="flex flex-1 items-center">
+                            <x-base.lucide
+                                icon="edit"
+                                class="mr-2"
+                            />
+                            {{ __('Edit role') }}
+                        </div>
                     </x-slot>
 
                     <x-slot name="description">
