@@ -1,15 +1,15 @@
 <div class="grid grid-cols-12 gap-4 mt-5" x-data="{ showPassword: true }">
     <div class="col-span-4 mb-3">
         <x-base.form-label
-            for="user.prefijo"
+            for="prefijo"
         >
             {{ __('Prefix') }}
         </x-base.form-label>
         <x-base.form-input
             type="text"
-            id="user.prefijo"
-            name="user.prefijo"
-            wire:model='user.prefijo'
+            id="prefijo"
+            name="prefijo"
+            wire:model='prefijo'
             autocomplete="prefijo"
             class="block px-4 py-3"
         />
@@ -17,15 +17,15 @@
 
     <div class="col-span-8 mb-3">
         <x-base.form-label
-            for="user.name"
+            for="name"
         >
             {{ __('Name') }}
         </x-base.form-label>
         <x-base.form-input
             type="text"
-            id="user.name"
-            name="user.name"
-            wire:model='user.name'
+            id="name"
+            name="name"
+            wire:model='name'
             autocomplete="name"
             required
             class="block px-4 py-3"
@@ -34,15 +34,15 @@
 
     <div class="col-span-12 sm:col-span-9 mb-3">
         <x-base.form-label
-            for="user.cargo"
+            for="cargo"
         >
             {{ __('Job title') }}
         </x-base.form-label>
         <x-base.form-input
             type="text"
-            id="user.cargo"
-            name="user.cargo"
-            wire:model='user.cargo'
+            id="cargo"
+            name="cargo"
+            wire:model='cargo'
             autocomplete="cargo"
             class="block px-4 py-3"
         />
@@ -50,15 +50,15 @@
 
     <div class="col-span-12 sm:col-span-9 mb-3">
         <x-base.form-label
-            for="user.email"
+            for="email"
         >
             {{ __('Email') }}
         </x-base.form-label>
         <x-base.form-input
             type="email"
-            id="user.email"
-            name="user.email"
-            wire:model='user.email'
+            id="email"
+            name="email"
+            wire:model='email'
             autocomplete="username"
             required
             class="block px-4 py-3"
@@ -67,15 +67,15 @@
 
     <div class="col-span-8 mb-3">
         <x-base.form-label
-            for="user.password"
+            for="password"
         >
             {{ __('Password') }}
         </x-base.form-label>
         <x-base.form-input
             x-bind:type="showPassword ? 'text' : 'password'"
-            id="user.password"
-            name="user.password"
-            wire:model='user.password'
+            id="password"
+            name="password"
+            wire:model='password'
             autocomplete="new-password"
             required
             class="block min-w-full px-4 py-3 xl:min-w-[350px] mr-2 mb-2"
@@ -109,15 +109,15 @@
 
     <div class="col-span-12 sm:col-span-8 mb-3">
         <x-base.form-label
-            for="user.password"
+            for="password"
         >
             {{ __('Confirm Password') }}
         </x-base.form-label>
         <x-base.form-input
             x-bind:type="showPassword ? 'text' : 'password'"
-            id="user.password_confirmation"
-            name="user.password_confirmation"
-            wire:model='user.password_confirmation'
+            id="password_confirmation"
+            name="password_confirmation"
+            wire:model='password_confirmation'
             autocomplete="new-password"
             required
             class="block px-4 py-3"

@@ -3,11 +3,21 @@
 namespace App\Livewire\User;
 
 use App\Actions\Fortify\CreateNewUser;
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 class CreateUser extends Component
 {
-    public array $user;
+    /**
+     * Formulario de usuarios
+     */
+    public string|null $prefijo = null;
+    public string|null $name = null;
+    public string|null $cargo = null;
+    public string|null $email = null;
+    public string|null $password = null;
+    public string|null $password_confirmation = null;
 
     public function render()
     {
@@ -16,15 +26,6 @@ class CreateUser extends Component
 
     public function mount()
     {
-        $this->user = [
-            'prefijo' => null,
-            'name' => null,
-            'cargo' => null,
-            'email' => null,
-            'password' => null,
-            'password_confirmation' => null,
-        ];
-
         $this->generateRandomPassword();
     }
 
@@ -38,13 +39,15 @@ class CreateUser extends Component
             $randomPassword .= $characters[random_int(0, $charactersLength - 1)];
         }
 
-        $this->user['password'] = $this->user['password_confirmation'] = $randomPassword;
+        $this->password = $this->password_confirmation = $randomPassword;
     }
 
     public function storeUser()
     {
+        Gate::authorize('create', User::class);
+
         $userCreater = new CreateNewUser();
-        $user = $userCreater->create($this->user);
+        $user = $userCreater->create($this->all());
 
         return redirect()->route('user.show', $user)->with([
             'alert' => [

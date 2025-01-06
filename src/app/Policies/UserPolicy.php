@@ -32,9 +32,11 @@ class UserPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user): Response
     {
-        return false;
+        return $user->hasPermissionTo(UserPermission::Create)
+            ? Response::allow()
+            : Response::deny(__('#UP-CR-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
     }
 
     /**

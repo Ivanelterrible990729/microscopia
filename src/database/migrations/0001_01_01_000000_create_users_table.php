@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('prefijo')->nullable();
             $table->string('name');
-            $table->string('cargo');
+            $table->string('cargo')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
