@@ -60,17 +60,20 @@
             {{ __('Actions') }}
         </div>
         <div class="mt-2 flex items-center justify-center lg:justify-start">
-            <x-base.button
-                x-on:click="modoEdicion = true"
-                class="align-top"
-                variant="warning"
-            >
-            <x-base.lucide
-                icon="user"
-                class="mr-2"
-            />
-            {{ __('Personify') }}
-        </x-base.button>
+            @can('personify', $user)
+                <x-base.button
+                        as="a"
+                        href="{{ route('user.personification.start', $user) }}"
+                        class="align-top"
+                        variant="warning"
+                    >
+                    <x-base.lucide
+                        icon="user"
+                        class="mr-2"
+                    />
+                    {{ __('Personify') }}
+                </x-base.button>
+            @endcan
         </div>
         <div class="mt-2 flex items-center justify-center lg:justify-start">
             <x-base.button

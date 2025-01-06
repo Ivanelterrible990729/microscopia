@@ -27,40 +27,64 @@
         </div>
         <!-- END: Breadcrumb -->
 
-        <!-- BEGIN: Notifications -->
-        <x-base.popover class="ml-auto mr-4 sm:mr-6">
-            <x-base.popover.button
-                class="intro-x relative block text-white/70 outline-none before:absolute before:right-0 before:top-[-2px] before:h-[8px] before:w-[8px] before:rounded-full before:bg-danger before:content-['']"
-            >
-                <x-base.lucide
-                    class="h-5 w-5 dark:text-slate-500"
-                    icon="Bell"
-                />
-            </x-base.popover.button>
-            <x-base.popover.panel class="mt-2 w-[280px] p-5 sm:w-[350px]">
-                <div class="mb-5 font-medium">{{ __('Notifications') }}</div>
-            </x-base.popover.panel>
-        </x-base.popover>
-        <!-- END: Notifications -->
+        <div class="ml-auto flex items-center">
+            <!-- BEGIN: LogViewer -->
+            @can ('viewLogViewer')
+                <div class="mr-4 sm:mr-6">
+                    <div class="intro-x">
+                        <a href="{{ route('log-viewer.index') }}" class="text-white/70">
+                            <x-base.lucide
+                                class="h-5 w-5 dark:text-slate-500"
+                                icon="Bug"
+                            />
+                        </a>
+                    </div>
+                </div>
+            @endcan
+            <!-- END: LogViewer -->
 
-        @can ('viewLogViewer')
-            <div class="mr-4 sm:mr-6">
-                <div class="intro-x">
-                    <a href="{{ route('log-viewer.index') }}" class="text-white/70">
+            <!-- BEGIN: Personifications -->
+            @if (Session::has('personified_by'))
+                <x-base.popover class="mr-4 sm:mr-6">
+                    <x-base.popover.button
+                        class="intro-x relative block text-white/70 outline-none before:absolute before:animate-ping before:right-0 before:top-[-2px] before:h-[8px] before:w-[8px] before:rounded-full before:bg-danger before:content-['']"
+                    >
                         <x-base.lucide
                             class="h-5 w-5 dark:text-slate-500"
-                            icon="Bug"
+                            icon="log-out"
                         />
-                    </a>
-                </div>
-            </div>
-        @endcan
+                    </x-base.popover.button>
+                    <x-base.popover.panel class="mt-2 w-[280px] p-5 sm:w-[350px]">
+                        <div class="mb-5 font-medium">
+                            {{ __('Personified by') }}:
+                            <span class="mr-1 rounded-full border px-2 py-1 text-slate-600 dark:border-darkmode-100/40 dark:text-slate-300 ml-2">
+                                {{ __('User') . ' ' . Session::get('personified_by') }}
+                            </span>
+                        </div>
+                        <div class="text-right text-sm">
+                            <x-base.button
+                                as="a"
+                                href="{{ route('user.personification.stop') }}"
+                                variant="danger"
+                            >
+                                <x-base.lucide
+                                    class="h-4 w-4 mr-2"
+                                    icon="circle-stop"
+                                />
+                                {{ __('Stop personification') }}
+                            </x-base.button>
+                        </div>
+                    </x-base.popover.panel>
+                </x-base.popover>
+            @endif
+            <!-- BEGIN: Personifications -->
 
-        <!-- BEGIN: Darkmode Switcher -->
-        <div class="z-10 mr-4 sm:mr-6">
-            <x-dark-mode-switcher />
+            <!-- BEGIN: Darkmode Switcher -->
+            <div class="z-10 mr-4 sm:mr-6">
+                <x-dark-mode-switcher />
+            </div>
+            <!-- END: Darkmode Switcher -->
         </div>
-        <!-- END: Darkmode Switcher -->
 
         <!-- BEGIN: Account Menu -->
         <x-base.menu>

@@ -6,6 +6,7 @@ use App\Enums\Permissions\UserPermission;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class UserPolicy
 {
@@ -42,9 +43,11 @@ class UserPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, User $model): bool
+    public function personify(User $user, User $model): Response
     {
-        return false;
+        return $user->hasPermissionTo(UserPermission::Personify) && $model->id != $user->id && Session::missing('personified_by')
+        ? Response::allow()
+        : Response::deny(__('#UP-CR-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
     }
 
     /**
