@@ -21,7 +21,7 @@
             icon="user"
             class="mr-2"
         />
-        <h2 class="mr-auto text-xl font-medium">
+        <h2 class="mr-auto text-lg font-medium">
             {{ __('Profile') }}
         </h2>
     </div>

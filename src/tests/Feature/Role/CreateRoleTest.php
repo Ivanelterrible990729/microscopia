@@ -96,7 +96,7 @@ class CreateRoleTest extends TestCase
     {
         $this->actingAs($this->desarrollador);
         $response = $this->get(route('role.index'));
-        $roleName =  $this->faker->word();
+        $roleName = $this->faker->word();
 
         // Valida que no haya errores y redireccionamiento.
         Livewire::test(CreateRole::class)

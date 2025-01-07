@@ -21,8 +21,10 @@ class UserSeeder extends Seeder
 
         if (config('app.env') == 'production') {    // Administradores por default
             User::factory()->create([
+                'prefijo' => 'Ing.',
                 'name' => 'Iván Alejandro Alvarez Chávez',
                 'email' => 'ivanalejandro290799@gmail.com',
+                'cargo' => 'Administrador del sistema',
             ])->assignRole(RoleEnum::Desarrollador->value);
         } else {                                // Usuarios de prueba para desarrollo y testing
             foreach (RoleEnum::array() as $roleValue => $roleName) {

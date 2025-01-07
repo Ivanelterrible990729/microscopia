@@ -1,20 +1,19 @@
 <div>
     <x-base.dialog.title>
         <h2 class="mr-auto flex flex-1 items-center text-base font-medium">
-                <x-base.lucide
+            <x-base.lucide
                 icon="plus"
                 class="mr-2"
             />
-            {{ __('Create role') }}
+            {{ __('Create user') }}
         </h2>
-
     </x-base.dialog.title>
 
-    <form wire:submit="storeRole">
+    <form wire:submit="storeUser">
         <x-base.dialog.description>
             <x-validation-errors class="mb-5" />
 
-            @include('livewire.role.form-fields')
+            @include('livewire.user.form-fields')
         </x-base.dialog.description>
 
         <x-base.dialog.footer>

@@ -10,7 +10,7 @@
     <x-slot name="form">
         <!-- Profile Photo -->
         @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-            <div x-data="{photoName: null, photoPreview: null}" class="col-span-6 sm:col-span-4">
+            <div x-data="{photoName: null, photoPreview: null}" class="col-span-6">
                 <!-- Profile Photo File Input -->
                 <input type="file" id="photo" class="hidden"
                             wire:model.live="photo"
@@ -43,14 +43,32 @@
                 </x-secondary-button>
 
                 @if ($this->user->profile_photo_path)
-                    <x-secondary-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
+                    <x-secondary-button type="button" class="mt-2 me-2" wire:click="deleteProfilePhoto">
                         {{ __('Remove Photo') }}
                     </x-secondary-button>
+
+                    <a href="{{ route('user.profile-photo.download', auth()->user()) }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 mt-2">
+                        {{ __('Download Profile Photo') }}
+                    </a>
                 @endif
 
                 <x-input-error for="photo" class="mt-2" />
             </div>
         @endif
+
+        <!-- Prefijo -->
+        <div class="col-span-6 sm:col-span-2">
+            <x-label for="name" value="{{ __('Prefix') }}" />
+            <x-base.form-input
+                id="prefijo"
+                type="text"
+                name="prefijo"
+                wire:model="state.prefijo"
+                autocomplete="prefijo"
+                class="mt-1 block px-4 py-3"
+            />
+            <x-input-error for="prefijo" class="mt-2" />
+        </div>
 
         <!-- Name -->
         <div class="col-span-6 sm:col-span-4">
@@ -62,9 +80,24 @@
                 wire:model="state.name"
                 required
                 autocomplete="name"
-                class="mt-1 block min-w-full px-4 py-3 xl:min-w-[450px]"
+                class="mt-1 block px-4 py-3"
             />
             <x-input-error for="name" class="mt-2" />
+        </div>
+
+        <!-- Cargo -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-label for="cargo" value="{{ __('Job title') }}" />
+            <x-base.form-input
+                id="cargo"
+                type="text"
+                name="cargo"
+                wire:model="state.cargo"
+                required
+                autocomplete="cargo"
+                class="mt-1 block px-4 py-3"
+            />
+            <x-input-error for="cargo" class="mt-2" />
         </div>
 
         <!-- Email -->
@@ -100,7 +133,7 @@
     </x-slot>
 
     <x-slot name="actions">
-        <x-action-message class="me-3" on="saved">
+        <x-action-message class="text-blue-700 me-3" on="saved">
             {{ __('Saved.') }}
         </x-action-message>
 

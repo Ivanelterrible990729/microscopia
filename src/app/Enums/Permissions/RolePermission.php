@@ -15,7 +15,6 @@ enum RolePermission: string
     case Update = 'role.Editar';
     case Delete = 'role.Eliminar';
     case ManagePermissions = 'role.Administrar permisos';
-    case AssignRoles = 'role.Asignar roles';
 
     public static function map(): array
     {
@@ -26,7 +25,6 @@ enum RolePermission: string
             self::Update->value => [RoleEnum::Desarrollador],
             self::Delete->value => [RoleEnum::Desarrollador],
             self::ManagePermissions->value => [RoleEnum::Desarrollador],
-            self::AssignRoles->value => [RoleEnum::Desarrollador],
         ];
     }
 }
