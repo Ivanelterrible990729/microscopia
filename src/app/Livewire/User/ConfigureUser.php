@@ -2,7 +2,7 @@
 
 namespace App\Livewire\User;
 
-use App\Enums\Permissions\UserPermission;
+use App\Enums\RoleEnum;
 use App\Models\User;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -26,7 +26,13 @@ class ConfigureUser extends Component
     #[Computed]
     public function availableRoles()
     {
-        return Role::all()->map(function($role) {
+        $query = Role::query();
+
+        if (!request()->user()->hasRole(RoleEnum::Desarrollador)) {
+            $query = $query->where('name', '!=', RoleEnum::Desarrollador);
+        }
+
+        return $query->get()->map(function($role) {
             return [
                 'id' => $role->id,
                 'name' => $role->name,

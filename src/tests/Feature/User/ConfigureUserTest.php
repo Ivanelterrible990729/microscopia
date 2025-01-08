@@ -2,39 +2,108 @@
 
 namespace Tests\Feature\User;
 
+use App\Concerns\Tests\CustomMethods;
+use App\Enums\Permissions\UserPermission;
+use App\Enums\RoleEnum;
+use App\Livewire\User\ConfigureUser;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Livewire\Livewire;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
+
+use function PHPUnit\Framework\assertTrue;
 
 class ConfigureUserTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-    public function test_permisos_para_configurar_roles(): void
-    {
-        $response = $this->get('/');
+    use RefreshDatabase, WithFaker, CustomMethods;
 
-        $response->assertStatus(200);
+    protected User $desarrollador;
+    protected User $usuarioPrueba;
+
+    /**
+     * Prepara entorno para realizar el testing
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->desarrollador = $this->getUser(RoleEnum::Desarrollador);
+        $this->usuarioPrueba = $this->getUser(RoleEnum::TecnicoUnidad);
     }
 
-    /**
-     * A basic feature test example.
-     */
+    public function test_permisos_para_ver_boton_configurar_usuario()
+    {
+        $this->actingAs($this->desarrollador);
+
+        // Renderizado con permisos
+        $response = $this->get(route('user.show', $this->usuarioPrueba));
+        $response->assertStatus(200)
+            ->assertSee(__('Save'));
+
+        $this->revokeRolePermissionTo(RoleEnum::Desarrollador->value, UserPermission::AssignRoles);
+
+        // Renderizado sin permisos
+        $response = $this->get(route('user.show', $this->usuarioPrueba));
+        $response->assertStatus(200)
+            ->assertDontSee(__('Save'));
+    }
+
     public function test_roles_disponibles_para_asignar_por_usuario(): void
     {
-        $response = $this->get('/');
+        $this->actingAs($this->desarrollador);
 
-        $response->assertStatus(200);
+        // Un desarrollador puede asignar desarrolladores
+        Livewire::test(ConfigureUser::class, ['user' => $this->usuarioPrueba])
+            ->assertSee(RoleEnum::Desarrollador->value);
+
+        // Un administrador no puede asignar desarrolladores
+        $this->actingAs($this->getUser(RoleEnum::Administrador, create: true));
+        Livewire::test(ConfigureUser::class, ['user' => $this->usuarioPrueba])
+            ->assertDontSee(RoleEnum::Desarrollador->value);
     }
 
-    /**
-     * A basic feature test example.
-     */
-    public function test_funcionamiento_al_configurar_roles(): void
+    public function test_permisos_para_asignar_roles_a_un_usuario()
     {
-        $response = $this->get('/');
+        // Valida que no se puede asignar roles sin permisos
+        $this->revokeRolePermissionTo(RoleEnum::Desarrollador->value, UserPermission::AssignRoles);
+        $this->actingAs($this->desarrollador);
 
-        $response->assertStatus(200);
+        Livewire::test(ConfigureUser::class, ['user' => $this->usuarioPrueba])
+            ->call('save')
+            ->assertHasErrors(['autorization' => __('You do not have permissions to perform this action.')]);
+
+        // Valida que un usuario que no sea desarrollador asigne permisos a un desarrollador
+        $this->giveRolePermissionTo(RoleEnum::TecnicoUnidad->value, UserPermission::AssignRoles);
+        $this->actingAs($this->usuarioPrueba);
+
+        Livewire::test(ConfigureUser::class, ['user' => $this->desarrollador])
+            ->call('save')
+            ->assertHasErrors(['autorization' => __('You do not have permissions to perform this action.')]);
+    }
+
+    public function test_funcionamiento_al_asignar_roles()
+    {
+        $this->actingAs($this->desarrollador);
+        $roles = Role::where('name', [RoleEnum::Administrador])->get()->map(function($role) {
+            return [
+                'id' => $role->id,
+                'name' => $role->name,
+            ];
+        })->toArray();
+
+        Livewire::test(ConfigureUser::class, ['user' => $this->usuarioPrueba])
+            ->set('state.roles', $roles)
+            ->call('save')
+            ->assertHasNoErrors()
+            ->assertDispatched('toastify-js', [
+                'id' => 'success-notification',
+                'message' => __('Saved user settings'),
+                'title' => __('Success'),
+            ]);
+
+        $this->usuarioPrueba->load('roles');
+        assertTrue($this->usuarioPrueba->hasRole(RoleEnum::Administrador));
     }
 }

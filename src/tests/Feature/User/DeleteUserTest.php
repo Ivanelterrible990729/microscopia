@@ -47,7 +47,7 @@ class DeleteUserTest extends TestCase
 
     public function test_permisos_para_eliminar_un_usuario()
     {
-        // Valida que no se puede crear el rol sin los permisos
+        // Valida que no se puede eliminar a un usuario sin los permisos
         $this->revokeRolePermissionTo(RoleEnum::Desarrollador->value, UserPermission::Delete);
         $this->actingAs($this->desarrollador);
 
