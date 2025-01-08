@@ -38,15 +38,17 @@
         </x-base.form-inline>
     </x-base.dialog.description>
     <x-base.dialog.footer>
-        <x-base.button
-            variant="success"
-            wire:click='save'
-        >
-            <x-base.lucide
-                icon="save"
-                class="mr-2"
-            />
-            {{ __('Save') }}
-        </x-base.button>
+        @can('assignRoles', $user)
+            <x-base.button
+                variant="success"
+                wire:click='save'
+            >
+                <x-base.lucide
+                    icon="save"
+                    class="mr-2"
+                />
+                {{ __('Save') }}
+            </x-base.button>
+        @endcan
     </x-base.dialog.footer>
 </div>

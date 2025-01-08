@@ -10,6 +10,8 @@ use Spatie\Permission\Models\Role;
 
 class ConfigureUser extends Component
 {
+    public $user;
+
     /**
      * Roles a asignar al usuario.
      */
@@ -34,6 +36,7 @@ class ConfigureUser extends Component
 
     public function mount(User $user)
     {
+        $this->user = $user;
         $user->load('roles');
 
         $this->state['user_id'] = $user['id'];
@@ -52,7 +55,7 @@ class ConfigureUser extends Component
 
     public function save()
     {
-        if (request()->user()->cannot(UserPermission::AssignRoles)) {
+        if (request()->user()->cannot('assignRoles', $this->user)) {
             $this->addError('autorization', __('You do not have permissions to perform this action.'));
             return;
         }

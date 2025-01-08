@@ -57,12 +57,31 @@ class PersonifyUserTest extends TestCase
 
     public function test_valida_permisos_para_realizar_personificacion()
     {
+        // Se valida que si no se tiene el permiso no se puede personificar
         $this->actingAs($this->desarrollador);
         $this->revokeRolePermissionTo(RoleEnum::Desarrollador->value, UserPermission::Personify);
 
         $this->get(route('user.personification.start', [
             'user' => $this->usuarioPrueba,
         ]))->assertForbidden();
+
+        // Valida que no se puede persnoficiar a su propio usuario
+        $this->giveRolePermissionTo(RoleEnum::Desarrollador->value, UserPermission::Personify);
+        $this->actingAs($this->desarrollador);
+
+        $response = $this->get(route('user.personification.start', [
+            'user' => $this->desarrollador
+        ]));
+        $response->assertForbidden();
+
+        // Valida que un usuario que no sea desarrollador persnoficiar a un desarrollador
+        $this->giveRolePermissionTo(RoleEnum::TecnicoUnidad->value, UserPermission::Personify);
+        $this->actingAs($this->usuarioPrueba);
+
+        $response = $this->get(route('user.personification.start', [
+            'user' => $this->desarrollador
+        ]));
+        $response->assertForbidden();
     }
 
     public function test_inicio_de_personificacion()

@@ -53,6 +53,20 @@ class DeleteUserTest extends TestCase
 
         $response = $this->delete(route('user.destroy', $this->usuarioPrueba));
         $response->assertForbidden();
+
+        // Valida que no se puede eliminar a su propio usuario
+        $this->giveRolePermissionTo(RoleEnum::Desarrollador->value, UserPermission::Delete);
+        $this->actingAs($this->desarrollador);
+
+        $response = $this->delete(route('user.destroy', $this->desarrollador));
+        $response->assertForbidden();
+
+        // Valida que un usuario que no sea desarrollador elimine a un desarrollador
+        $this->giveRolePermissionTo(RoleEnum::TecnicoUnidad->value, UserPermission::Delete);
+        $this->actingAs($this->usuarioPrueba);
+
+        $response = $this->delete(route('user.destroy', $this->desarrollador));
+        $response->assertForbidden();
     }
 
     public function test_funcionamiento_al_eliminar_un_usuario()
