@@ -58,7 +58,7 @@
 
         <!-- Prefijo -->
         <div class="col-span-6 sm:col-span-2">
-            <x-label for="name" value="{{ __('Prefix') }}" />
+            <x-label for="name" hint="Opcional" value="{{ __('Prefix') }}" />
             <x-base.form-input
                 id="prefijo"
                 type="text"
@@ -86,8 +86,8 @@
         </div>
 
         <!-- Cargo -->
-        <div class="col-span-6 sm:col-span-4">
-            <x-label for="cargo" value="{{ __('Job title') }}" />
+        <div class="col-span-6 sm:col-span-3">
+            <x-label for="cargo" hint="Opcional" value="{{ __('Job title') }}" />
             <x-base.form-input
                 id="cargo"
                 type="text"
@@ -101,7 +101,7 @@
         </div>
 
         <!-- Email -->
-        <div class="col-span-6 sm:col-span-4">
+        <div class="col-span-6 sm:col-span-3">
             <x-label for="email" value="{{ __('Email') }}" />
             <x-base.form-input
                 id="email"
@@ -110,7 +110,7 @@
                 wire:model="state.email"
                 required
                 autocomplete="username"
-                class="mt-1 block min-w-full px-4 py-3 xl:min-w-[450px]"
+                class="mt-1 block px-4 py-3"
             />
             <x-input-error for="email" class="mt-2" />
 

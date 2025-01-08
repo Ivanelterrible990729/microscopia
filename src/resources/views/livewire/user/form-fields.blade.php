@@ -2,6 +2,7 @@
     <div class="col-span-4 mb-3">
         <x-base.form-label
             for="prefijo"
+            hint="Opcional"
         >
             {{ __('Prefix') }}
         </x-base.form-label>
@@ -32,9 +33,10 @@
         />
     </div>
 
-    <div class="col-span-12 sm:col-span-9 mb-3">
+    <div class="col-span-12 sm:col-span-6 mb-3">
         <x-base.form-label
             for="cargo"
+            hint="Opcional"
         >
             {{ __('Job title') }}
         </x-base.form-label>
@@ -48,7 +50,7 @@
         />
     </div>
 
-    <div class="col-span-12 sm:col-span-9 mb-3">
+    <div class="col-span-12 sm:col-span-6 mb-3">
         <x-base.form-label
             for="email"
         >
@@ -109,7 +111,7 @@
         </x-base.button>
     </div>
 
-    <div class="col-span-12 sm:col-span-8 mb-3">
+    <div class="col-span-8 mb-3">
         <x-base.form-label
             for="password"
         >

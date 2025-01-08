@@ -19,10 +19,6 @@
                 <div class="text-left">
                     <div class="flex items-center">
                         <div class="font-medium">{{ __('Roles') }}</div>
-                        <div
-                            class="ml-2 rounded-md bg-slate-200 px-2 py-0.5 text-xs text-slate-600 dark:bg-darkmode-300 dark:text-slate-400">
-                            {{ __('Required') }}
-                        </div>
                     </div>
                     <div class="mt-3 text-xs leading-relaxed text-slate-500">
                         {{ __('You can assign different roles to the specified user.') }}
