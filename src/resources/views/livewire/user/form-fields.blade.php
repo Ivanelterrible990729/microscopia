@@ -2,7 +2,7 @@
     <div class="col-span-4 mb-3">
         <x-base.form-label
             for="prefijo"
-            hint="Opcional"
+            hint="{{ __('Optional') }}"
         >
             {{ __('Prefix') }}
         </x-base.form-label>
@@ -36,7 +36,7 @@
     <div class="col-span-12 sm:col-span-6 mb-3">
         <x-base.form-label
             for="cargo"
-            hint="Opcional"
+            hint="{{ __('Optional') }}"
         >
             {{ __('Job title') }}
         </x-base.form-label>

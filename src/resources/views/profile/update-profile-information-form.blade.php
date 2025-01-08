@@ -58,7 +58,7 @@
 
         <!-- Prefijo -->
         <div class="col-span-6 sm:col-span-2">
-            <x-label for="name" hint="Opcional" value="{{ __('Prefix') }}" />
+            <x-label for="name" hint="{{ __('Optional') }}" value="{{ __('Prefix') }}" />
             <x-base.form-input
                 id="prefijo"
                 type="text"
@@ -87,7 +87,7 @@
 
         <!-- Cargo -->
         <div class="col-span-6 sm:col-span-3">
-            <x-label for="cargo" hint="Opcional" value="{{ __('Job title') }}" />
+            <x-label for="cargo" hint="{{ __('Optional') }}" value="{{ __('Job title') }}" />
             <x-base.form-input
                 id="cargo"
                 type="text"
