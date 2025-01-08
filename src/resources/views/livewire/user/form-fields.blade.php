@@ -81,16 +81,18 @@
             class="block min-w-full px-4 py-3 xl:min-w-[350px] mr-2 mb-2"
         />
 
-        <x-base.form-check.input
-            class="mr-2 border"
-            id="show-password"
-            name="show-password"
-            type="checkbox"
-            x-model="showPassword"
-        />
-        <label class="cursor-pointer select-none" for="show-password">
-            {{ __('Show password') }}
-        </label>
+        <x-base.form-help class="text-left">
+            <x-base.form-check.input
+                class="mr-2 border"
+                id="show-password"
+                name="show-password"
+                type="checkbox"
+                x-model="showPassword"
+            />
+            <label class="cursor-pointer select-none" for="show-password">
+                {{ __('Show password') }}
+            </label>
+        </x-base.form-help>
     </div>
 
     <div class="col-span-4 mb-3 flex items-center">
