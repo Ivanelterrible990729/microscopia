@@ -31,10 +31,10 @@ class SideMenu
 
             'divider',
 
-            'imagen.*' => [
+            'image.*' => [
                 'icon' => 'images',
                 'title' => __('Image management'),
-                'route_name' => 'login',
+                'route_name' => 'image.index',
             ],
         ];
     }
