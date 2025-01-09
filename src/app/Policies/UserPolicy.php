@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Enums\Permissions\UserPermission;
+use App\Enums\RoleEnum;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Auth;
@@ -45,9 +46,16 @@ class UserPolicy
      */
     public function personify(User $user, User $model): Response
     {
-        return $user->hasPermissionTo(UserPermission::Personify) && $model->id != $user->id && Session::missing('personified_by')
-            ? Response::allow()
-            : Response::deny(__('#UP-PE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
+        if ($user->hasPermissionTo(UserPermission::Personify) && $model->id != $user->id && Session::missing('personified_by')) {
+
+            if ($model->hasRole(RoleEnum::Desarrollador) && !$user->hasRole(RoleEnum::Desarrollador)) {
+                return Response::deny(__('#UP-PE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
+            }
+
+            return Response::allow();
+        }
+
+        return Response::deny(__('#UP-PE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
     }
 
     /**
@@ -55,9 +63,33 @@ class UserPolicy
      */
     public function delete(User $user, User $model): Response
     {
-        return $user->hasPermissionTo(UserPermission::Delete) && $model->id != $user->id
-            ? Response::allow()
-            : Response::deny(__('#UP-DE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
+        if ($user->hasPermissionTo(UserPermission::Delete) && $model->id != $user->id) {
+
+            if ($model->hasRole(RoleEnum::Desarrollador) && !$user->hasRole(RoleEnum::Desarrollador)) {
+                return Response::deny(__('#UP-PE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
+            }
+
+            return Response::allow();
+        }
+
+        return Response::deny(__('#UP-PE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     */
+    public function assignRoles(User $user, User $model): Response
+    {
+        if ($user->hasPermissionTo(UserPermission::AssignRoles)) {
+
+            if ($model->hasRole(RoleEnum::Desarrollador) && !$user->hasRole(RoleEnum::Desarrollador)) {
+                return Response::deny(__('#UP-PE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
+            }
+
+            return Response::allow();
+        }
+
+        return Response::deny(__('#UP-PE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
     }
 
     /**

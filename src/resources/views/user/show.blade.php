@@ -35,12 +35,12 @@
                 variant="link-tabs"
             >
                 <x-base.tab
-                    id="activities-tab"
+                    id="configuration-tab"
                     :fullWidth="false"
                     selected
                 >
                     <x-base.tab.button class="cursor-pointer py-4">
-                        {{ __('Activities') }}
+                        {{ __('Configuration') }}
                     </x-base.tab.button>
                 </x-base.tab>
             </x-base.tab.list>
@@ -48,19 +48,12 @@
 
         <x-base.tab.panels class="intro-y mt-5">
             <x-base.tab.panel
-                id="activities"
+                id="configuration"
                 selected
             >
                 <div class="grid grid-cols-12 gap-6">
-                    <div class="intro-y box col-span-12 lg:col-span-6">
-                        <div class="flex items-center border-b border-slate-200/60 p-5 dark:border-darkmode-400">
-                            <h2 class="mr-auto text-base font-medium">
-                                {{ __('Activities') }}
-                            </h2>
-                        </div>
-                        <div class="p-5">
-
-                        </div>
+                    <div class="intro-y box col-span-12 lg:col-span-9">
+                        <livewire:user.configure-user :user="$user" />
                     </div>
                 </div>
             </x-base.tab.panel>

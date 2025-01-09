@@ -28,3 +28,7 @@ function dispatchModal(id, action = 'toggle') {
 // de manera que se puede llamar en las vistas blade
 
 window.dispatchModal = dispatchModal;
+
+window.addEventListener('toggle-modal', event => {
+    dispatchModal(event.detail[0].id, event.detail[0].action);
+})

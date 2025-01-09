@@ -26,6 +26,7 @@
             ])>
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <x-themes.enigma.alert />
+                    <x-themes.enigma.notification />
 
                     @yield('subcontent')
                 </div>
@@ -47,4 +48,5 @@
 @pushOnce('scripts')
     @vite('resources/js/themes/enigma.js')
     @vite('resources/js/pages/modal.js')
+    @vite('resources/js/pages/notification.js')
 @endPushOnce

@@ -22,8 +22,8 @@ enum UserPermission: string
             self::ViewAny->value => [RoleEnum::Desarrollador, RoleEnum::Administrador],
             self::View->value => [RoleEnum::Desarrollador, RoleEnum::Administrador],
             self::Create->value => [RoleEnum::Desarrollador, RoleEnum::Administrador],
-            self::Personify->value => [RoleEnum::Desarrollador],
-            self::Delete->value => [RoleEnum::Desarrollador],
+            self::Personify->value => [RoleEnum::Desarrollador, RoleEnum::Administrador],
+            self::Delete->value => [RoleEnum::Desarrollador, RoleEnum::Administrador],
             self::AssignRoles->value => [RoleEnum::Desarrollador, RoleEnum::Administrador],
         ];
     }

@@ -2,6 +2,7 @@
     <div class="col-span-4 mb-3">
         <x-base.form-label
             for="prefijo"
+            hint="{{ __('Optional') }}"
         >
             {{ __('Prefix') }}
         </x-base.form-label>
@@ -32,9 +33,10 @@
         />
     </div>
 
-    <div class="col-span-12 sm:col-span-9 mb-3">
+    <div class="col-span-12 sm:col-span-6 mb-3">
         <x-base.form-label
             for="cargo"
+            hint="{{ __('Optional') }}"
         >
             {{ __('Job title') }}
         </x-base.form-label>
@@ -48,7 +50,7 @@
         />
     </div>
 
-    <div class="col-span-12 sm:col-span-9 mb-3">
+    <div class="col-span-12 sm:col-span-6 mb-3">
         <x-base.form-label
             for="email"
         >
@@ -81,16 +83,18 @@
             class="block min-w-full px-4 py-3 xl:min-w-[350px] mr-2 mb-2"
         />
 
-        <x-base.form-check.input
-            class="mr-2 border"
-            id="show-password"
-            name="show-password"
-            type="checkbox"
-            x-model="showPassword"
-        />
-        <label class="cursor-pointer select-none" for="show-password">
-            {{ __('Show password') }}
-        </label>
+        <x-base.form-help class="text-left">
+            <x-base.form-check.input
+                class="mr-2 border"
+                id="show-password"
+                name="show-password"
+                type="checkbox"
+                x-model="showPassword"
+            />
+            <label class="cursor-pointer select-none" for="show-password">
+                {{ __('Show password') }}
+            </label>
+        </x-base.form-help>
     </div>
 
     <div class="col-span-4 mb-3 flex items-center">
@@ -107,7 +111,7 @@
         </x-base.button>
     </div>
 
-    <div class="col-span-12 sm:col-span-8 mb-3">
+    <div class="col-span-8 mb-3">
         <x-base.form-label
             for="password"
         >
