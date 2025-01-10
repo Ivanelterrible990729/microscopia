@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->string('color', 8)->default(sprintf('#%06X', mt_rand(0, 0xFFFFFF)));
+            $table->string('color', 8)->nullable();
             $table->integer('number_images')->default(0);
             $table->timestamps();
         });

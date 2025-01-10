@@ -21,9 +21,20 @@
         <h2 class="mr-auto text-xl font-medium">
             {{ __('Image management') }}
         </h2>
+
+        <x-base.button
+            class="shadow-md"
+            variant="primary"
+        >
+            <x-base.lucide
+                icon="plus"
+                class="mr-2"
+            />
+            Subir imágenes
+        </x-base.button>
     </div>
 
-    <div class="intro-y box mt-5 p-5">
-
+    <div x-data="{show: false}">{{-- <div class="intro-y box mt-5 p-5" x-data="{show: true}"> --}}
+        <livewire:listados.images-table />
     </div>
 @endsection

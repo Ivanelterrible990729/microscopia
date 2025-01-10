@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -33,6 +34,30 @@ class Image extends Model
     ];
 
     /**
+     * Get the images's label colors.
+     */
+    protected function labelsColor(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => count($this->labels) > 1
+                ? "background-image: linear-gradient(to right, " . implode(', ', $this->labels->pluck('color')->toArray()) . ");"
+                : "background-color: " . $this->labels?->first()?->color ?? '' .";"
+        );
+    }
+
+    /**
+     * Get the images's label names.
+     */
+    protected function labelsDesc(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => count($this->labels) > 0
+            ? implode(', ', $this->labels->pluck('name')->toArray())
+            : 'Sin etiqueta'
+        );
+    }
+
+    /**
      * Get the user that owns the Image
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -49,6 +74,6 @@ class Image extends Model
      */
     public function labels(): BelongsToMany
     {
-        return $this->belongsToMany(Label::class, 'image_label', 'label_id', 'image_id');
+        return $this->belongsToMany(Label::class, 'image_label', 'image_id', 'label_id');
     }
 }
