@@ -13,7 +13,7 @@
                     /> {{ __('Images') }}
                 </a>
                 <a
-                    class="mt-2 flex items-center rounded-md px-3 py-2"
+                    class="mt-2 flex items-center rounded-md px-3 py-2 hover:bg-slate-200"
                     href=""
                 >
                     <x-base.lucide
@@ -25,17 +25,25 @@
             <div class="mt-4 border-t border-slate-200 pt-4 dark:border-darkmode-400">
                 @foreach ($this->labels as $label)
                     <a
-                        class="flex items-center rounded-md px-3 py-2"
+                        class="flex items-center rounded-md px-3 py-2 hover:bg-slate-200 group"
                         href=""
                     >
                         <div class="mr-3 h-2 w-2 p-1 rounded-full text-xs" style="background-color: {{ $label->color }};"></div>
                         <span>{{ $label->name }}</span>
-                        <span class="ml-auto">{{ $label->number_images }}</span>
+                        <span class="ml-2 rounded border px-2 py-0.5 text-xs text-slate-600 dark:border-darkmode-100/40 dark:text-slate-300">{{ $label->number_images }}</span>
+
+                        <span class="ml-auto hidden group-hover:block">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-ellipsis-vertical">
+                                <circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/>
+                            </svg>
+                        </span>
                     </a>
                 @endforeach
 
                 <a
-                    class="mt-2 flex items-center rounded-md px-3 py-2"
+                    class="mt-2 flex items-center rounded-md px-3 py-2 hover:bg-slate-200"
                     href=""
                 >
                     <x-base.lucide
