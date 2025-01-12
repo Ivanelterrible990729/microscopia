@@ -7,5 +7,5 @@
         x-model="selectAll"
         x-on:change="selectedImages = selectAll ? {{ json_encode($this->getRows->pluck('id')->toArray()) }} : [];"
     />
-    <label for="selectAll" class="inline-block"> {{ __('Select the') . ' ' . $this->getRows->count() . ' ' . uncamelize(__('Images')) }} </label>
+    <label for="selectAll" class="inline-block"> {{ __('Select all') }} </label>
 </div>

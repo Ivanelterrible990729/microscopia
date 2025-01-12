@@ -113,7 +113,6 @@ class ImagesTable extends DataTableComponent
 
     public function setFilterImages(string $value): void
     {
-        dd($this->selectedImages);
         $this->setFilter(uncamelize(__('Images')), $value == 'active' ? null : $value);
     }
 
