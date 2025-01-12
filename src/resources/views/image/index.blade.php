@@ -30,11 +30,11 @@
                 icon="plus"
                 class="mr-2"
             />
-            Subir imágenes
+            {{ __('Upload images') }}
         </x-base.button>
     </div>
 
-    <div x-data="{show: false}">{{-- <div class="intro-y box mt-5 p-5" x-data="{show: true}"> --}}
+    <div x-data="{showGrid: true}">
         <livewire:listados.images-table />
     </div>
 @endsection

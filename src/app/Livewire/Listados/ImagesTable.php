@@ -16,6 +16,11 @@ class ImagesTable extends DataTableComponent
     protected $model = Image::class;
 
     /**
+     *  Acumula las imagenes seleccionadas por Ids.
+     */
+    public array $selectedImages = [];
+
+    /**
      * Catálogo de los permisos existentes en el sistema agroupados por su prefijo.
      */
     #[Computed]
@@ -34,21 +39,19 @@ class ImagesTable extends DataTableComponent
     {
         $this->setPrimaryKey('id');
 
-        $this->setConfigurableArea('before-tools', 'livewire.image.images-table');
+        $this->setConfigurableAreas([
+            'before-tools' => 'livewire.image.images-table',
+            'toolbar-left-end' => 'livewire.image.partials.select-all-button',
+        ]);
 
         $this->setTableWrapperAttributes([
-            'x-show' => 'show',
+            'x-show' => '!showGrid',
         ]);
 
         $this->setColumnSelectDisabled();
         $this->setToolsDisabled();
         $this->setPaginationVisibilityDisabled();
         $this->setPerPageAccepted([12, 24, 48, 96]);
-    }
-
-    public function mount()
-    {
-
     }
 
     public function columns(): array
@@ -84,7 +87,7 @@ class ImagesTable extends DataTableComponent
             MultiSelectFilter::make(__('Labels'))
                 ->options(
                     [
-                        'no_label' => 'Sin etiquetar',
+                        'unlabeled' => 'Sin etiquetar',
                     ] +
             $this->labels
                         ->keyBy('id')
@@ -97,7 +100,7 @@ class ImagesTable extends DataTableComponent
                         return $query->whereIn('image_label.label_id', $values);
                     });
 
-                    if (in_array('no_label', $values)) {
+                    if (in_array('unlabeled', $values)) {
                         $builder = $builder->orWhere(function ($builder) {
                             $builder->whereDoesntHave('labels');
                         });
@@ -110,6 +113,7 @@ class ImagesTable extends DataTableComponent
 
     public function setFilterImages(string $value): void
     {
+        dd($this->selectedImages);
         $this->setFilter(uncamelize(__('Images')), $value == 'active' ? null : $value);
     }
 
