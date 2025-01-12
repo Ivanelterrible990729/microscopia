@@ -1,4 +1,4 @@
-<div class="box p-2 mt-5">
+<div class="box intro-y p-2 mt-5">
     <div class="md:p-0 sm:flex justify-between items-center space-y-4 sm:space-y-0">
         <div>
             @if ($this->paginationIsEnabled && $this->isPaginationMethod('standard') && $this->getRows->lastPage() > 1 && $this->showPaginationDetails)
