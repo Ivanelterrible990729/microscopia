@@ -3,30 +3,49 @@
         <!-- BEGIN: File Manager Menu -->
         <div class="intro-y box p-5">
             <div class="mt-1">
-                <a
-                    class="flex items-center rounded-md bg-primary px-3 py-2 font-medium text-white"
-                    href=""
+                <button
+                    @class([
+                        'flex items-center rounded-md bg-primary px-3 py-2 font-medium text-white w-full' => $filterComponents[uncamelize(__('Images'))] !== 'trashed',
+                        'flex items-center rounded-md px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-700 w-full' => $filterComponents[uncamelize(__('Images'))] === 'trashed',
+                    ])
+                    wire:click="setFilterImages('active')"
                 >
                     <x-base.lucide
                         class="mr-2 h-4 w-4"
                         icon="Image"
                     /> {{ __('Images') }}
-                </a>
-                <a
-                    class="mt-2 flex items-center rounded-md px-3 py-2 hover:bg-slate-200"
-                    href=""
+                </button>
+                <button
+                    @class([
+                        'mt-2 flex items-center rounded-md bg-primary px-3 py-2 font-medium text-white w-full' => $filterComponents[uncamelize(__('Images'))] === 'trashed',
+                        'mt-2 flex items-center rounded-md px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-700 w-full' => $filterComponents[uncamelize(__('Images'))] !== 'trashed',
+                    ])
+                    wire:click="setFilterImages('trashed')"
                 >
                     <x-base.lucide
                         class="mr-2 h-4 w-4"
                         icon="trash-2"
                     /> {{ __('Trash') }}
-                </a>
+                </button>
             </div>
             <div class="mt-4 border-t border-slate-200 pt-4 dark:border-darkmode-400">
+                <button
+                    @class([
+                        'flex items-center rounded-md bg-slate-200 dark:bg-slate-700 px-3 py-2 font-medium w-full' => in_array('no_label', $filterComponents[uncamelize(__('Labels'))]),
+                        'flex items-center rounded-md px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-700 w-full' => !in_array('no_label', $filterComponents[uncamelize(__('Labels'))]),
+                    ])
+                    wire:click="setFilterLabels('no_label')"
+                >
+                    Sin etiquetar
+                </button>
+
                 @foreach ($this->labels as $label)
-                    <a
-                        class="flex items-center rounded-md px-3 py-2 hover:bg-slate-200 group"
-                        href=""
+                    <button
+                        @class([
+                            'mt-2 flex items-center rounded-md bg-slate-200 dark:bg-slate-700 px-3 py-2 font-medium w-full group' => in_array($label->id, $filterComponents[uncamelize(__('Labels'))]),
+                            'mt-2 flex items-center rounded-md px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-700 w-full group' => !in_array($label->id, $filterComponents[uncamelize(__('Labels'))]),
+                        ])
+                        wire:click="setFilterLabels({{ $label->id }})"
                     >
                         <div class="mr-3 h-2 w-2 p-1 rounded-full text-xs" style="background-color: {{ $label->color }};"></div>
                         <span>{{ $label->name }}</span>
@@ -39,18 +58,18 @@
                                 <circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/>
                             </svg>
                         </span>
-                    </a>
+                    </button>
                 @endforeach
 
-                <a
-                    class="mt-2 flex items-center rounded-md px-3 py-2 hover:bg-slate-200"
+                <button
+                    class="mt-2 flex items-center rounded-md px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-700 w-full"
                     href=""
                 >
                     <x-base.lucide
                         class="mr-2 h-4 w-4"
                         icon="Plus"
                     /> {{__('New label') }}
-                </a>
+                </button>
             </div>
         </div>
         <!-- END: File Manager Menu -->
@@ -81,7 +100,7 @@
         <!-- BEGIN: Directory & Files -->
         <div class="intro-y mt-5 grid grid-cols-12 gap-3 sm:gap-6">
             @forelse ($this->getRows as $rowIndex => $row)
-                <div class="intro-y col-span-12 sm:col-span-6 lg:col-span-4 2xl:col-span-3">
+                <div class="col-span-12 sm:col-span-6 lg:col-span-4 2xl:col-span-3" x-transition.duration.500ms>
                     <div class="file box relative rounded-md px-3 pb-5 pt-8 sm:px-5">
                         <div class="absolute left-0 top-0 ml-3 mt-3">
                             <x-base.form-check.input
@@ -118,8 +137,6 @@
                                 {{ $row->user->prefijo . ' ' . $row->user->name }}
                             </span>
                         </div>
-
-
 
                         <div class="absolute right-0 top-0 ml-auto mr-2 mt-3">
                             <x-dropdown align="right" width="60">
@@ -167,7 +184,7 @@
                     </div>
                 </div>
             @empty
-                <div class="intro-y col-span-12 h-min-full">
+                <div class="intro-y col-span-12" style="height: 220px">
                     <x-livewire-tables::table.empty />
                 </div>
             @endforelse

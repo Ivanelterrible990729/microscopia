@@ -8,6 +8,8 @@ use App\Models\Image;
 use App\Models\Label;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Computed;
+use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
+use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 
 class ImagesTable extends DataTableComponent
 {
@@ -44,6 +46,11 @@ class ImagesTable extends DataTableComponent
         $this->setPerPageAccepted([12, 24, 48, 96]);
     }
 
+    public function mount()
+    {
+
+    }
+
     public function columns(): array
     {
         return [
@@ -62,5 +69,60 @@ class ImagesTable extends DataTableComponent
                 'name',
                 'created_at'
             ]);
+    }
+
+    public function filters(): array
+    {
+        return [
+            SelectFilter::make(__('Images'))
+                ->options([
+                    'active' => 'Activas',
+                    'trashed' => 'Papelera',
+                ])->filter(function(Builder $builder, string $value) {
+                    $value === 'trashed' ? $builder->onlyTrashed() : $builder;
+                }),
+            MultiSelectFilter::make(__('Labels'))
+                ->options(
+                    [
+                        'no_label' => 'Sin etiquetar',
+                    ] +
+            $this->labels
+                        ->keyBy('id')
+                        ->map(fn($label) => $label->name)
+                        ->toArray()
+                )
+                ->filter(function(Builder $builder, array $values) {
+
+                    $builder = $builder->whereHas('labels', function ($query) use ($values) {
+                        return $query->whereIn('image_label.label_id', $values);
+                    });
+
+                    if (in_array('no_label', $values)) {
+                        $builder = $builder->orWhere(function ($builder) {
+                            $builder->whereDoesntHave('labels');
+                        });
+                    }
+
+                    return $builder;
+                }),
+        ];
+    }
+
+    public function setFilterImages(string $value): void
+    {
+        $this->setFilter(uncamelize(__('Images')), $value == 'active' ? null : $value);
+    }
+
+    public function setFilterLabels(string $labelId): void
+    {
+        $filterLabels = $this->filterComponents[uncamelize(__('Labels'))];
+
+        if (!in_array($labelId, $filterLabels)) {
+            $updatedFilters = array_merge($filterLabels, [$labelId]);
+        } else {
+            $updatedFilters = array_diff($filterLabels, [$labelId]);
+        }
+
+        $this->setFilter(uncamelize(__('Labels')), $updatedFilters);
     }
 }
