@@ -5,6 +5,7 @@ namespace Tests\Feature\Image;
 use App\Concerns\Tests\CustomMethods;
 use App\Enums\Permissions\ImagePermission;
 use App\Enums\RoleEnum;
+use App\Livewire\Listados\ImagesTable;
 use App\Livewire\Listados\ImageTable;
 use App\Models\Image;
 use App\Models\User;
@@ -48,7 +49,7 @@ class ViewImagesTest extends TestCase
         $response = $this->get(route('image.index'));
         $response->assertStatus(200);
         $response->assertSee(__('Image management'));
-        $response->assertSeeLivewire(ImageTable::class);
+        $response->assertSeeLivewire(ImagesTable::class);
     }
 
     public function test_permisos_para_ver_una_imagen_en_especifico(): void
