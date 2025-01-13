@@ -128,7 +128,7 @@
             <!-- Begin: Previews optimizadas -->
             <div class="mt-4 grid grid-cols-3 gap-4 max-h-80 overflow-y-auto">
                 <template x-for="(preview, index) in previews" :key="index">
-                    <div class="relative">
+                    <div class="col-span-3 lg:col-span-1 relative">
                         <div class="w-full h-48 image-fit rounded">
                             <img :src="preview" alt="Preview">
                         </div>
