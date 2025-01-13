@@ -6,6 +6,10 @@
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
+
+            @if (isset($slot))
+                {{ $slot }}
+            @endif
         </ul>
     </x-base.alert>
 @endif

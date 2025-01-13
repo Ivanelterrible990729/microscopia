@@ -22,16 +22,20 @@
             {{ __('Image management') }}
         </h2>
 
-        <x-base.button
-            class="shadow-md"
-            variant="primary"
-        >
-            <x-base.lucide
-                icon="plus"
-                class="mr-2"
-            />
-            {{ __('Upload images') }}
-        </x-base.button>
+        @can(App\Enums\Permissions\ImagePermission::Upload)
+            <x-base.button
+                class="shadow-md"
+                onclick="dispatchModal('modal-upload-image', 'show')"
+                variant="primary"
+            >
+                <x-base.lucide
+                    icon="plus"
+                    class="mr-2"
+                />
+                {{ __('Upload images') }}
+            </x-base.button>
+            @include('image.modal.modal-upload')
+        @endcan
     </div>
 
     <div x-data="{showGrid: true}">

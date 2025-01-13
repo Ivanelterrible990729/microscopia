@@ -11,7 +11,7 @@ enum ImagePermission: string
 
     case ViewAny = 'image.Ver cualquiera';
     case View = 'image.Ver';
-    case Create = 'image.Crear';
+    case Upload = 'image.Subir';
     case Update = 'image.Editar';
     case Delete = 'image.Eliminar';
 
@@ -20,7 +20,7 @@ enum ImagePermission: string
         return [
             self::ViewAny->value => [RoleEnum::Desarrollador, RoleEnum::Directivo, RoleEnum::JefeUnidad, RoleEnum::TecnicoUnidad],
             self::View->value => [RoleEnum::Desarrollador, RoleEnum::Directivo, RoleEnum::JefeUnidad, RoleEnum::TecnicoUnidad],
-            self::Create->value => [RoleEnum::Desarrollador, RoleEnum::JefeUnidad, RoleEnum::TecnicoUnidad],
+            self::Upload->value => [RoleEnum::Desarrollador, RoleEnum::JefeUnidad, RoleEnum::TecnicoUnidad],
             self::Update->value => [RoleEnum::Desarrollador, RoleEnum::JefeUnidad, RoleEnum::TecnicoUnidad],
             self::Delete->value => [RoleEnum::Desarrollador, RoleEnum::JefeUnidad, RoleEnum::TecnicoUnidad],
         ];

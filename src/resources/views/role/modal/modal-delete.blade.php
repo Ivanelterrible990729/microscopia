@@ -1,4 +1,4 @@
-<x-base.dialog id="modal-delete-role">
+<x-base.dialog id="modal-delete-role" static-backdrop>
     <x-base.dialog.panel>
         <div class="p-5 text-center">
             <x-base.lucide
