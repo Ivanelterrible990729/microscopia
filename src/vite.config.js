@@ -85,8 +85,8 @@ export default defineConfig({
 
                 // JS Pages
                 "resources/js/pages/modal.js",
+                "resources/js/pages/notification.js",
                 //"resources/js/pages/chat.js",
-                //"resources/js/pages/notification.js",
                 //"resources/js/pages/slideover.js",
                 //"resources/js/pages/tabulator.js",
                 //"resources/js/pages/validation.js",
