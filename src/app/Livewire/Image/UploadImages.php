@@ -14,11 +14,11 @@ class UploadImages extends Component
     public function uploadFiles()
     {
         $this->validate([
-            'files.*' => 'image|max:10048', // Validar cada archivo
+            'files' => 'required|array|max:10',
+            'files.*' => 'image|max:' . config('media.max_file_size', 1024 * 1024 * 10), // Validar cada archivo max 10MB
         ], attributes: [
             'files' => 'imágenes',
         ]);
-
 
         dd($this->files);
 
