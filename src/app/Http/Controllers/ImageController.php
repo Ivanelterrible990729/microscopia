@@ -38,6 +38,12 @@ class ImageController extends Controller
     {
         Gate::authorize('view', $image);
 
+        $image->load([
+            'user',
+            'media',
+            'labels'
+        ]);
+
         return view('image.show', compact('image'));
     }
 
