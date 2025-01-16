@@ -5,9 +5,7 @@ namespace App\Enums;
 use App\Concerns\Enums\EnumToArray;
 
 /**
- * Enumerado para mostrar las modalidades del App\Models\PlanDocencia.
- *
- * @enum
+ * Enum de roles en el sistema.
  */
 enum RoleEnum: string
 {

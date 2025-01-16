@@ -21,17 +21,14 @@ class ImageController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function imageLabeling(Request $request)
     {
-        //
-    }
+        // Gate::authorize('viewAny', Image::class);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        $images = Image::whereIn('id', explode(',', $request->ids))
+            ->get();
+
+        return view('image.labeling', compact('images'));
     }
 
     /**
