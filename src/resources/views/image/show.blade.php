@@ -149,7 +149,7 @@
                         </x-base.button>
                     </div>
 
-                    <div class="h-96">
+                    <div class=""> {{-- h-96 --}}
                         <x-base.image-zoom
                             class="h-full w-full image-fit rounded-md mt-5"
                             src="{{ $image->getFirstMediaUrl(App\Enums\Media\MediaEnum::Images->value) }}"

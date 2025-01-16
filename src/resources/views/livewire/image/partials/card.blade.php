@@ -13,7 +13,7 @@
         <div class="relative group zoom-in">
             <x-base.file-icon
                 class="mx-auto w-11/12 mt-2"
-                src="{{ Vite::asset('resources/images/dataset/bacilos.jpg') }}"
+                src="{{ $row->getFirstMediaUrl(App\Enums\Media\MediaEnum::Images->value, 'preview') }}"
                 variant="image"
             />
             <span class="hidden group-hover:inline-block absolute inset-x-0 bottom-0 bg-black text-white text-xs px-1 rounded">

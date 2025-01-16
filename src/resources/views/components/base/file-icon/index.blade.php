@@ -17,7 +17,7 @@
                 <img
                     class="rounded-md"
                     src="{{ $src }}"
-                    alt="Midone - Admin Dashboard Template"
+                    alt="{{ $src }}"
                 >
             </div>
         @endif

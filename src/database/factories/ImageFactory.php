@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Media\MediaEnum;
 use App\Models\Image;
 use App\Models\Label;
 use App\Models\User;
@@ -38,6 +39,11 @@ class ImageFactory extends Factory
                     ->get()
                     ->pluck('id')
             );
+
+            $labelName = $image->labels->first()->name;
+            $image->addMedia(resource_path('images/dataset/' . $labelName . '.jpg'))
+                ->preservingOriginal()
+                ->toMediaCollection(MediaEnum::Images->value);
         });
     }
 }
