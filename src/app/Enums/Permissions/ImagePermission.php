@@ -13,6 +13,7 @@ enum ImagePermission: string
     case View = 'image.Ver';
     case Upload = 'image.Subir';
     case Update = 'image.Editar';
+    case Label = 'image.Etiquetar';
     case Delete = 'image.Eliminar';
 
     public static function map(): array
@@ -22,6 +23,7 @@ enum ImagePermission: string
             self::View->value => [RoleEnum::Desarrollador, RoleEnum::Directivo, RoleEnum::JefeUnidad, RoleEnum::TecnicoUnidad],
             self::Upload->value => [RoleEnum::Desarrollador, RoleEnum::JefeUnidad, RoleEnum::TecnicoUnidad],
             self::Update->value => [RoleEnum::Desarrollador, RoleEnum::JefeUnidad, RoleEnum::TecnicoUnidad],
+            self::Label->value => [RoleEnum::Desarrollador, RoleEnum::JefeUnidad, RoleEnum::TecnicoUnidad],
             self::Delete->value => [RoleEnum::Desarrollador, RoleEnum::JefeUnidad, RoleEnum::TecnicoUnidad],
         ];
     }

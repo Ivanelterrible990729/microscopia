@@ -3,12 +3,14 @@
         <span class="font-medium flex items-center text-sm">
             {{ __('Selected images') }}:
             <span class="ml-2" x-text="selectedImages.length"></span>
-            <button
-                class="text-danger text-lg mx-2"
+            <x-base.button
+                class="mx-2"
                 x-on:click="selectedImages = []; selectAll = false;"
+                variant="outline-danger"
+                size="sm"
             >
                 &times;
-            </button>
+            </x-base.button>
         </span>
 
         <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 space-x-3">

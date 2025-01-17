@@ -46,7 +46,7 @@ class UploadImages extends Component
             $imageIds[] = $image->id;
         }
 
-        return redirect()->route('images.image-labeling', ['ids' => implode(',', $imageIds)])->with([
+        return redirect()->route('image.labeling', ['ids' => implode(',', $imageIds)])->with([
             'alert' => [
                 'variant' => 'soft-primary',
                 'icon' => 'check-circle',

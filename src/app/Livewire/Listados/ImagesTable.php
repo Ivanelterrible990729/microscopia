@@ -27,6 +27,7 @@ class ImagesTable extends DataTableComponent
     public function labels()
     {
         return Label::query()
+            ->orderBy('name')
             ->select([
                 'id',
                 'name',
@@ -64,7 +65,7 @@ class ImagesTable extends DataTableComponent
 
     public function builder(): Builder
     {
-        return Image::with(['labels', 'user'])
+        return Image::with(['labels', 'user', 'media'])
             ->orderBy('created_at', 'desc')
             ->select([
                 'id',

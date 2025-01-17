@@ -19,14 +19,17 @@ class ImageController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating-updating a new resource.
      */
-    public function imageLabeling(Request $request)
+    public function labeling(Request $request)
     {
-        // Gate::authorize('viewAny', Image::class);
-
-        $images = Image::whereIn('id', explode(',', $request->ids))
+        $images = Image::with(['media', 'labels'])
+            ->whereIn('id', explode(',', $request->ids))
             ->get();
+
+        foreach ($images as $image) {
+            Gate::authorize('update', $image);
+        }
 
         return view('image.labeling', compact('images'));
     }
@@ -45,22 +48,6 @@ class ImageController extends Controller
         ]);
 
         return view('image.show', compact('image'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Image $image)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Image $image)
-    {
-        //
     }
 
     /**

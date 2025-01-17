@@ -35,7 +35,7 @@ class ImageFactory extends Factory
         return $this->afterCreating(function (Image $image) {
             $image->labels()->sync(
                 Label::inRandomOrder()
-                    ->limit(rand(1, 2))
+                    ->limit(1)
                     ->get()
                     ->pluck('id')
             );
