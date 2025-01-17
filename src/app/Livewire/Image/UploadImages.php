@@ -51,8 +51,8 @@ class UploadImages extends Component
                 'variant' => 'soft-primary',
                 'icon' => 'check-circle',
                 'message' => count($imageIds) == 1
-                    ? __('Image uploaded successfully')
-                    : __('Images uploaded successfully')
+                    ? __('Image uploaded successfully.') . ' ' . __('Please follow the wizard instructions.')
+                    : __('Images uploaded successfully.') . ' ' . __('Please follow the wizard instructions.')
             ]
         ]);
     }

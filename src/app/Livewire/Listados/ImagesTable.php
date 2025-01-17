@@ -42,7 +42,7 @@ class ImagesTable extends DataTableComponent
 
         $this->setConfigurableAreas([
             'before-tools' => 'livewire.image.images-table',
-            'toolbar-left-end' => 'livewire.image.partials.select-all-button',
+            'toolbar-left-end' => 'livewire.image.images-table.select-all-button',
         ]);
 
         $this->setTableWrapperAttributes([
