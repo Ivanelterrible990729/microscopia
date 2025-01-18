@@ -4,9 +4,9 @@
     </div>
     <div class="mt-2 text-base text-center text-slate-500">
         Por favor, complete la información requerida y haga clic en
-        <label class="text-blue-500 hover:text-blue-700 underline cursor-pointer" for="next-button">
+        <a class="text-blue-500 hover:text-blue-700 underline cursor-pointer" href="#next-button">
             "{{ __('Next') }}"
-        </label>.
+        </a>.
     </div>
 </div>
 
@@ -21,31 +21,23 @@
     </div>
 </x-base.dialog.description>
 
-<x-base.dialog.footer class="intro-y col-span-12 mt-5 flex items-center justify-center sm:justify-end">
+<x-base.dialog.footer class="col-span-12 mt-5 flex items-center justify-center sm:justify-end">
     @if ($activeIndex > 0)
         <x-base.button
             class="w-24"
             variant="secondary"
+            wire:click='previous'
         >
             Previous
         </x-base.button>
     @endif
 
-    @if ($activeIndex == count($formImages) - 1)
-        <x-base.button
-            id="next-button"
-            class="ml-2 w-24 focus:border-green-600 focus:border-2 focus:ring-2 focus:ring-green-300"
-            variant="primary"
-        >
-            {{ __('Next') }}
-        </x-base.button>
-    @else
-        <x-base.button
-            id="next-button"
-            class="ml-2 w-24 focus:border-green-600 focus:border-2 focus:ring-2 focus:ring-green-300"
-            variant="primary"
-        >
-            {{ __('Next') }}
-        </x-base.button>
-    @endif
+    <x-base.button
+        id="next-button"
+        class="ml-2 w-24 focus:border-green-600 focus:border-2 focus:ring-2 focus:ring-green-300"
+        variant="primary"
+        wire:click='next'
+    >
+        {{ __('Next') }}
+    </x-base.button>
 </x-base.dialog.footer>
