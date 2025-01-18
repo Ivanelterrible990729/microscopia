@@ -9,6 +9,16 @@ use Livewire\Form;
 class ImageForm extends Form
 {
     /**
+     * Bandera de confirmación únicamente para ImagesWizard.
+     */
+    public bool $reviewed;
+
+    /**
+     * Id de la imágen
+     */
+    public int $id;
+
+    /**
      * Nombre de la imágen
      */
     public string $name;
@@ -28,6 +38,7 @@ class ImageForm extends Form
     protected function rules()
     {
         return [
+            'id' => 'numeric|exists:images,id',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'labelIds' => 'nullable|array',
@@ -38,6 +49,7 @@ class ImageForm extends Form
     protected function validationAttributes()
     {
         return [
+            'id' => 'ID',
             'name' => __('Name'),
             'description' => __('Description'),
             'labelIds' => __('Labels'),
@@ -48,9 +60,11 @@ class ImageForm extends Form
     /**
      * Actualiza todos los campos de la imágen.
      */
-    public function update(Image $image): Image
+    public function update(Image $image, bool $validate = true): Image
     {
-        $this->validate();
+        if ($validate) {
+            $this->validateForm();
+        }
 
         $image->update($this->except(['labelIds']));
 
@@ -74,5 +88,13 @@ class ImageForm extends Form
 
         $image->labels()->sync($labelIds);
         return $image;
+    }
+
+    /**
+     * Realiza únicamente la validación del Form.
+     */
+    public function validateForm(): void
+    {
+        $this->validate();
     }
 }

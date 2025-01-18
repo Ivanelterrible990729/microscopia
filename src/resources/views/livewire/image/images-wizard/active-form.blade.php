@@ -1,9 +1,9 @@
 <div class="mt-10 px-5">
     <div class="text-center text-lg font-medium">
-        Imagen #{{ $activeForm['id'] }}
+        {{ __('Image') }} #{{ $form->id }}
     </div>
     <div class="mt-2 text-base text-center text-slate-500">
-        Por favor, complete la información requerida y haga clic en
+        {{ __('Please fill in the required fields and click on') }}
         <a class="text-blue-500 hover:text-blue-700 underline cursor-pointer" href="#next-button">
             "{{ __('Next') }}"
         </a>.
@@ -28,7 +28,7 @@
             variant="secondary"
             wire:click='previous'
         >
-            Previous
+            {{ __('Previous') }}
         </x-base.button>
     @endif
 

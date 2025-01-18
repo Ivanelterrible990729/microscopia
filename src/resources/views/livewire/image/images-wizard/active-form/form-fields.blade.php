@@ -1,8 +1,10 @@
+<x-validation-errors class="mb-5"/>
+
 <x-base.form-inline
     class="mt-5 flex-col items-start pt-5 px-2 first:mt-0 first:pt-0 xl:flex-row"
     formInline
 >
-    <x-base.form-label for="state.roles" class="xl:!mr-10 xl:w-64">
+    <x-base.form-label for="form.name" class="xl:!mr-10 xl:w-64">
         <div class="text-left">
             <div class="flex items-center">
                 <div class="font-medium">{{ __('Name') }}</div>
@@ -14,9 +16,9 @@
     </x-base.form-label>
     <div class="mt-3 w-full flex-1 xl:mt-0">
         <x-base.form-input
-            id="activeForm.name"
-            name="activeForm.name"
-            wire:model='activeForm.name'
+            id="form.name"
+            name="form.name"
+            wire:model='form.name'
             required
             class="block px-4 py-3"
         />
@@ -27,7 +29,7 @@
     class="mt-5 flex-col items-start pt-5 px-2 first:mt-0 first:pt-0 xl:flex-row"
     formInline
 >
-    <x-base.form-label for="state.roles" class="xl:!mr-10 xl:w-64">
+    <x-base.form-label for="form.description" class="xl:!mr-10 xl:w-64">
         <div class="text-left">
             <div class="flex items-center">
                 <div class="font-medium">{{ __('Description') }}</div>
@@ -43,16 +45,16 @@
     </x-base.form-label>
     <div class="mt-3 w-full flex-1 xl:mt-0">
         <x-base.form-textarea
-            id="activeForm.description"
-            name="activeForm.description"
-            wire:model='activeForm.description'
+            id="form.description"
+            name="form.description"
+            wire:model='form.description'
             class="block px-4 py-3"
         />
     </div>
 </x-base.form-inline>
 
 <div class="mt-5 flex-col items-start pt-5 px-2 first:mt-0 first:pt-0 xl:flex-row">
-    <x-base.form-label for="state.roles">
+    <x-base.form-label for="form.labelIds">
         <div class="text-left">
             <div class="flex items-center">
                 <div class="font-medium">{{ __('Labels') }}</div>
