@@ -27,6 +27,8 @@ class ImageController extends Controller
             ->whereIn('id', explode(',', $request->ids))
             ->get();
 
+        // TODO: validar que exista al menos una imagen recibida por medio de un FormRequest.
+
         foreach ($images as $image) {
             Gate::authorize('update', $image);
         }

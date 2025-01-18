@@ -1,0 +1,35 @@
+<x-base.image-zoom
+    class="w-full rounded-md"
+    src="{{ $images[$activeIndex]->getFirstMediaUrl(App\Enums\Media\MediaEnum::Images->value) }}"
+    alt="Image"
+/>
+
+<div class="mt-5">
+    <x-base.form-label for="state.roles">
+        <div class="text-left">
+            <div class="font-medium">{{ __('Predicciones') }}:</div>
+        </div>
+    </x-base.form-label>
+
+    <div class="border rounded p-5">
+        <div class="flex flex-row items-center justify-between">
+            <div>
+                Modelo: <span class="font-medium">VGG16</span>
+            </div>
+            <div>
+                <button
+                    class="flex items-center rounded-md px-3 py-1 hover:bg-slate-200 dark:hover:bg-slate-700 w-max"
+                    href=""
+                >
+                    <x-base.lucide
+                        class="mr-2 h-4 w-4"
+                        icon="tag"
+                    /> {{__('Agregar esta etiqueta') }}
+                </button>
+            </div>
+        </div>
+        <div class="mt-2 rounded font-medium text-center px-2 py-1" style="border-width: 2px; border-color: #F59E0B; color: #F59E0B">
+            93% MUSCULO
+        </div>
+    </div>
+</div>
