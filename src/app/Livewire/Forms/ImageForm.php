@@ -63,7 +63,7 @@ class ImageForm extends Form
     public function update(Image $image, bool $validate = true): Image
     {
         if ($validate) {
-            $this->validateForm();
+            $this->validate();
         }
 
         $image->update($this->except(['labelIds']));
@@ -88,13 +88,5 @@ class ImageForm extends Form
 
         $image->labels()->sync($labelIds);
         return $image;
-    }
-
-    /**
-     * Realiza únicamente la validación del Form.
-     */
-    public function validateForm(): void
-    {
-        $this->validate();
     }
 }

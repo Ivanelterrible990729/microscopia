@@ -53,10 +53,27 @@ class ImageController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Image $image)
+    {
+        Gate::authorize('update', $image);
+
+        $image->load([
+            'user',
+            'media',
+            'labels',
+        ]);
+
+        return view('image.edit', compact('image'));
+    }
+
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(Image $image)
     {
-        //
+
     }
 }

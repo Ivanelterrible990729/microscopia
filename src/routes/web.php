@@ -41,4 +41,5 @@ Route::middleware([
     Route::get('images', [ImageController::class, 'index'])->name('image.index');
     Route::get('/images/labeling', [ImageController::class, 'labeling'])->name('image.labeling');
     Route::get('images/{image}', [ImageController::class, 'show'])->name('image.show');
+    Route::get('images/{image}/edit', [ImageController::class, 'edit'])->name('image.edit');
 });

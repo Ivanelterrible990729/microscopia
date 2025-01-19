@@ -13,10 +13,10 @@
 <x-base.dialog.description class="mt10 lg:mt-14 border-t border-slate-200/60 px-4 pt-10 dark:border-darkmode-400 lg:px-10">
     <div class="grid grid-cols-12 gap-6 divide-x-0 lg:divide-x-2">
         <div class="col-span-12 lg:col-span-4 mr-0 lg:mr-2">
-            @include('livewire.image.images-wizard.active-form.image-preview')
+            <x-image.image-preview :image="$images[$activeIndex]" />
         </div>
         <div class="col-span-12 lg:col-span-8 pl-0 lg:pl-10">
-            @include('livewire.image.images-wizard.active-form.form-fields')
+            <x-image.form-fields :image="$images[$activeIndex]" />
         </div>
     </div>
 </x-base.dialog.description>

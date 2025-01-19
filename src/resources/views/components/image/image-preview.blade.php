@@ -1,10 +1,12 @@
+@props(['image' => null])
+
 <x-base.image-zoom
     class="w-full rounded-md"
-    src="{{ $images[$activeIndex]->getFirstMediaUrl(App\Enums\Media\MediaEnum::Images->value) }}"
+    src="{{ $image->getFirstMediaUrl(App\Enums\Media\MediaEnum::Images->value) }}"
     alt="Image"
 />
 
-<div class="mt-5">
+<div class="mt-5 box p-5">
     <x-base.form-label for="state.roles">
         <div class="text-left">
             <div class="font-medium">{{ __('Predicciones') }}:</div>
@@ -22,9 +24,12 @@
                     href=""
                 >
                     <x-base.lucide
-                        class="mr-2 h-4 w-4"
+                        class="mr-0 lg:mr-2 h-4 w-4"
                         icon="tag"
-                    /> {{__('Agregar esta etiqueta') }}
+                    />
+                    <span class="hidden lg:block">
+                        {{__('Agregar esta etiqueta') }}
+                    </span>
                 </button>
             </div>
         </div>

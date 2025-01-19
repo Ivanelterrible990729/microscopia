@@ -41,8 +41,8 @@ class ImagesTable extends DataTableComponent
         $this->setPrimaryKey('id');
 
         $this->setConfigurableAreas([
-            'before-tools' => 'livewire.image.images-table',
-            'toolbar-left-end' => 'livewire.image.images-table.select-all-button',
+            'before-tools' => 'livewire.listados.images-table',
+            'toolbar-left-end' => 'livewire.listados.images-table.select-all-button',
         ]);
 
         $this->setTableWrapperAttributes([

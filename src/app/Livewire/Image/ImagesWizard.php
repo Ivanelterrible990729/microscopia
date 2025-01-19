@@ -159,7 +159,7 @@ class ImagesWizard extends Component
             return;
         }
 
-        $this->form->validateForm();
+        $this->form->validate();
         $this->form->reviewed = true;
         $this->imageForms[$this->activeIndex] = $this->form->all();
     }

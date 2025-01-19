@@ -1,3 +1,5 @@
+@props(['image' => null])
+
 <x-validation-errors class="mb-5"/>
 
 <x-base.form-inline
@@ -66,7 +68,7 @@
     </x-base.form-label>
 
     <div class="flex flex-col sm:flex-row items-center gap-4">
-        @foreach ($images[$activeIndex]->labels as $label)
+        @foreach ($image->labels as $label)
             <span class="mt-2 flex items-center border rounded-md px-3 py-2 w-min">
                 <div class="mr-3 h-2 w-2 p-1 rounded-full text-xs" style="background-color: {{ $label->color }};"></div>
                 <span class="mr-2">{{ $label->name }}</span>
