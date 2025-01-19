@@ -6,6 +6,7 @@
             :value="$row->id"
             x-model="selectedImages"
             x-on:change="selectAll = selectedImages.length === {{ $this->getRows->count() }}"
+            class="border-2 bg-slate-50"
         />
     </div>
 

@@ -18,7 +18,6 @@ class ReviewedImages implements ValidationRule
 
         foreach ($formImages as $formImage) {
             if ($formImage['reviewed'] === false) {
-                dump($formImage);
                 $fail('Please, review all the images before confirming the wizard')->translate();
             }
         }

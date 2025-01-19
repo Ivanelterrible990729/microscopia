@@ -26,7 +26,7 @@ class ImageForm extends Form
     /**
      * Descripción de la imágen
      */
-    public string $description;
+    public null|string $description;
 
     /**
      * Etiquetas de la imágen

@@ -1,17 +1,18 @@
-<div class="bg-pending border-pending bg-opacity-20 border-opacity-5 text-pending dark:border-pending dark:border-opacity-20 border rounded p-5">
+<div class="box p-5">
     <div class="flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0 space-x-3">
-        <span class="font-medium flex items-center text-sm">
-            {{ __('Selected images') }}:
-            <span class="ml-2" x-text="selectedImages.length"></span>
-            <x-base.button
-                class="mx-2"
+        <div class="flex items-center font-medium">
+            <span class="mx-2">{{ __('Selected images') }}:</span>
+            <span class="pr-2" x-text="selectedImages.length"></span>
+            <button
                 x-on:click="selectedImages = []; selectAll = false;"
-                variant="outline-danger"
-                size="sm"
+                class="bg-secondary/70 border-secondary/70 text-slate-500 dark:border-darkmode-400 dark:bg-darkmode-400
+                dark:text-slate-300 [&:hover:not(:disabled)]:bg-slate-100 [&:hover:not(:disabled)]:border-slate-100
+                [&:hover:not(:disabled)]:dark:border-darkmode-300/80 [&:hover:not(:disabled)]:dark:bg-darkmode-300/80
+                border rounded-full text-xs px-2 py-1"
             >
-                &times;
-            </x-base.button>
-        </span>
+                {{ __('Cancel') }}
+            </button>
+        </div>
 
         <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 space-x-3">
             <x-base.button

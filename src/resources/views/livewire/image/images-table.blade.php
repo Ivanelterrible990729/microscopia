@@ -28,7 +28,11 @@
                     /> {{ __('Trash') }}
                 </button>
             </div>
-            <div class="mt-4 border-t border-slate-200 pt-4 dark:border-darkmode-400">
+            <div class="mt-4 border-t border-slate-200 pt-4 dark:border-darkmode-400 px-1">
+                <div class="text-base text-center lg:text-left font-medium lg:mt-3 mb-4">
+                    {{ __('Labels') }}
+                </div>
+
                 <button
                     @class([
                         'flex items-center rounded-md bg-slate-200 dark:bg-slate-700 px-3 py-2 font-medium w-full' => in_array('unlabeled', $filterComponents[uncamelize(__('Labels'))]),
@@ -47,7 +51,7 @@
                         ])
                         wire:click="setFilterLabels({{ $label->id }})"
                     >
-                        <div class="mr-3 h-2 w-2 p-1 rounded-full text-xs" style="background-color: {{ $label->color }};"></div>
+                        <div class="mr-3 h-2 w-2 p-1 lg:p-0.5 rounded-full text-xs" style="background-color: {{ $label->color }};"></div>
                         <span>{{ $label->name }}</span>
 
                         <span class="ml-auto hidden group-hover:block">
@@ -68,6 +72,36 @@
             </div>
         </div>
         <!-- END: Filter Manager Menu -->
+        <!-- BEGIN: Tips -->
+        <div wire:ignore>
+            <x-base.alert
+                class="relative mt-6 intro-y rounded-md border border-warning bg-warning/20 dark:border-0 dark:bg-darkmode-600"
+                variant="warning"
+                dismissible
+            >
+                <x-base.alert.dismiss-button class="absolute right-0 top-0 text-slate-500 font-bold -mr-0.5">
+                    &times;
+                </x-base.alert.dismiss-button>
+                <x-base.lucide
+                    class="absolute right-0 bottom-2 mt-5 h-12 w-12 text-warning/80"
+                    icon="Lightbulb"
+                />
+                <h2 class="text-base font-medium">Tips</h2>
+
+                <ul class="mt-2 mb-8 list-disc pl-5 text-xs leading-relaxed text-justify text-slate-600 dark:text-slate-500">
+                    <li>
+                        Haga clic en cualquier etiqueta para filtrar imágenes según sus etiquetas.
+                    </li>
+                    <li>
+                        Haga clic en "Papelera" para filtrar imagenes que fueron eliminadas.
+                    </li>
+                    <li>
+                        Haga clic en las casillas de las imágenes para seleccionar múltiples imágenes.
+                    </li>
+                </ul>
+            </x-base.alert>
+        </div>
+        <!-- END: Tips -->
     </div>
     <div class="col-span-12 lg:col-span-8 2xl:col-span-9" x-data="{ selectedImages: $wire.entangle('selectedImages'), showButton: false, selectAll: false }">
         <!-- BEGIN: Tools -->

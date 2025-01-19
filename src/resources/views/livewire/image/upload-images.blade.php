@@ -141,12 +141,12 @@
                 class="flex flex-row items-end mb-5"
                 x-show="previews.length > 0"
             >
-                <span class="font-medium text-base">
+                <span class="font-medium text-sm">
                     {{ __('Selected images') }}:
                 </span>
 
                 <div class="hidden sm:block ml-2 rounded-md bg-slate-200 px-2 py-0.5 text-xs text-slate-600 dark:bg-darkmode-300 dark:text-slate-400 mr-1">
-                    {{ __('Maximum 10 images weighing less than 10MB') }}
+                    {{ __('Maximum 10 images weighing less than 10 MB') }}
                 </div>
             </h2>
 
