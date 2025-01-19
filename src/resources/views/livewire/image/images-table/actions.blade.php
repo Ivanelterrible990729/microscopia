@@ -1,6 +1,6 @@
 <div class="box p-5">
     <div class="flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0 space-x-3">
-        <div class="flex items-center font-medium">
+        <div class="flex items-center">
             <span class="mx-2">{{ __('Selected images') }}:</span>
             <span class="pr-2" x-text="selectedImages.length"></span>
             <button

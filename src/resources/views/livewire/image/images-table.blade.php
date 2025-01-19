@@ -75,8 +75,8 @@
         <!-- BEGIN: Tips -->
         <div wire:ignore>
             <x-base.alert
-                class="relative mt-6 intro-y rounded-md border border-warning bg-warning/20 dark:border-0 dark:bg-darkmode-600"
-                variant="warning"
+                class="intro-y relative mt-6"
+                variant="soft-warning"
                 dismissible
             >
                 <x-base.alert.dismiss-button class="absolute right-0 top-0 text-slate-500 font-bold -mr-0.5">
@@ -90,13 +90,13 @@
 
                 <ul class="mt-2 mb-8 list-disc pl-5 text-xs leading-relaxed text-justify text-slate-600 dark:text-slate-500">
                     <li>
-                        Haga clic en cualquier etiqueta para filtrar imágenes según sus etiquetas.
+                        {{ __('Click on any tag to filter images according to their tags.') }}
                     </li>
                     <li>
-                        Haga clic en "Papelera" para filtrar imagenes que fueron eliminadas.
+                        {{ __('Click on “Trash” to filter images that were deleted.') }}
                     </li>
                     <li>
-                        Haga clic en las casillas de las imágenes para seleccionar múltiples imágenes.
+                        {{ __('Click on the image boxes to select multiple images.') }}
                     </li>
                 </ul>
             </x-base.alert>
