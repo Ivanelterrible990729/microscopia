@@ -129,4 +129,9 @@ class ImagesTable extends DataTableComponent
 
         $this->setFilter(uncamelize(__('Labels')), $updatedFilters);
     }
+
+    public function imageLabeling()
+    {
+        return redirect()->route('image.labeling', ['ids' => implode(',', $this->selectedImages)]);
+    }
 }

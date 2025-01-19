@@ -16,17 +16,10 @@
 
         <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 space-x-3">
             <x-base.button
-                variant="secondary"
+                wire:click='imageLabeling'
             >
-                @include('icons.plus')
-                {{__('Add labels')}}
-            </x-base.button>
-
-            <x-base.button
-                variant="warning"
-            >
-                @include('icons.edit')
-                {{__('Edit')}}
+                @include('icons.tags')
+                {{__('Image labeling')}}
             </x-base.button>
 
             <x-base.button

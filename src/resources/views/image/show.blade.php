@@ -34,13 +34,8 @@
 
         <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 space-x-3">
             <x-base.button
-                variant="secondary"
-            >
-                @include('icons.plus')
-                {{__('Add labels')}}
-            </x-base.button>
-
-            <x-base.button
+                as="a"
+                href="{{ route('image.edit', $image) }}"
                 variant="warning"
             >
                 @include('icons.edit')
@@ -138,6 +133,7 @@
                         </div>
 
                         <x-base.button
+                            size="sm"
                             variant="dark"
                             class="ml-auto"
                         >

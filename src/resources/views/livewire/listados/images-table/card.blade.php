@@ -53,7 +53,11 @@
                         @include('icons.plus')
                         {{ __('Add labels') }}
                     </x-base.menu.item>
-                    <x-base.menu.item>
+                    <x-base.menu.item
+                        as="a"
+                        href="{{ route('image.edit', $row) }}"
+                        class="text-warning"
+                    >
                         @include('icons.edit')
                         {{ __('Edit') }}
                     </x-base.menu.item>

@@ -23,9 +23,14 @@ class ImageController extends Controller
      */
     public function labeling(Request $request)
     {
+        $imageIds = explode(',', $request->ids);
+
         $images = Image::with(['media', 'labels'])
-            ->whereIn('id', explode(',', $request->ids))
-            ->get();
+            ->whereIn('id', $imageIds)
+            ->get()
+            ->sortBy(function($model) use ($imageIds){
+                return array_search($model->getKey(), $imageIds);
+            })->values();
 
         // TODO: validar que exista al menos una imagen recibida por medio de un FormRequest.
 
