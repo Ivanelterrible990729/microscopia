@@ -1,7 +1,7 @@
 <div>
     <form wire:submit="updateImage">
         <x-base.dialog.description>
-            <x-image.form-fields :image="$image" />
+            <x-image.form-fields :form="$form" :available-labels="$availableLabels" />
         </x-base.dialog.description>
         <x-base.dialog.footer>
             <x-base.button

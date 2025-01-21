@@ -6,7 +6,6 @@ use App\Livewire\Forms\ImageForm;
 use App\Models\Image;
 use App\Models\Label;
 use Illuminate\Support\Facades\Gate;
-use Livewire\Attributes\On;
 use Livewire\Component;
 
 class EditImage extends Component
@@ -21,6 +20,11 @@ class EditImage extends Component
      */
     public Image $image;
 
+    /**
+     * Catálogo de los permisos existentes en el sistema agroupados por su prefijo.
+     */
+    public array $availableLabels;
+
     public function mount(Image $image)
     {
         $this->image = $image;
@@ -31,6 +35,22 @@ class EditImage extends Component
             'description' => $image->description,
             'labelIds' => $image->labels->pluck('id')->toArray(),
         ]);
+
+        $this->availableLabels = Label::query()
+            ->orderBy('name')
+            ->select([
+                'id',
+                'name',
+                'color',
+                'number_images'
+            ])->get()
+            ->map(function($label) {
+                return [
+                    'id' => $label->id,
+                    'name' => $label->name,
+                    'color' => $label->color,
+                ];
+            })->toArray();
     }
 
     public function render()
@@ -52,15 +72,5 @@ class EditImage extends Component
                 'message' => __('The image has been successfully updated.')
             ]
         ]);
-    }
-
-    /**
-     * Actualiza el formulario y el modelo de imagen cargado para mostrar los cambios.
-     */
-    #[On('labels-updated')]
-    public function updateLabels($imageId, $labelIds)
-    {
-        $this->form->labelIds = $labelIds;
-        $this->image->setRelation('labels', Label::whereIn('id', $labelIds)->get());
     }
 }

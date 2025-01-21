@@ -4,9 +4,7 @@ namespace App\Livewire\Image;
 
 use App\Livewire\Forms\ImageForm;
 use App\Models\Label;
-use App\Rules\ReviewedImages;
 use Illuminate\Support\Collection;
-use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ImagesWizard extends Component
@@ -37,6 +35,11 @@ class ImagesWizard extends Component
     public int $lastIndex;
 
     /**
+     * Catálogo de los permisos existentes en el sistema agroupados por su prefijo.
+     */
+    public array $availableLabels;
+
+    /**
      * Reglas de validación para confirmar el wizard
      */
     protected function rules(): array
@@ -45,7 +48,6 @@ class ImagesWizard extends Component
             'imageForms' => [
                 'required',
                 'array',
-                new ReviewedImages,
             ],
         ];
     }
@@ -63,13 +65,28 @@ class ImagesWizard extends Component
 
         $this->imageForms = $images->map(function($image) {
             return [
-                'reviewed' => false,
                 'id' => $image->id,
                 'name' => $image->name,
                 'description' => $image->description,
                 'labelIds' => $image->labels->pluck('id')->toArray(),
             ];
         })->toArray();
+
+        $this->availableLabels = Label::query()
+            ->orderBy('name')
+            ->select([
+                'id',
+                'name',
+                'color',
+                'number_images'
+            ])->get()
+            ->map(function($label) {
+                return [
+                    'id' => $label->id,
+                    'name' => $label->name,
+                    'color' => $label->color,
+                ];
+            })->toArray();
 
         $this->activeIndex = 0;
         $this->lastIndex = count($this->imageForms) - 1;
@@ -131,16 +148,6 @@ class ImagesWizard extends Component
     }
 
     /**
-     * Ubicar al index indicado.
-     */
-    public function setActiveIndex($index): void
-    {
-        $this->saveActiveForm();
-        $this->activeIndex = $index;
-        $this->setActiveForm();
-    }
-
-    /**
      * Inicializa activeForm siempre y cuando se trate de un índice válido.
      */
     private function setActiveForm(): void
@@ -162,17 +169,6 @@ class ImagesWizard extends Component
         }
 
         $this->form->validate();
-        $this->form->reviewed = true;
         $this->imageForms[$this->activeIndex] = $this->form->all();
-    }
-
-    /**
-     * Actualiza el formulario y el modelo de imagen cargado para mostrar los cambios.
-     */
-    #[On('labels-updated')]
-    public function updateLabels($imageId, $labelIds)
-    {
-        $this->form->labelIds = $labelIds;
-        $this->images[$this->activeIndex]->setRelation('labels', Label::whereIn('id', $labelIds)->get());
     }
 }

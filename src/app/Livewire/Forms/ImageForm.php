@@ -9,11 +9,6 @@ use Livewire\Form;
 class ImageForm extends Form
 {
     /**
-     * Bandera de confirmación únicamente para ImagesWizard.
-     */
-    public bool $reviewed;
-
-    /**
      * Id de la imágen
      */
     public int $id;
