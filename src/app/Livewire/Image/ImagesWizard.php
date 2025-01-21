@@ -3,8 +3,10 @@
 namespace App\Livewire\Image;
 
 use App\Livewire\Forms\ImageForm;
+use App\Models\Label;
 use App\Rules\ReviewedImages;
 use Illuminate\Support\Collection;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ImagesWizard extends Component
@@ -162,5 +164,15 @@ class ImagesWizard extends Component
         $this->form->validate();
         $this->form->reviewed = true;
         $this->imageForms[$this->activeIndex] = $this->form->all();
+    }
+
+    /**
+     * Actualiza el formulario y el modelo de imagen cargado para mostrar los cambios.
+     */
+    #[On('labels-updated')]
+    public function updateLabels($imageId, $labelIds)
+    {
+        $this->form->labelIds = $labelIds;
+        $this->images[$this->activeIndex]->setRelation('labels', Label::whereIn('id', $labelIds)->get());
     }
 }

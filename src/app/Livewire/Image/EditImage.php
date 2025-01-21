@@ -4,7 +4,9 @@ namespace App\Livewire\Image;
 
 use App\Livewire\Forms\ImageForm;
 use App\Models\Image;
+use App\Models\Label;
 use Illuminate\Support\Facades\Gate;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class EditImage extends Component
@@ -21,6 +23,8 @@ class EditImage extends Component
 
     public function mount(Image $image)
     {
+        $this->image = $image;
+
         $this->form->fill([
             'id' => $image->id,
             'name' => $image->name,
@@ -48,5 +52,15 @@ class EditImage extends Component
                 'message' => __('The image has been successfully updated.')
             ]
         ]);
+    }
+
+    /**
+     * Actualiza el formulario y el modelo de imagen cargado para mostrar los cambios.
+     */
+    #[On('labels-updated')]
+    public function updateLabels($imageId, $labelIds)
+    {
+        $this->form->labelIds = $labelIds;
+        $this->image->setRelation('labels', Label::whereIn('id', $labelIds)->get());
     }
 }

@@ -30,13 +30,15 @@
     </div>
 
     <div class="grid grid-cols-12 gap-6 divide-x-0 lg:divide-x-2">
-        <div class="col-span-12 lg:col-span-8 mr-0 lg:mr-2">
+        <div class="col-span-12 lg:col-span-4 mr-0 lg:mr-2">
+            <div class="intro-y box">
+                <x-image.image-preview :image="$image" :image-rounded="false" />
+            </div>
+        </div>
+        <div class="col-span-12 lg:col-span-8 pl-0 lg:pl-10">
             <div class="intro-y box">
                 <livewire:image.edit-image :image="$image" />
             </div>
-        </div>
-        <div class="col-span-12 lg:col-span-4 pl-0 lg:pl-10">
-            <x-image.image-preview :image="$image" />
         </div>
     </div>
 @endsection

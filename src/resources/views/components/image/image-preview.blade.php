@@ -1,19 +1,23 @@
-@props(['image' => null])
+@props(['image' => null, 'imageRounded' => true])
 
 <x-base.image-zoom
-    class="w-full rounded-md"
+    @class([
+        "w-full",
+        "rounded-t" => !$imageRounded,
+        "rounded-md" => $imageRounded,
+    ])
     src="{{ $image->getFirstMediaUrl(App\Enums\Media\MediaEnum::Images->value) }}"
     alt="Image"
 />
 
-<div class="mt-5 box p-5">
+<div class="p-5">
     <x-base.form-label for="state.roles">
         <div class="text-left">
             <div class="font-medium">{{ __('Predicciones') }}:</div>
         </div>
     </x-base.form-label>
 
-    <div class="border rounded p-5">
+    <div class="box p-5">
         <div class="flex flex-row items-center justify-between">
             <div>
                 Modelo: <span class="font-medium">VGG16</span>
@@ -28,7 +32,7 @@
                         icon="tag"
                     />
                     <span class="hidden lg:block">
-                        {{__('Agregar esta etiqueta') }}
+                        {{__('Add label') }}
                     </span>
                 </button>
             </div>

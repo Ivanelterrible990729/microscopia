@@ -46,6 +46,13 @@ class ImageForm extends Form
         ];
     }
 
+    protected function messages()
+    {
+        return [
+            'labelIds.*.exists' => __('Una de las etiquetas seleccionadas no existe en la base de datos.'),
+        ];
+    }
+
     protected function validationAttributes()
     {
         return [
@@ -68,25 +75,20 @@ class ImageForm extends Form
 
         $image->update($this->except(['labelIds']));
 
-        return $this->updateLabels($image, $this->labelIds, validate: false);
+        return $this->updateLabels($image, validate: false);
     }
 
     /**
      * Actualiza únicamente las etiquetas de la imágen.
      */
-    public function updateLabels(Image $image, array $labelIds, bool $validate = true): Image
+    public function updateLabels(Image $image, bool $validate = true): Image
     {
         if ($validate) {
-            $this->validate(rules: [
-                'labelIds' => 'nullable|array',
-                'labelIds.*' => 'numeric|exists:labels,id',
-            ], attributes: [
-                'labelIds' => __('Labels'),
-                'labelIds.*' => __('Label'),
-            ]);
+            $this->validateOnly('labelIds');
+            $this->validateOnly('labelIds.*');
         }
 
-        $image->labels()->sync($labelIds);
+        $image->labels()->sync($this->labelIds);
         return $image;
     }
 }
