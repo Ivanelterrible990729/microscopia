@@ -41,4 +41,12 @@
     <div x-data="{showGrid: true}">
         <livewire:listados.images-table />
     </div>
+
+    <!-- BEGIN: Modals para la gestión de imágenes y etiquetas -->
+    @can(App\Enums\Permissions\ImagePermission::Upload)
+        @include('image.modal.modal-upload')
+    @endcan
+    @can(App\Enums\Permissions\ImagePermission::Label)
+        @include('image.modal.modal-edit-labels')
+    @endcan
 @endsection

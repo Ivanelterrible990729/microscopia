@@ -80,13 +80,27 @@
                     <x-section-border />
 
                     <div class="mt-5 mb-3">
-                        <span>
-                            {{ __('Labels') }}
-                        </span>
-                        <div class="bg-slate-100 border rounded px-2 py-1">
-                            {{ implode(',', $image->labels->pluck('name')->toArray()) }}
-                            MUSCULO, BACILOS, COCOS
+                        <div class="font-medium">{{ __('Labels') }}</div>
+                        <div class="my-3 text-xs leading-relaxed text-slate-500">
+                            {{ __('Se enlistan aquí las etiquetas asignadas a la imagen.') }}
                         </div>
+
+                        <x-image.image-labels :label-ids="$image->labels->pluck('id')->toArray()">
+                            @can(App\Enums\Permissions\ImagePermission::Label)
+                                <button
+                                    class="mt-2 flex items-center rounded-md px-3 py-1 hover:bg-slate-200 dark:hover:bg-slate-700 w-max"
+                                    onclick="dispatchModal('modal-edit-labels', 'show')"
+                                    variant="primary"
+                                    size="sm"
+                                >
+                                    <x-base.lucide
+                                        icon="tags"
+                                        class="mr-2"
+                                    />
+                                    {{ __('Edit labels') }}
+                                </button>
+                            @endcan
+                        </x-image.image-labels>
                     </div>
                 </x-base.dialog.description>
             </div>
@@ -179,4 +193,9 @@
             </div>
         </div>
     </div>
+
+    <!-- BEGIN: Modals para la gestión de imágenes y etiquetas -->
+    @can(App\Enums\Permissions\ImagePermission::Label)
+        @include('image.modal.modal-edit-labels')
+    @endcan
 @endsection

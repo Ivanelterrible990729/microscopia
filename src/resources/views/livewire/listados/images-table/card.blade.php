@@ -49,9 +49,13 @@
 
             <x-slot name="content">
                 <div class="w-60">
-                    <x-base.menu.item>
-                        @include('icons.plus')
-                        {{ __('Add labels') }}
+                    <x-base.menu.item
+                        as="button"
+                        onclick="dispatchModal('modal-edit-labels', 'show')"
+                        class="w-full"
+                    >
+                        @include('icons.tags')
+                        {{ __('Edit labels') }}
                     </x-base.menu.item>
                     <x-base.menu.item
                         as="a"
@@ -59,11 +63,13 @@
                         class="text-warning"
                     >
                         @include('icons.edit')
-                        {{ __('Edit') }}
+                        {{ __('Edit image') }}
                     </x-base.menu.item>
-                    <x-base.menu.item>
+                    <x-base.menu.item
+                        class="text-danger"
+                    >
                         @include('icons.delete')
-                        {{ __('Delete') }}
+                        {{ __('Delete image') }}
                     </x-base.menu.item>
                 </div>
             </x-slot>

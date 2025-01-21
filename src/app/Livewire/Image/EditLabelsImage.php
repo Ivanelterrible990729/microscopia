@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-class AddLabelsImage extends Component
+class EditLabelsImage extends Component
 {
     /**
      *  Image Form
@@ -71,7 +71,7 @@ class AddLabelsImage extends Component
 
     public function render()
     {
-        return view('livewire.image.add-labels-image');
+        return view('livewire.image.edit-labels-image');
     }
 
     /**

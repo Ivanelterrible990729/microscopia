@@ -2,10 +2,10 @@
     <x-base.dialog.title>
         <h2 class="mr-auto flex flex-1 items-center">
                 <x-base.lucide
-                icon="tag"
+                icon="tags"
                 class="mr-2"
             />
-            {{__('Add label') }}
+            {{ __('Edit labels') }}
         </h2>
     </x-base.dialog.title>
 
