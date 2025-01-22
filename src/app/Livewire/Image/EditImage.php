@@ -38,12 +38,7 @@ class EditImage extends Component
 
         $this->availableLabels = Label::query()
             ->orderBy('name')
-            ->select([
-                'id',
-                'name',
-                'color',
-                'number_images'
-            ])->get()
+            ->get()
             ->map(function($label) {
                 return [
                     'id' => $label->id,

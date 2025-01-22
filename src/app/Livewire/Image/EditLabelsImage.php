@@ -3,10 +3,10 @@
 namespace App\Livewire\Image;
 
 use App\Livewire\Forms\ImageForm;
+use App\Livewire\Listados\ImagesTable;
 use App\Models\Image;
 use App\Models\Label;
-use Illuminate\Support\Collection;
-use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class EditLabelsImage extends Component
@@ -19,54 +19,41 @@ class EditLabelsImage extends Component
     /**
      *  Imagen de referencia a la cual agregar la etiqueta.
      */
-    public Image $image;
+    public Image|null $image;
 
     /**
-     *  Determina si se almacena en base de datos.
+     *  Determina si se realiza redirección.
      */
-    public bool $store = false;
+    public string|null $redirectToRoute = null;
 
     /**
-     *  Determina si se realiza redirección o envío de eventos.
+     * Catálogo de etiquetas disponibles.
      */
-    public bool $redirectToShow = false;
+    public array $availableLabels;
 
-    /**
-     * Etiquetas seleccionadas
-     */
-    public Collection $selectedLabels;
-
-    /**
-     * Catálogo de los permisos existentes en el sistema agroupados por su prefijo.
-     */
-    #[Computed]
-    public function availableLabels(): Collection
+    public function mount()
     {
-        return Label::query()
+        $image = request('image', null);
+        if (isset($image)) {
+            $this->image = $image;
+            $this->form->labelIds = $this->image->labels->pluck('id')->toArray();
+            $this->redirectToRoute = route('image.show', $image);
+        } else {
+            $this->image = null;
+            $this->form->labelIds = [];
+            $this->redirectToRoute = null;
+        }
+
+        $this->availableLabels = Label::query()
             ->orderBy('name')
-            ->select([
-                'id',
-                'name',
-                'color',
-                'number_images'
-            ])->get()
+            ->get()
             ->map(function($label) {
                 return [
                     'id' => $label->id,
                     'name' => $label->name,
+                    'color' => $label->color,
                 ];
-            });
-    }
-
-    public function mount(Image $image)
-    {
-        $this->image = $image;
-        $this->selectedLabels = $image->labels->map(function($label) {
-            return [
-                'id' => $label->id,
-                'name' => $label->name,
-            ];
-        });
+            })->toArray();
     }
 
     public function render()
@@ -74,32 +61,25 @@ class EditLabelsImage extends Component
         return view('livewire.image.edit-labels-image');
     }
 
-    /**
-     * - Realiza conversión de selectedLabels a labelIds
-     *
-     */
-    public function addLabel()
+    #[On('edit-labels-image')]
+    public function loadImage(string $imageId)
     {
-        $this->form->labelIds = array_column($this->selectedLabels->toArray(), 'id');
+        $this->image = Image::findOrFail($imageId);
+        $this->image->load('labels');
+        $this->form->labelIds = $this->image->labels->pluck('id')->toArray();
 
-        if ($this->store) {
-            $this->form->updateLabels($this->image, validate: true);
-        } else {
-            $this->form->validateOnly('form.labelIds');
-            $this->form->validateOnly('form.labelIds.*');
-        }
+        $this->modal('modal-edit-labels')->show();
+    }
 
-        $this->selectedLabels = $this->image->labels->map(function($label) {
-            return [
-                'id' => $label->id,
-                'name' => $label->name,
-            ];
-        });
+    /**
+     * Realiza la edición de etiquetas.
+     */
+    public function editLabels()
+    {
+        $this->form->updateLabels($this->image, validate: true);
+        $this->modal('modal-edit-labels')->hide();
 
-        $this->dispatch('labels-updated', imageId: $this->image->id, labelIds: $this->form->labelIds);
-        $this->modal('modal-add-labels-image')->hide();
-
-        if ($this->redirectToShow) {
+        if (isset($this->redirectToRoute)) {
             return redirect()->route('image.show', $this->image)->with([
                 'alert' => [
                     'variant' => 'soft-primary',
@@ -108,7 +88,7 @@ class EditLabelsImage extends Component
                 ]
             ]);
         } else {
-            $this->toast(title: __('Success'), message: __('The image labels were successfully updated.'))->success();
+            $this->dispatch('image-labels-updated')->to(ImagesTable::class);
         }
     }
 }

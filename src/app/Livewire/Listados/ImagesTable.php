@@ -8,6 +8,7 @@ use App\Models\Image;
 use App\Models\Label;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 
@@ -112,11 +113,17 @@ class ImagesTable extends DataTableComponent
         ];
     }
 
+    /**
+     * Actualiza el filtrado de imagenes activas y de papelera.
+     */
     public function setFilterImages(string $value): void
     {
         $this->setFilter(uncamelize(__('Images')), $value == 'active' ? null : $value);
     }
 
+    /**
+     * Actualiza el filtrado por etiquetas.
+     */
     public function setFilterLabels(string $labelId): void
     {
         $filterLabels = $this->filterComponents[uncamelize(__('Labels'))];
@@ -130,8 +137,17 @@ class ImagesTable extends DataTableComponent
         $this->setFilter(uncamelize(__('Labels')), $updatedFilters);
     }
 
+    /**
+     * Redirige al etiquetado de imágenes para las imagenes seleccionadas.
+     */
     public function imageLabeling()
     {
         return redirect()->route('image.labeling', ['ids' => implode(',', $this->selectedImages)]);
+    }
+
+    #[On('image-labels-updated')]
+    public function imageLabelsUpdated()
+    {
+        $this->toast(title: __('Success'), message: __('The image labels were successfully updated.'))->success();
     }
 }

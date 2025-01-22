@@ -34,7 +34,6 @@
                 />
                 {{ __('Upload images') }}
             </x-base.button>
-            @include('image.modal.modal-upload')
         @endcan
     </div>
 

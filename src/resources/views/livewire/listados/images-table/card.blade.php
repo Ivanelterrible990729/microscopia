@@ -51,7 +51,8 @@
                 <div class="w-60">
                     <x-base.menu.item
                         as="button"
-                        onclick="dispatchModal('modal-edit-labels', 'show')"
+                        {{-- wire:click="editLabelsImage('{{ $row->id }}')" --}}
+                        x-on:click="$dispatch('edit-labels-image', { imageId: {{ $row->id }} })"
                         class="w-full"
                     >
                         @include('icons.tags')

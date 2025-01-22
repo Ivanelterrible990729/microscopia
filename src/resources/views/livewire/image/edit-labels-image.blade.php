@@ -30,15 +30,21 @@
                     </div>
                 </div>
             </x-base.form-label>
-            <div class="mt-3 w-full flex-1 xl:mt-0">
-                <x-base.multi-select
-                    :options="$this->availableLabels"
-                    :selected-options="$selectedLabels"
-                    :placeholder="__('Select one or more labels.')"
+            <div class="mt-3 w-full flex-1 xl:mt-0" wire:key="{{ str()->random(50) }}">
+                <x-base.tom-select
                     id="form.labelIds"
                     name="form.labelIds"
-                    wire:model='selectedLabels'
-                />
+                    wire:model='form.labelIds'
+                    class="tom-select w-full"
+                    :data-placeholder="__('Select one or more labels.')"
+                    multiple
+                >
+                    @foreach ($availableLabels as $label)
+                        <option value="{{ $label['id'] }}" @selected(in_array($label['id'], $form->labelIds))>
+                            {{ $label['name'] }}
+                        </option>
+                    @endforeach
+                </x-base.tom-select>
             </div>
         </x-base.form-inline>
     </x-base.dialog.description>
@@ -59,7 +65,7 @@
         <x-base.button
             type="button"
             variant="success"
-            wire:click='addLabel'
+            wire:click='editLabels'
         >
             <x-base.lucide
                 icon="save"
@@ -69,3 +75,34 @@
         </x-base.button>
     </x-base.dialog.footer>
 </div>
+
+
+@script
+    <script>
+        options = {
+            valueField: 'id',
+            searchField: 'name',
+            options: $wire.availableLabels,
+            render: {
+                option: function (data, escape) {
+                    return `<div class="flex items-center">
+                                <div class="mr-3 h-2 w-2 p-1 lg:p-0.5 rounded-full text-xs" style="background-color: ${escape(data.color)};"></div>
+                                ${escape(data.name)}
+                            </div>`;
+                },
+                item: function (data, escape) {
+                    return `<div class="item" data-ts-item>
+                                <div class="mr-3 h-2 w-2 p-1 lg:p-0.5 rounded-full text-xs" style="background-color: ${escape(data.color)};"></div>
+                                ${escape(data.name)}
+                            </div>`;
+                },
+            },
+        }
+
+        window.initTomSelect('.tom-select', options);
+
+        Livewire.hook('morph.updating', () => {
+            window.initTomSelect('.tom-select', options);
+        });
+    </script>
+@endscript
