@@ -22,19 +22,33 @@
             {{ __('Image management') }}
         </h2>
 
-        <x-base.button
-            class="shadow-md"
-            variant="primary"
-        >
-            <x-base.lucide
-                icon="plus"
-                class="mr-2"
-            />
-            {{ __('Upload images') }}
-        </x-base.button>
+        @can(App\Enums\Permissions\ImagePermission::Upload)
+            <x-base.button
+                class="shadow-md"
+                onclick="dispatchModal('modal-upload-image', 'show')"
+                variant="primary"
+            >
+                <x-base.lucide
+                    icon="plus"
+                    class="mr-2"
+                />
+                {{ __('Upload images') }}
+            </x-base.button>
+        @endcan
     </div>
 
     <div x-data="{showGrid: true}">
         <livewire:listados.images-table />
     </div>
+
+    <!-- BEGIN: Modals para la gestión de imágenes y etiquetas -->
+    @can(App\Enums\Permissions\ImagePermission::Upload)
+        @include('image.modal.modal-upload')
+    @endcan
+    @can(App\Enums\Permissions\ImagePermission::Label)
+        @include('image.modal.modal-edit-labels')
+    @endcan
+    @can(App\Enums\Permissions\ImagePermission::Delete)
+        @include('image.modal.modal-manage-deletion')
+    @endcan
 @endsection

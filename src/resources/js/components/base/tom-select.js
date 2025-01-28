@@ -1,55 +1,63 @@
 (function () {
     "use strict";
 
-    // Tom Select
-    $(".tom-select").each(function () {
-        let options = {
-            plugins: {
-                dropdown_input: {},
-            },
-        };
+    // Objeto para almacenar las instancias de Tom Select
+    window.tomSelectInstances = {};
 
-        if ($(this).data("placeholder")) {
-            options.placeholder = $(this).data("placeholder");
+    // Función para inicializar Tom Select
+    window.initTomSelect = function (selector, customOptions = {}) {
+        // Verificar si ya existe una instancia de Tom Select para el selector
+        if (window.tomSelectInstances[selector]) {
+            // Si existe, destrúyela antes de crear una nueva
+            window.tomSelectInstances[selector].destroy();
         }
 
-        if ($(this).attr("multiple") !== undefined) {
-            options = {
-                ...options,
+        // Inicializar Tom Select
+        const elements = document.querySelectorAll(selector);
+        elements.forEach(function (element) {
+            let options = {
                 plugins: {
-                    ...options.plugins,
-                    remove_button: {
-                        title: "Remove this item",
-                    },
-                },
-                persist: false,
-                create: true,
-                onDelete: function (values) {
-                    return confirm(
-                        values.length > 1
-                            ? "Are you sure you want to remove these " +
-                                  values.length +
-                                  " items?"
-                            : 'Are you sure you want to remove "' +
-                                  values[0] +
-                                  '"?'
-                    );
+                    dropdown_input: {},
                 },
             };
-        }
 
-        if ($(this).data("header")) {
-            options = {
-                ...options,
-                plugins: {
-                    ...options.plugins,
-                    dropdown_header: {
-                        title: $(this).data("header"),
+            // Verificar si tiene un placeholder
+            if (element.dataset.placeholder) {
+                options.placeholder = element.dataset.placeholder;
+            }
+
+            // Verificar si es un multi-select
+            if (element.multiple !== undefined) {
+                options = {
+                    ...options,
+                    plugins: {
+                        ...options.plugins,
+                        remove_button: {
+                            title: "Eliminar",
+                        },
                     },
-                },
-            };
-        }
+                    persist: false,
+                    create: false,
+                };
+            }
 
-        new TomSelect(this, options);
-    });
+            // Verificar si tiene un header personalizado
+            if (element.dataset.header) {
+                options = {
+                    ...options,
+                    plugins: {
+                        ...options.plugins,
+                        dropdown_header: {
+                            title: element.dataset.header,
+                        },
+                    },
+                };
+            }
+
+            options = { ...options, ...customOptions };
+
+            // Crear nueva instancia de Tom Select
+            window.tomSelectInstances[selector] = new TomSelect(element, options);
+        });
+    };
 })();

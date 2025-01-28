@@ -4,7 +4,7 @@
     x-data="{
         open: false,
 
-        selected: {{ json_encode($selectedOptions)}},
+        selected: {{ json_encode($selectedOptions) }},
 
         search: '',
 

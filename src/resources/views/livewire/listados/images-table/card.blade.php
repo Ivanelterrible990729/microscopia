@@ -6,6 +6,7 @@
             :value="$row->id"
             x-model="selectedImages"
             x-on:change="selectAll = selectedImages.length === {{ $this->getRows->count() }}"
+            class="border-2 bg-slate-50"
         />
     </div>
 
@@ -13,7 +14,7 @@
         <div class="relative group zoom-in">
             <x-base.file-icon
                 class="mx-auto w-11/12 mt-2"
-                src="{{ Vite::asset('resources/images/dataset/bacilos.jpg') }}"
+                src="{{ $row->getFirstMediaUrl(App\Enums\Media\MediaEnum::Images->value, 'preview') }}"
                 variant="image"
             />
             <span class="hidden group-hover:inline-block absolute inset-x-0 bottom-0 bg-black text-white text-xs px-1 rounded">
@@ -48,17 +49,30 @@
 
             <x-slot name="content">
                 <div class="w-60">
-                    <x-base.menu.item>
-                        @include('icons.plus')
-                        {{ __('Add labels') }}
+                    <x-base.menu.item
+                        as="button"
+                        x-on:click="$dispatch('edit-labels-image', { imageId: {{ $row->id }} })"
+                        class="w-full"
+                    >
+                        @include('icons.tags')
+                        {{ __('Edit labels') }}
                     </x-base.menu.item>
-                    <x-base.menu.item>
+                    <x-base.menu.item
+                        as="a"
+                        href="{{ route('image.edit', $row) }}"
+                        class="text-warning"
+                    >
                         @include('icons.edit')
-                        {{ __('Edit') }}
+                        {{ __('Edit image') }}
                     </x-base.menu.item>
-                    <x-base.menu.item>
+
+                    <x-base.menu.item
+                        as="button"
+                        class="text-danger w-full"
+                        x-on:click="$dispatch('{{ $filterComponents[uncamelize(__('Images'))] !== 'trashed' ? 'delete-images' : 'restore-images' }}', { imageIds: {{ $row->id }} })"
+                    >
                         @include('icons.delete')
-                        {{ __('Delete') }}
+                        {{ $filterComponents[uncamelize(__('Images'))] !== 'trashed' ? __('Delete image') : __('Restore image') }}
                     </x-base.menu.item>
                 </div>
             </x-slot>

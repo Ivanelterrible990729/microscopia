@@ -8,6 +8,7 @@ use App\Models\Image;
 use App\Models\Label;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 
@@ -27,6 +28,7 @@ class ImagesTable extends DataTableComponent
     public function labels()
     {
         return Label::query()
+            ->orderBy('name')
             ->select([
                 'id',
                 'name',
@@ -40,8 +42,8 @@ class ImagesTable extends DataTableComponent
         $this->setPrimaryKey('id');
 
         $this->setConfigurableAreas([
-            'before-tools' => 'livewire.image.images-table',
-            'toolbar-left-end' => 'livewire.image.partials.select-all-button',
+            'before-tools' => 'livewire.listados.images-table',
+            'toolbar-left-end' => 'livewire.listados.images-table.select-all-button',
         ]);
 
         $this->setTableWrapperAttributes([
@@ -64,7 +66,7 @@ class ImagesTable extends DataTableComponent
 
     public function builder(): Builder
     {
-        return Image::with(['labels', 'user'])
+        return Image::with(['labels', 'user', 'media'])
             ->orderBy('created_at', 'desc')
             ->select([
                 'id',
@@ -111,11 +113,17 @@ class ImagesTable extends DataTableComponent
         ];
     }
 
+    /**
+     * Actualiza el filtrado de imagenes activas y de papelera.
+     */
     public function setFilterImages(string $value): void
     {
         $this->setFilter(uncamelize(__('Images')), $value == 'active' ? null : $value);
     }
 
+    /**
+     * Actualiza el filtrado por etiquetas.
+     */
     public function setFilterLabels(string $labelId): void
     {
         $filterLabels = $this->filterComponents[uncamelize(__('Labels'))];
@@ -127,5 +135,39 @@ class ImagesTable extends DataTableComponent
         }
 
         $this->setFilter(uncamelize(__('Labels')), $updatedFilters);
+    }
+
+    /**
+     * Redirige al etiquetado de imágenes para las imagenes seleccionadas.
+     */
+    public function imageLabeling()
+    {
+        return redirect()->route('image.labeling', ['ids' => implode(',', $this->selectedImages)]);
+    }
+
+    #[On('image-labels-updated')]
+    public function imageLabelsUpdated()
+    {
+        $this->toast(title: __('Success'), message: __('The image labels were successfully updated.'))->success();
+    }
+
+    #[On('images-deleted')]
+    public function imagesDeleted(int $numImages)
+    {
+        if ($numImages > 1) {
+            $this->toast(title: __('Success'), message: __('Images moved to the trash garbage can.'))->success();
+        } else {
+            $this->toast(title: __('Success'), message: __('Image moved to trash.'))->success();
+        }
+    }
+
+    #[On('images-restored')]
+    public function imagesRestored(int $numImages)
+    {
+        if ($numImages > 1) {
+            $this->toast(title: __('Success'), message: __('The images have been successfully restored.'))->success();
+        } else {
+            $this->toast(title: __('Success'), message: __('The image has been successfully restored.'))->success();
+        }
     }
 }
