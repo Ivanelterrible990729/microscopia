@@ -108,7 +108,7 @@
             </div>
 
             <div class="box mt-5">
-                <livewire:image.predict-image :key="$image->id" />
+                <livewire:image.predict-image :image="$image" :key="$image->id" />
             </div>
         </div>
 

@@ -11,5 +11,5 @@
         alt="Image"
     />
 
-    <livewire:image.predict-image :key="$image->id" />
+    <livewire:image.predict-image :image="$image" :key="$image->id" />
 </div>
