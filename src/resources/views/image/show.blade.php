@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 space-x-3">
+        <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 space-x-3" x-data="{}">
             <x-base.button
                 as="a"
                 href="{{ route('image.edit', $image) }}"
@@ -43,10 +43,12 @@
             </x-base.button>
 
             <x-base.button
+                as="button"
                 variant="danger"
+                x-on:click="$dispatch('{{ is_null($image->deleted_at) !== 'trashed' ? 'delete-images' : 'restore-images' }}', { imageIds: {{ $image->id }} })"
             >
                 @include('icons.delete')
-                {{__('Delete')}}
+                {{ is_null($image->deleted_at) ? __('Delete') : __('Restore') }}
             </x-base.button>
         </div>
     </div>
@@ -197,5 +199,8 @@
     <!-- BEGIN: Modals para la gestión de imágenes y etiquetas -->
     @can(App\Enums\Permissions\ImagePermission::Label)
         @include('image.modal.modal-edit-labels')
+    @endcan
+    @can(App\Enums\Permissions\ImagePermission::Delete)
+        @include('image.modal.modal-manage-deletion')
     @endcan
 @endsection

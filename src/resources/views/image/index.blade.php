@@ -48,4 +48,7 @@
     @can(App\Enums\Permissions\ImagePermission::Label)
         @include('image.modal.modal-edit-labels')
     @endcan
+    @can(App\Enums\Permissions\ImagePermission::Delete)
+        @include('image.modal.modal-manage-deletion')
+    @endcan
 @endsection

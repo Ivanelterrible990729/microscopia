@@ -51,7 +51,6 @@
                 <div class="w-60">
                     <x-base.menu.item
                         as="button"
-                        {{-- wire:click="editLabelsImage('{{ $row->id }}')" --}}
                         x-on:click="$dispatch('edit-labels-image', { imageId: {{ $row->id }} })"
                         class="w-full"
                     >
@@ -66,11 +65,14 @@
                         @include('icons.edit')
                         {{ __('Edit image') }}
                     </x-base.menu.item>
+
                     <x-base.menu.item
-                        class="text-danger"
+                        as="button"
+                        class="text-danger w-full"
+                        x-on:click="$dispatch('{{ $filterComponents[uncamelize(__('Images'))] !== 'trashed' ? 'delete-images' : 'restore-images' }}', { imageIds: {{ $row->id }} })"
                     >
                         @include('icons.delete')
-                        {{ __('Delete image') }}
+                        {{ $filterComponents[uncamelize(__('Images'))] !== 'trashed' ? __('Delete image') : __('Restore image') }}
                     </x-base.menu.item>
                 </div>
             </x-slot>

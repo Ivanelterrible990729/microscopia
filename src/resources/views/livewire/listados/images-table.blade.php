@@ -1,4 +1,4 @@
-<div class="mt-8 grid grid-cols-12 gap-6 mb-5">
+<div class="mt-8 grid grid-cols-12 gap-6 mb-5" x-data="{ selectedImages: $wire.entangle('selectedImages'), showButton: false, selectAll: false }">
     <div class="col-span-12 lg:col-span-4 2xl:col-span-3">
         <!-- BEGIN: Filter Manager Menu -->
         <div class="intro-y box p-5">
@@ -9,6 +9,7 @@
                         'flex items-center rounded-md px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-700 w-full' => $filterComponents[uncamelize(__('Images'))] === 'trashed',
                     ])
                     wire:click="setFilterImages('active')"
+                    x-on:click="$refs.cancel ? $refs.cancel.click() : null"
                 >
                     <x-base.lucide
                         class="mr-2 h-4 w-4"
@@ -21,6 +22,7 @@
                         'mt-2 flex items-center rounded-md px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-700 w-full' => $filterComponents[uncamelize(__('Images'))] !== 'trashed',
                     ])
                     wire:click="setFilterImages('trashed')"
+                    x-on:click="$refs.cancel ? $refs.cancel.click() : null"
                 >
                     <x-base.lucide
                         class="mr-2 h-4 w-4"
@@ -103,7 +105,7 @@
         </div>
         <!-- END: Tips -->
     </div>
-    <div class="col-span-12 lg:col-span-8 2xl:col-span-9" x-data="{ selectedImages: $wire.entangle('selectedImages'), showButton: false, selectAll: false }">
+    <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
         <!-- BEGIN: Tools -->
         <div class="intro-y">
             <x-livewire-tables::tools>
@@ -128,9 +130,7 @@
         <!-- END: Tools -->
 
         <!-- BEGIN: Actions -->
-        <template x-if="selectedImages.length > 0">
-            @include('livewire.listados.images-table.actions')
-        </template>
+        @include('livewire.listados.images-table.actions')
         <!-- END: Actions -->
 
         <!-- BEGIN: Images grid -->

@@ -150,4 +150,24 @@ class ImagesTable extends DataTableComponent
     {
         $this->toast(title: __('Success'), message: __('The image labels were successfully updated.'))->success();
     }
+
+    #[On('images-deleted')]
+    public function imagesDeleted(int $numImages)
+    {
+        if ($numImages > 1) {
+            $this->toast(title: __('Success'), message: __('Images moved to the trash garbage can.'))->success();
+        } else {
+            $this->toast(title: __('Success'), message: __('Image moved to trash.'))->success();
+        }
+    }
+
+    #[On('images-restored')]
+    public function imagesRestored(int $numImages)
+    {
+        if ($numImages > 1) {
+            $this->toast(title: __('Success'), message: __('The images have been successfully restored.'))->success();
+        } else {
+            $this->toast(title: __('Success'), message: __('The image has been successfully restored.'))->success();
+        }
+    }
 }
