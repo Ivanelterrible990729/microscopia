@@ -108,35 +108,7 @@
             </div>
 
             <div class="box mt-5">
-                <x-base.dialog.description>
-                    <div class="text-center font-medium lg:mt-3 lg:text-left">
-                        {{ __('CNN MODEL') }}
-                    </div>
-
-                    <div class="border rounded p-5">
-                        Modelo: VGG16
-
-                        <br>
-
-                        Predicción: BACILOS
-                    </div>
-
-                    <div class="border rounded p-5">
-                        Modelo: VGG16
-
-                        <br>
-
-                        Predicción: BACILOS
-                    </div>
-
-                    <div class="border rounded p-5">
-                        Modelo: VGG16
-
-                        <br>
-
-                        Predicción: BACILOS
-                    </div>
-                </x-base.dialog.description>
+                <livewire:image.predict-image :image="$image" :key="$image->id" />
             </div>
         </div>
 
