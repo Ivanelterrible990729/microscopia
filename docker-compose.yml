@@ -1,6 +1,8 @@
 services:
+
+    # PHP Service
     app:
-        image: "php8.2-node18"
+        image: "php8.2-node18-python3.10"
         container_name: "app_microscopia"
         build:
             context: .
@@ -17,12 +19,13 @@ services:
             - ./src:/var/www
             - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
             - ./nginx/conf.d:/etc/nginx/conf.d
-            - /mnt/storage/web-files/practicas-archivos/:/var/archivo_practicas
+            - /mnt/storage/web-files/microscopia-archivos/:/var/archivo_microscopia
             - /mnt/storage/backups/:/var/respaldo
             #- /home/ivanelterrible/.ssh/:/home/www/.ssh/
         networks:
             - app-network
 
+    # Nnginx Service
     webserver:
         image: "nginx:alpine3.18-slim"
         container_name: "webserver_microscopia"
@@ -34,13 +37,14 @@ services:
             - ./src:/var/www
             - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
             - ./nginx/conf.d:/etc/nginx/conf.d
-            - /mnt/storage/web-files/practicas-archivos/:/var/archivo_practicas
+            - /mnt/storage/web-files/microscopia-archivos/:/var/archivo_microscopia
             - /mnt/storage/backups/:/var/respaldo
         networks:
             - app-network
         depends_on:
             - app
 
+    # MariaDB Service
     db:
         image: "mariadb:10.8.2"
         container_name: "db_microscopia"
@@ -58,7 +62,6 @@ services:
             - "3306:3306"
         networks:
             - app-network
-
 
 networks:
     app-network:
