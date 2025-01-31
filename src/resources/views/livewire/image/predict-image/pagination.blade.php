@@ -26,9 +26,9 @@
             @endif
         </div>
 
-        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-            <div>
-                <p class="text-sm text-gray-700 leading-5 dark:text-gray-400">
+        <div class="hidden sm:flex-1 sm:flex sm:flex-col">
+            <div class="text-left">
+                <p class="text-xs text-gray-700 leading-5 dark:text-gray-400">
                     {!! __('Prediction') !!}
                     <span class="font-medium">{{ $paginator->currentPage() }}</span>
                     {!! __('of') !!}
@@ -36,7 +36,7 @@
                 </p>
             </div>
 
-            <div wire:loading.remove>
+            <div class="text-center mt-2" wire:loading.remove>
                 <span class="relative z-0 inline-flex rtl:flex-row-reverse shadow-sm rounded-md">
                     {{-- Previous Page Link --}}
                     @if ($paginator->onFirstPage())
