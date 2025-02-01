@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Image;
 
+use App\Enums\Media\MediaEnum;
 use App\Models\CNNModel;
 use App\Models\Image;
 use App\Models\Label;
+use App\Services\PythonService;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
@@ -33,15 +35,29 @@ class PredictImage extends Component
 
     public function predict(CNNModel $model)
     {
-        // Simula la predicción
-        $label = Label::inRandomOrder()->first();
-        sleep(1);
+        $modelMedia = $model->getFirstMedia(MediaEnum::CNN_MODEL->value);
+        $imageMedia = $this->image->getFirstMedia(MediaEnum::Images->value);
 
-        $this->prediction = [
-            'percentage' => rand(80, 100),
-            'name' => $label->name,
-            'color' => $label->color,
+        $args = [
+            '--model_path' => $modelMedia?->getPath() ?? 'path del modelo',
+            '--image_path' => $imageMedia->getPath(),
         ];
+
+        $pythonService = new PythonService();
+        $labelName = $pythonService->runScript(
+            script: 'predict_image.py',
+            args: $args
+        );
+
+        $label = Label::whereName($labelName)->first();
+
+        if ($label) {
+            $this->prediction = [
+                'percentage' => rand(80, 100),
+                'name' => $label->name,
+                'color' => $label->color,
+            ];
+        }
     }
 
     /**

@@ -49,6 +49,21 @@ RUN docker-php-ext-install gd
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Install Python 3.11 and pip
+RUN apt-get update && apt-get install -y \
+    python3.11 \
+    python3.11-venv \
+    python3.11-dev \
+    python3-pip \
+    && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 \
+    && python3 -m venv /opt/venv \
+    && /opt/venv/bin/pip install --upgrade pip
+
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Install Python packages
+RUN python3 -m pip install numpy pandas tensorflow matplotlib seaborn opencv-python pillow scikit-learn statsmodels split-dataset
+
 # Add user for laravel application
 RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www

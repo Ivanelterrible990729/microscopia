@@ -12,4 +12,5 @@ enum MediaEnum: string
     use EnumToArray;
 
     case Images = 'Images';
+    case CNN_MODEL = 'CNN Model';
 }

@@ -18,6 +18,9 @@ class CNNModelSeeder extends Seeder
             return;
         }
 
+        // TODO:
+        // Una vez finalizados los modelos, cargarlos en este seeder.
+
         CNNModel::create([
             'name' => 'VGG16',
         ]);
