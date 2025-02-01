@@ -35,17 +35,17 @@ class PredictImage extends Component
 
     public function predict(CNNModel $model)
     {
-        $modelMedia = $model->getFirstMedia(MediaEnum::Model->value);
+        $modelMedia = $model->getFirstMedia(MediaEnum::CNN_MODEL->value);
         $imageMedia = $this->image->getFirstMedia(MediaEnum::Images->value);
 
         $args = [
-            '--model_path' => $modelMedia->getPath(),
+            '--model_path' => $modelMedia?->getPath() ?? 'path del modelo',
             '--image_path' => $imageMedia->getPath(),
         ];
 
         $pythonService = new PythonService();
         $labelName = $pythonService->runScript(
-            script: $modelMedia->file_name,
+            script: 'predict_image.py',
             args: $args
         );
 

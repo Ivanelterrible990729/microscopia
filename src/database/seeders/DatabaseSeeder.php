@@ -16,6 +16,9 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             PermissionSeeder::class,
             UserSeeder::class,
+
+            // Utilizados para pruebas en desarrollo
+            // y primer lanzamiento a producción
             LabelSeeder::class,
             CNNModelSeeder::class,
         ]);
