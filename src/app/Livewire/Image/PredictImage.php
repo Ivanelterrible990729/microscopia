@@ -41,15 +41,18 @@ class PredictImage extends Component
         $args = [
             '--model_path' => $modelMedia?->getPath() ?? 'path del modelo',
             '--image_path' => $imageMedia->getPath(),
+            '--class_labels' => json_encode($model->labels->pluck('name')->toArray()),
         ];
 
         $pythonService = new PythonService();
-        $labelName = $pythonService->runScript(
+        $output = $pythonService->runScript(
             script: 'predict_image.py',
             args: $args
         );
 
-        $label = Label::whereName($labelName)->first();
+        dd($output);
+
+        $label = Label::whereName($output)->first();
 
         if ($label) {
             $this->prediction = [

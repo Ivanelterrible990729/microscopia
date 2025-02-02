@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Media\MediaEnum;
 use App\Models\CNNModel;
+use App\Models\Label;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -21,16 +23,26 @@ class CNNModelSeeder extends Seeder
         // TODO:
         // Una vez finalizados los modelos, cargarlos en este seeder.
 
-        CNNModel::create([
-            'name' => 'VGG16',
+        $mobileNetV2 = CNNModel::create([
+            'name' => 'MobileNetV2',
         ]);
 
-        CNNModel::create([
-            'name' => 'MobileNet v2',
-        ]);
+        $mobileNetV2->addMedia(resource_path('cnn-models/MobileNetV2.h5'))
+            ->preservingOriginal()
+            ->toMediaCollection(MediaEnum::CNN_MODEL->value);
 
-        CNNModel::create([
-            'name' => 'AlexNet',
-        ]);
+        $mobileNetV2->labels()->sync(
+            Label::whereIn('name', ['BACILOS', 'COCOS', 'MUSCULO'])
+                ->get()
+                ->pluck('id')
+        );
+
+        // $vgg16 = CNNModel::create([
+        //     'name' => 'VGG16',
+        // ]);
+
+        // $alexNet = CNNModel::create([
+        //     'name' => 'AlexNet',
+        // ]);
     }
 }

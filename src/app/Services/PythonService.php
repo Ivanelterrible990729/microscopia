@@ -35,6 +35,7 @@ class PythonService
         $script_directory = config('python.scripts_directory') . $script;
         $args = $this->stringifyArgs($args);
 
+        dd("$python_exec $script_directory $args");
         exec("$python_exec $script_directory $args", $output);
 
         return $output;
