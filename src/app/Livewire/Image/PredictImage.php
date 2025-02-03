@@ -50,13 +50,15 @@ class PredictImage extends Component
             args: $args
         );
 
-        dd($output);
+        $output = array_values(array_slice($output, -2, 2, true));
+        $labelName = $output[0];
+        $percentage = $output[1];
 
-        $label = Label::whereName($output)->first();
+        $label = Label::whereName($labelName)->first();
 
         if ($label) {
             $this->prediction = [
-                'percentage' => rand(80, 100),
+                'percentage' => number_format($percentage, 2),
                 'name' => $label->name,
                 'color' => $label->color,
             ];

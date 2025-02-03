@@ -62,7 +62,7 @@ RUN apt-get update && apt-get install -y \
 ENV PATH="/opt/venv/bin:$PATH"
 
 # Install Python packages
-RUN python3 -m pip install numpy pandas tensorflow matplotlib seaborn opencv-python pillow scikit-learn statsmodels split-dataset
+RUN python3 -m pip install numpy pandas tensorflow==2.18 matplotlib seaborn opencv-python pillow scikit-learn statsmodels split-folders
 
 # Add user for laravel application
 RUN groupadd -g 1000 www
