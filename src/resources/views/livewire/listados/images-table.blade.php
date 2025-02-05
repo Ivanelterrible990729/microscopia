@@ -64,7 +64,7 @@
 
                 <button
                     class="mt-2 flex items-center rounded-md px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-700 w-full"
-                    href=""
+                    onclick="dispatchModal('modal-create-label', 'show')"
                 >
                     <x-base.lucide
                         class="mr-2 h-4 w-4"

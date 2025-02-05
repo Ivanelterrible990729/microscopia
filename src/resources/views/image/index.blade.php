@@ -41,7 +41,7 @@
         <livewire:listados.images-table />
     </div>
 
-    <!-- BEGIN: Modals para la gestión de imágenes y etiquetas -->
+    <!-- BEGIN: Modals para la gestión de imágenes -->
     @can(App\Enums\Permissions\ImagePermission::Upload)
         @include('image.modal.modal-upload')
     @endcan
@@ -51,4 +51,17 @@
     @can(App\Enums\Permissions\ImagePermission::Delete)
         @include('image.modal.modal-manage-deletion')
     @endcan
+    <!-- END: Modals para la gestión de imágenes -->
+
+    <!-- BEGIN: Modals para la gestión de etiquetas -->
+    @can(App\Enums\Permissions\LabelPermission::Create)
+        @include('label.modal.modal-create')
+    @endcan
+    {{-- @can(App\Enums\Permissions\LabelPermission::Update)
+        @include('label.modal.modal-update')
+    @endcan
+    @can(App\Enums\Permissions\LabelPermission::Delete)
+        @include('label.modal.modal-delete')
+    @endcan --}}
+    <!-- END: Modals para la gestión de imágenes -->
 @endsection

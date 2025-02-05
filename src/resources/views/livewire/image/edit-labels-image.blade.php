@@ -102,6 +102,7 @@
         window.initTomSelect('.tom-select', options);
 
         Livewire.hook('morph.updating', () => {
+            options.options = $wire.availableLabels,
             window.initTomSelect('.tom-select', options);
         });
     </script>

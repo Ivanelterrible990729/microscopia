@@ -169,4 +169,10 @@ class ImagesTable extends DataTableComponent
             $this->toast(title: __('Success'), message: __('The image has been successfully restored.'))->success();
         }
     }
+
+    #[On('label-created')]
+    public function updateTable(string $message)
+    {
+        $this->toast(title: __('Success'), message: $message)->success();
+    }
 }

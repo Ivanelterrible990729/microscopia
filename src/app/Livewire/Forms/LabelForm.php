@@ -11,22 +11,22 @@ class LabelForm extends Form
     /**
      * Id de la etiqueta
      */
-    public int $id;
+    public null|int $id = null;
 
     /**
      * Nombre de la etiqueta
      */
-    public string $name;
+    public string $name = '';
 
     /**
      * Descripción de la etiqueta
      */
-    public null|string $description;
+    public null|string $description = null;
 
     /**
      * Color de la etiqueta
      */
-    public null|string $color;
+    public string $color;
 
     protected function rules()
     {
@@ -34,7 +34,7 @@ class LabelForm extends Form
             'id' => 'numeric|exists:images,id',
             'name' => 'required|string|max:255|unique:labels',
             'description' => 'nullable|string',
-            'color' => 'nullable|string|min:8|max:8|unique:labels',
+            'color' => 'required|string|min:7|max:7|unique:labels',
         ];
     }
 
