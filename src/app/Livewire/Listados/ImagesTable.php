@@ -33,7 +33,6 @@ class ImagesTable extends DataTableComponent
                 'id',
                 'name',
                 'color',
-                'number_images'
             ])->get();
     }
 
