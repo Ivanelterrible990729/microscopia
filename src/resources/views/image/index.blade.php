@@ -60,8 +60,8 @@
     @can(App\Enums\Permissions\LabelPermission::Update)
         @include('label.modal.modal-edit')
     @endcan
-    {{-- @can(App\Enums\Permissions\LabelPermission::Delete)
+    @can(App\Enums\Permissions\LabelPermission::Delete)
         @include('label.modal.modal-delete')
-    @endcan --}}
+    @endcan
     <!-- END: Modals para la gestión de imágenes -->
 @endsection

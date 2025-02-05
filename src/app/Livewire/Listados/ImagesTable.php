@@ -170,7 +170,7 @@ class ImagesTable extends DataTableComponent
         }
     }
 
-    #[On('label-created'), On('label-updated')]
+    #[On('label-created'), On('label-updated'), On('label-deleted')]
     public function updateTable(string $message)
     {
         $this->toast(title: __('Success'), message: $message)->success();

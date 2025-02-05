@@ -92,7 +92,7 @@ class EditLabelsImage extends Component
         }
     }
 
-    #[On('label-created'), On('label-updated')]
+    #[On('label-created'), On('label-updated'), On('label-deleted')]
     public function refreshAvailableLabels()
     {
         $this->availableLabels = Label::query()
