@@ -14,11 +14,6 @@ class CreateLabel extends Component
      */
     public LabelForm $form;
 
-    public function mount()
-    {
-        $this->form->color = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
-    }
-
     public function render()
     {
         return view('livewire.label.create-label');
@@ -29,6 +24,7 @@ class CreateLabel extends Component
         Gate::authorize('create', Label::class);
 
         $this->form->store();
+        $this->form->reset();
         $message = __('The label has been successfully stored.');
 
         $this->dispatch('label-created', message: $message);

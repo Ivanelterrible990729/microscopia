@@ -57,10 +57,10 @@
     @can(App\Enums\Permissions\LabelPermission::Create)
         @include('label.modal.modal-create')
     @endcan
-    {{-- @can(App\Enums\Permissions\LabelPermission::Update)
-        @include('label.modal.modal-update')
+    @can(App\Enums\Permissions\LabelPermission::Update)
+        @include('label.modal.modal-edit')
     @endcan
-    @can(App\Enums\Permissions\LabelPermission::Delete)
+    {{-- @can(App\Enums\Permissions\LabelPermission::Delete)
         @include('label.modal.modal-delete')
     @endcan --}}
     <!-- END: Modals para la gestión de imágenes -->

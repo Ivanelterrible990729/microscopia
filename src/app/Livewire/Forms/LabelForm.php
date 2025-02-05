@@ -26,15 +26,14 @@ class LabelForm extends Form
     /**
      * Color de la etiqueta
      */
-    public string $color;
+    public string $color = '#FFFFFF';
 
     protected function rules()
     {
         return [
-            'id' => 'numeric|exists:images,id',
-            'name' => 'required|string|max:255|unique:labels',
+            'name' => 'required|string|max:255|unique:labels,name,' . (isset($this->id) ? $this->id : ''),
             'description' => 'nullable|string',
-            'color' => 'required|string|min:7|max:7|unique:labels',
+            'color' => 'required|string|min:7|max:7|unique:labels,color,' . (isset($this->id) ? $this->id : ''),
         ];
     }
 
@@ -48,7 +47,6 @@ class LabelForm extends Form
     protected function validationAttributes()
     {
         return [
-            'id' => 'ID',
             'name' => __('Name'),
             'description' => __('Description'),
             'color' => __('Color'),
