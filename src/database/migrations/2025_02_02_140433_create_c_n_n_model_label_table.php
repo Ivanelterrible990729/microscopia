@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('c_n_n_model_label', function (Blueprint $table) {
             $table->id();
             $table->foreignId('c_n_n_model_id')->constrained(table: 'c_n_n_models');
-            $table->foreignId('label_id')->constrained(table: 'labels');
+            $table->foreignId('label_id')->constrained(table: 'labels')->cascadeOnDelete();
             $table->timestamps();
         });
     }
