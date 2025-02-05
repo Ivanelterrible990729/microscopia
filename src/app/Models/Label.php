@@ -34,4 +34,14 @@ class Label extends Model
     {
         return $this->belongsToMany(Image::class, 'image_label', 'image_id', 'label_id');
     }
+
+    /**
+     * The images that belong to the Label
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function models(): BelongsToMany
+    {
+        return $this->belongsToMany(CNNModel::class, 'c_n_n_model_label', 'c_n_n_model_id', 'label_id');
+    }
 }

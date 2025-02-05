@@ -2,7 +2,7 @@ services:
 
     # PHP Service
     app:
-        image: "php8.2-node18-python3.10"
+        image: "php8.2-node18-python3.11"
         container_name: "app_microscopia"
         build:
             context: .

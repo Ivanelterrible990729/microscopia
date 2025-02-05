@@ -5,7 +5,7 @@
         errors: [],
         loading: false,
         handleFiles(files) {
-            const maxFileSize = 1024 * 1024 * 10; // Tamaño máximo: 10 MB
+            const maxFileSize = 1024 * 1024 * 15; // Tamaño máximo: 15 MB
             const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
             const resizeImage = (file, maxWidth = 224, maxHeight = 224) => {
@@ -53,7 +53,7 @@
                 }
 
                 if (file.size > maxFileSize) {
-                    this.errors.push(`El archivo '${file.name}' supera el tamaño máximo de 10 MB.`);
+                    this.errors.push(`El archivo '${file.name}' supera el tamaño máximo de 15 MB.`);
                     continue;
                 }
 
@@ -146,7 +146,7 @@
                 </span>
 
                 <div class="hidden sm:block ml-2 rounded-md bg-slate-200 px-2 py-0.5 text-xs text-slate-600 dark:bg-darkmode-300 dark:text-slate-400 mr-1">
-                    {{ __('Maximum 10 images weighing less than 10 MB') }}
+                    {{ __('Maximum 10 images weighing less than 15 MB') }}
                 </div>
             </h2>
 
