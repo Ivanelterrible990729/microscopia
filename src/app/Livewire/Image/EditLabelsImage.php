@@ -88,7 +88,22 @@ class EditLabelsImage extends Component
                 ]
             ]);
         } else {
-            $this->dispatch('image-labels-updated')->to(ImagesTable::class);
+            $this->dispatch('image-labels-updated');
         }
+    }
+
+    #[On('label-created'), On('label-updated'), On('label-deleted')]
+    public function refreshAvailableLabels()
+    {
+        $this->availableLabels = Label::query()
+            ->orderBy('name')
+            ->get()
+            ->map(function($label) {
+                return [
+                    'id' => $label->id,
+                    'name' => $label->name,
+                    'color' => $label->color,
+                ];
+            })->toArray();
     }
 }

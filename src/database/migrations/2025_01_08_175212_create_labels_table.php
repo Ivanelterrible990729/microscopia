@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->string('color', 8)->nullable();
-            $table->integer('number_images')->default(0);
+            $table->string('color', 8);
             $table->timestamps();
         });
     }

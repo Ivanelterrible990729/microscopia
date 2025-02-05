@@ -33,7 +33,6 @@ class ImagesTable extends DataTableComponent
                 'id',
                 'name',
                 'color',
-                'number_images'
             ])->get();
     }
 
@@ -169,5 +168,11 @@ class ImagesTable extends DataTableComponent
         } else {
             $this->toast(title: __('Success'), message: __('The image has been successfully restored.'))->success();
         }
+    }
+
+    #[On('label-created'), On('label-updated'), On('label-deleted')]
+    public function updateTable(string $message)
+    {
+        $this->toast(title: __('Success'), message: $message)->success();
     }
 }

@@ -32,7 +32,7 @@ class Label extends Model
      */
     public function images(): BelongsToMany
     {
-        return $this->belongsToMany(Image::class, 'image_label', 'image_id', 'label_id');
+        return $this->belongsToMany(Image::class, 'image_label', 'label_id', 'image_id');
     }
 
     /**
@@ -42,6 +42,6 @@ class Label extends Model
      */
     public function models(): BelongsToMany
     {
-        return $this->belongsToMany(CNNModel::class, 'c_n_n_model_label', 'c_n_n_model_id', 'label_id');
+        return $this->belongsToMany(CNNModel::class, 'c_n_n_model_label', 'label_id', 'c_n_n_model_id');
     }
 }

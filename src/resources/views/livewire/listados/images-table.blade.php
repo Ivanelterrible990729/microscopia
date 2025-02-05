@@ -46,25 +46,52 @@
                 </button>
 
                 @foreach ($this->labels as $label)
-                    <button
+                    <div
                         @class([
-                            'mt-2 flex items-center rounded-md bg-slate-200 dark:bg-slate-700 px-3 py-2 font-medium w-full group' => in_array($label->id, $filterComponents[uncamelize(__('Labels'))]),
-                            'mt-2 flex items-center rounded-md px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-700 w-full group' => !in_array($label->id, $filterComponents[uncamelize(__('Labels'))]),
+                            'mt-2 flex items-center rounded-md bg-slate-200 dark:bg-slate-700 px-3 py-2 font-medium w-full group cursor-pointer' => in_array($label->id, $filterComponents[uncamelize(__('Labels'))]),
+                            'mt-2 flex items-center rounded-md px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-700 w-full group cursor-pointer' => !in_array($label->id, $filterComponents[uncamelize(__('Labels'))]),
                         ])
-                        wire:click="setFilterLabels({{ $label->id }})"
                     >
-                        <div class="mr-3 h-2 w-2 p-1 lg:p-0.5 rounded-full text-xs" style="background-color: {{ $label->color }};"></div>
-                        <span>{{ $label->name }}</span>
+                        <a class="flex items-center w-full" wire:click="setFilterLabels({{ $label->id }})">
+                            <div class="mr-3 h-2 w-2 p-1 lg:p-0.5 rounded-full text-xs" style="background-color: {{ $label->color }};"></div>
+                            <span>{{ $label->name }}</span>
+                        </a>
+                        <div class="ml-auto hidden group-hover:block">
+                            <x-dropdown align="right" width="60">
+                                <x-slot name="trigger">
+                                    <div class="pl-2">
+                                        @include('icons.ellipsis-vertical')
+                                    </div>
+                                </x-slot>
 
-                        <span class="ml-auto hidden group-hover:block">
-                            @include('icons.ellipsis-vertical')
-                        </span>
-                    </button>
+                                <x-slot name="content">
+                                    <div class="w-60">
+                                        <x-base.menu.item
+                                            as="button"
+                                            x-on:click="$dispatch('edit-label', { labelId: {{ $label->id }} })"
+                                            class="w-full text-warning"
+                                        >
+                                            @include('icons.edit')
+                                            {{ __('Edit label') }}
+                                        </x-base.menu.item>
+                                        <x-base.menu.item
+                                            as="button"
+                                            x-on:click="$dispatch('delete-label', { labelId: {{ $label->id }} })"
+                                            class="w-full text-danger"
+                                        >
+                                            @include('icons.delete')
+                                            {{ __('Delete label') }}
+                                        </x-base.menu.item>
+                                    </div>
+                                </x-slot>
+                            </x-dropdown>
+                        </div>
+                    </div>
                 @endforeach
 
                 <button
                     class="mt-2 flex items-center rounded-md px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-700 w-full"
-                    href=""
+                    onclick="dispatchModal('modal-create-label', 'show')"
                 >
                     <x-base.lucide
                         class="mr-2 h-4 w-4"

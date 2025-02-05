@@ -33,7 +33,7 @@ class LabelSeeder extends Seeder
         Label::create([
             'name' => 'MUSCULO',
             'description' => 'Fibras musculares captadas para la detección de miositis.' . 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga reiciendis deserunt exercitationem a possimus veniam dolorum dolorem numquam? Fugit minus impedit minima ullam consequatur earum non dolorem quo sapiente recusandae!',
-            'color' => '#F59E0B', // sprintf('#%06X', mt_rand(0, 0xFFFFFF)),
+            'color' => '#F59E0B',
         ]);
     }
 }
