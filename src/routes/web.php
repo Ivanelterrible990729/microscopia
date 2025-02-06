@@ -3,16 +3,26 @@
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\EnsureUserIsActive;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+// INACTIVE PAGE  =============================================
+// ============================================================
+
+Route::get('inactive-page', function () {
+    return view('errors.inactive');
+})->name('inactive-page');
+
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
+    EnsureUserIsActive::class,
 ])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
