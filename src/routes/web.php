@@ -29,8 +29,9 @@ Route::middleware([
     // ============================================================
 
     Route::get('admin/users', [UserController::class, 'index'])->name('user.index');
-    Route::get('admin/users/{user}', [UserController::class, 'show'])->name('user.show');
+    Route::get('admin/users/{user}', [UserController::class, 'show'])->name('user.show')->withTrashed();
     Route::delete('admin/users/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+    Route::post('admin/users/{user}', [UserController::class, 'restore'])->name('user.restore');
     Route::get('admin/users/{user}/profile-photo/download', [UserController::class, 'downloadProfilePhoto'])->name('user.profile-photo.download');
     Route::get('admin/users/{user}/personification/start', [UserController::class, 'startPersonification'])->name('user.personification.start');
     Route::get('admin/users/personification/stop', [UserController::class, 'stopPersonification'])->name('user.personification.stop');

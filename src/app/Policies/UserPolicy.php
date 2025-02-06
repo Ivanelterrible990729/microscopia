@@ -95,9 +95,18 @@ class UserPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, User $model): bool
+    public function restore(User $user, User $model): Response
     {
-        return false;
+        if ($user->hasPermissionTo(UserPermission::Restore) && $model->id != $user->id) {
+
+            if ($model->hasRole(RoleEnum::Desarrollador) && !$user->hasRole(RoleEnum::Desarrollador)) {
+                return Response::deny(__('#UP-PE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
+            }
+
+            return Response::allow();
+        }
+
+        return Response::deny(__('#UP-PE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
     }
 
     /**
