@@ -41,7 +41,7 @@ class PredictImage extends Component
         $args = [
             '--model_path' => $modelMedia?->getPath() ?? 'path del modelo',
             '--image_path' => $imageMedia->getPath(),
-            '--class_labels' => json_encode($model->labels->pluck('name')->toArray()),
+            '--class_labels' => json_encode($model->labels->pluck('id')->toArray()),
         ];
 
         $pythonService = new PythonService();
@@ -51,10 +51,15 @@ class PredictImage extends Component
         );
 
         $output = array_values(array_slice($output, -2, 2, true));
-        $labelName = $output[0];
+
+        if (count($output) != 2) {
+            return;
+        }
+
+        $labelId = $output[0];
         $percentage = $output[1];
 
-        $label = Label::whereName($labelName)->first();
+        $label = Label::find($labelId);
 
         if ($label) {
             $this->prediction = [
