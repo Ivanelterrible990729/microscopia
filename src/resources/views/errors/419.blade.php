@@ -22,7 +22,9 @@
                         {{ __('Page Expired') }}
                     </div>
                     <div class="mt-3 text-base intro-x">
-                        {{ __($exception->getMessage() ?: 'Page Expired') }}
+                        @if (app()->environment('local'))
+                            {{ __($exception->getMessage() ?: 'Page Expired') }}
+                        @endif
                     </div>
                     <x-base.button
                         as="a"

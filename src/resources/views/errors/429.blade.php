@@ -22,7 +22,9 @@
                         {{ __('Too Many Requests') }}
                     </div>
                     <div class="mt-3 text-base intro-x">
-                        {{ __($exception->getMessage() ?: 'Too Many Requests') }}
+                        @if (app()->environment('local'))
+                            {{ __($exception->getMessage() ?: 'Too Many Requests') }}
+                        @endif
                     </div>
                     <x-base.button
                         as="a"

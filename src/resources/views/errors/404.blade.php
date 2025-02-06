@@ -22,7 +22,9 @@
                         {{ __('Not Found') }}
                     </div>
                     <div class="mt-3 text-base intro-x">
-                        {{ __($exception->getMessage() ?: 'Not Found') }}
+                        @if (app()->environment('local'))
+                            {{ __($exception->getMessage() ?: 'Not Found') }}
+                        @endif
                     </div>
                     <x-base.button
                         as="a"

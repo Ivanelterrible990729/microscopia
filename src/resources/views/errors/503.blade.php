@@ -22,7 +22,9 @@
                         {{ __('Service Unavailable') }}
                     </div>
                     <div class="mt-3 text-base intro-x">
-                        {{ __($exception->getMessage() ?: 'Service Unavailable') }}
+                        @if (app()->environment('local'))
+                            {{ __($exception->getMessage() ?: 'Service Unavailable') }}
+                        @endif
                     </div>
                     <x-base.button
                         as="a"
