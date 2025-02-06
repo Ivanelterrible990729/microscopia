@@ -5,7 +5,7 @@
         errors: [],
         loading: false,
         handleFiles(files) {
-            const maxFileSize = 1024 * 1024 * 15; // Tamaño máximo: 15 MB
+            const maxFileSize = {{ config('max-file-size.images') }};
             const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
             const resizeImage = (file, maxWidth = 224, maxHeight = 224) => {
@@ -53,7 +53,7 @@
                 }
 
                 if (file.size > maxFileSize) {
-                    this.errors.push(`El archivo '${file.name}' supera el tamaño máximo de 15 MB.`);
+                    this.errors.push(`El archivo '${file.name}' supera el tamaño máximo de {{ config('max-file-size.images_desc') }}.`);
                     continue;
                 }
 

@@ -17,7 +17,7 @@ class UploadImages extends Component
     {
         return [
             'files' => 'required|array|max:10',
-            'files.*' => 'image|max:' . config('media.max_file_size', 1024 * 1024 * 10)
+            'files.*' => 'image|max:' . config('max-file-size.images')
         ];
     }
 
