@@ -92,5 +92,22 @@
                 @include('user.modal.modal-delete')
             @endcan
         </div>
+        <div class="mt-2 flex items-center justify-center lg:justify-start">
+            @can('restore', $user)
+                <x-base.button
+                    onclick="dispatchModal('modal-restore-user', 'show')"
+                    class="align-top"
+                    variant="danger"
+                >
+                    <x-base.lucide
+                        icon="trash-2"
+                        class="mr-2"
+                    />
+                    {{ __('Restore') }}
+                </x-base.button>
+
+                @include('user.modal.modal-restore')
+            @endcan
+        </div>
     </div>
 </div>

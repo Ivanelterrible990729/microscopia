@@ -85,6 +85,7 @@ class ImagesTable extends DataTableComponent
                 ])->filter(function(Builder $builder, string $value) {
                     $value === 'trashed' ? $builder->onlyTrashed() : $builder;
                 }),
+
             MultiSelectFilter::make(__('Labels'))
                 ->options(
                     [

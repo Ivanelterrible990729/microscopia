@@ -29,6 +29,14 @@ class UserController extends Controller
     {
         Gate::authorize('view', $user);
 
+        if (isset($user->deleted_at)) {
+            Session::flash('alert', [
+                'variant' => 'warning',
+                'icon' => 'alert-triangle',
+                'message' => __('This user is not active. Please restore the user to make effective any action of this user')
+            ]);
+        }
+
         return view('user.show', compact('user'));
     }
 

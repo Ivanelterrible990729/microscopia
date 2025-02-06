@@ -46,7 +46,7 @@ class UserPolicy
      */
     public function personify(User $user, User $model): Response
     {
-        if ($user->hasPermissionTo(UserPermission::Personify) && $model->id != $user->id && Session::missing('personified_by')) {
+        if ($user->hasPermissionTo(UserPermission::Personify) && $model->id != $user->id && Session::missing('personified_by') && is_null($model->deleted_at)) {
 
             if ($model->hasRole(RoleEnum::Desarrollador) && !$user->hasRole(RoleEnum::Desarrollador)) {
                 return Response::deny(__('#UP-PE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
@@ -63,7 +63,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model): Response
     {
-        if ($user->hasPermissionTo(UserPermission::Delete) && $model->id != $user->id) {
+        if ($user->hasPermissionTo(UserPermission::Delete) && $model->id != $user->id && is_null($model->deleted_at)) {
 
             if ($model->hasRole(RoleEnum::Desarrollador) && !$user->hasRole(RoleEnum::Desarrollador)) {
                 return Response::deny(__('#UP-PE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
@@ -97,16 +97,16 @@ class UserPolicy
      */
     public function restore(User $user, User $model): Response
     {
-        if ($user->hasPermissionTo(UserPermission::Restore) && $model->id != $user->id) {
+        if ($user->hasPermissionTo(UserPermission::Restore) && $model->id != $user->id && isset($model->deleted_at)) {
 
             if ($model->hasRole(RoleEnum::Desarrollador) && !$user->hasRole(RoleEnum::Desarrollador)) {
-                return Response::deny(__('#UP-PE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
+                return Response::deny(__('#UP-RE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
             }
 
             return Response::allow();
         }
 
-        return Response::deny(__('#UP-PE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
+        return Response::deny(__('#UP-RE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
     }
 
     /**
