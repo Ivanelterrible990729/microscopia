@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ImageColumn;
 use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
+use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Spatie\Permission\Models\Role;
 
 class UsersTable extends DataTableComponent
@@ -81,6 +82,14 @@ class UsersTable extends DataTableComponent
     public function filters(): array
     {
         return [
+            SelectFilter::make(__('Users'))
+            ->options([
+                'active' => 'Activos',
+                'trashed' => 'Papelera',
+            ])->filter(function(Builder $builder, string $value) {
+                $value === 'trashed' ? $builder->onlyTrashed() : $builder;
+            }),
+
             MultiSelectFilter::make('Roles')
                 ->options(
                 Role::query()

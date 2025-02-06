@@ -14,6 +14,7 @@ enum UserPermission: string
     case Create = 'user.Crear';
     case Personify = 'user.Personificar';
     case Delete = 'user.Eliminar';
+    case Restore = 'user.Restablecer';
     case AssignRoles = 'user.Asignar roles';
 
     public static function map(): array
@@ -24,6 +25,7 @@ enum UserPermission: string
             self::Create->value => [RoleEnum::Desarrollador, RoleEnum::Administrador],
             self::Personify->value => [RoleEnum::Desarrollador, RoleEnum::Administrador],
             self::Delete->value => [RoleEnum::Desarrollador, RoleEnum::Administrador],
+            self::Restore->value => [RoleEnum::Desarrollador, RoleEnum::Administrador],
             self::AssignRoles->value => [RoleEnum::Desarrollador, RoleEnum::Administrador],
         ];
     }

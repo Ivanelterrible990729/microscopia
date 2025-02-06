@@ -25,15 +25,21 @@
                     </div>
                 </div>
             </x-base.form-label>
-            <div class="mt-3 w-full flex-1 xl:mt-0">
-                <x-base.multi-select
-                    :options="$this->availableRoles"
-                    :selected-options="$state['roles']"
-                    :placeholder="__('Select one or more roles.')"
-                    id="satate.roles"
+            <div class="mt-3 w-full flex-1 xl:mt-0" wire:ignore>
+                <x-base.tom-select
+                    id="state.roles"
                     name="state.roles"
                     wire:model='state.roles'
-                />
+                    class="tom-select w-full"
+                    :data-placeholder="__('Select one or more roles.')"
+                    multiple
+                >
+                    @foreach ($availableRoles as $role)
+                        <option value="{{ $role['id'] }}" @selected(in_array($role['id'], $state['roles']))>
+                            {{ $role['name'] }}
+                        </option>
+                    @endforeach
+                </x-base.tom-select>
             </div>
         </x-base.form-inline>
     </x-base.dialog.description>
@@ -52,3 +58,14 @@
         @endcan
     </x-base.dialog.footer>
 </div>
+
+@script
+    <script>
+        window.initTomSelect('.tom-select');
+
+        Livewire.hook('morph.updating', () => {
+            window.initTomSelect('.tom-select');
+        });
+    </script>
+@endscript
+

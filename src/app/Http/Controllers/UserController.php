@@ -29,6 +29,14 @@ class UserController extends Controller
     {
         Gate::authorize('view', $user);
 
+        if (isset($user->deleted_at)) {
+            Session::flash('alert', [
+                'variant' => 'warning',
+                'icon' => 'alert-triangle',
+                'message' => __('This user is not active. Please restore the user to make effective any action of this user')
+            ]);
+        }
+
         return view('user.show', compact('user'));
     }
 
@@ -50,6 +58,24 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Restore the specified resource.
+     */
+    public function restore(User $user)
+    {
+        Gate::authorize('restore', $user);
+
+        $user->restore();
+
+        return redirect(route('user.index'))->with([
+            'alert' => [
+                'variant' => 'soft-primary',
+                'icon' => 'check-circle',
+                'message' => __('The user has been successfully restored.')
+            ]
+        ]);
+    }
+
     public function downloadProfilePhoto(User $user): StreamedResponse
     {
         // Verifica si el usuario tiene una foto de perfil
@@ -57,7 +83,6 @@ class UserController extends Controller
             abort(404, 'La fotografía de perfil no existe.');
         }
 
-        // Descargar el archivo
         return Storage::download($user->profile_photo_path, 'profile_photo_' . $user->id . '.jpg');
     }
 
@@ -65,19 +90,11 @@ class UserController extends Controller
     {
         Gate::authorize('personify', $user);
 
-        //Se guarda el id del usuario original
         $originalId = Auth::guard('web')->id();
-
-        //Se ingresa como el usuario a suplantar
         Auth::guard('web')->loginUsingId($user->id);
-
-        //Se restablece el usuario para el middleware AuthenticateSession
         $request->setUserResolver(fn () => $user);
-
-        //Se registra el ID del usuario original para poder eliminar la identidad más tarde
         Session::put('personified_by', $originalId);
 
-        //Se redirige a la página de inicio
         return redirect()->route('dashboard')->with([
             'alert' => [
                 'variant' => 'soft-primary',
@@ -100,28 +117,17 @@ class UserController extends Controller
             ]);
         }
 
-        //Se obtiene el usuario persnoficiador
         $personifier = Auth::guard('web')->user();
-
-        //Se obtiene el ID del usuario original
         $userId = $request->session()->get('personified_by');
 
         if ($userId) {
-            //Se busca al usuario original
             $user = User::findorFail($userId);
-
-            //Se cambia a la cuenta del usuario original
             Auth::guard('web')->loginUsingId($user->id);
-
-            //Ya que sucumbí ante la desesperación, se establece manualmente el hash de la contraseña del usuario original en la sesión, porque setUserResolver por alguna razón no lo hace
-            // $request->session()->put('password_hash_sanctum', $user->password);
             $request->setUserResolver(fn () => $user);
 
-            //Se elimina la información de la suplantación de la sesión
             Session::forget('personified_by');
         }
 
-        //Se redirige a la página de usuarios
         return redirect()->route('user.show', $personifier)->with([
             'alert' => [
                 'variant' => 'soft-primary',
