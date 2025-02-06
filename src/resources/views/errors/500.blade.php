@@ -22,7 +22,9 @@
                         {{ __('Server Error') }}
                     </div>
                     <div class="mt-3 text-base intro-x">
-                        {{ __($exception->getMessage() ?: 'Server Error') }}
+                        @if (app()->environment('local'))
+                            {{ __($exception->getMessage() ?: 'Server Error') }}
+                        @endif
                     </div>
                     <x-base.button
                         as="a"

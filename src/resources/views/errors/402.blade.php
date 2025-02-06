@@ -22,7 +22,9 @@
                         {{ __('Payment Required') }}
                     </div>
                     <div class="mt-3 text-base intro-x">
-                        {{ __($exception->getMessage() ?: 'Payment Required') }}
+                        @if (app()->environment('local'))
+                            {{ __($exception->getMessage() ?: 'Payment Required') }}
+                        @endif
                     </div>
                     <x-base.button
                         as="a"
