@@ -46,6 +46,6 @@ class ImagePathGenerator implements PathGenerator
             $prefix = $prefix . '/';
         }
 
-        return $prefix . 'images/' . $media->collection_name . '/';
+        return $prefix . 'images/' . $media->collection_name;
     }
 }

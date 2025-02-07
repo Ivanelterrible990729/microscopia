@@ -3,7 +3,6 @@
 namespace App\Livewire\Image;
 
 use App\Livewire\Forms\ImageForm;
-use App\Livewire\Listados\ImagesTable;
 use App\Models\Image;
 use App\Models\Label;
 use Livewire\Attributes\On;

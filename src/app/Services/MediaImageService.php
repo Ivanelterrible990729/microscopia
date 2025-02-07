@@ -4,7 +4,9 @@ namespace App\Services;
 
 use App\Enums\Media\MediaEnum;
 use App\Models\Image;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
@@ -26,12 +28,7 @@ class MediaImageService
         $labels = $image->labels->pluck('name')->toArray();
 
         if (empty($labels)) {
-            $image->addMedia($file)
-                ->usingName($filename . '.' . $extension)
-                ->usingFileName($customFileName)
-                ->preservingOriginal($preservingOriginal)
-                ->toMediaCollection(MediaEnum::Images->value);
-            return;
+            $labels = [MediaEnum::Images->value];
         }
 
         $last_key = array_key_last($labels);
@@ -53,9 +50,25 @@ class MediaImageService
         }
     }
 
+    /**
+     * - Se recupera la imagen original.
+     * - Se eliminan las colecciones de la imagen.
+     * - Se crean las colecciones que correspondan.
+     */
     public function syncMedia(Image $image)
     {
+        $firstMedia = $image->getFirstMedia('*');
 
+        $path = 'livewire-tmp/' . $firstMedia->name;
+        Storage::disk(config('filesystems.default', 'public'))->put($path, file_get_contents($firstMedia->getPath()));
+
+        $image->media()->get()->each->delete();
+
+        $this->addMedia(
+            image: $image,
+            file: Storage::disk(config('filesystems.default', 'public'))->path($path),
+            preservingOriginal: false,
+        );
     }
 
     private function getFileName(string|UploadedFile $file): array
