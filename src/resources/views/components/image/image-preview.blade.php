@@ -7,7 +7,7 @@
             "rounded-t" => !$imageRounded,
             "rounded-md" => $imageRounded,
         ])
-        src="{{ $image->getFirstMediaUrl(App\Enums\Media\MediaEnum::Images->value) }}"
+        src="{{ $image->getFirstMediaUrl('*') }}"
         alt="Image"
     />
 

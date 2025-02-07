@@ -66,7 +66,7 @@
                             {{ __('Weight') }}
                         </span>
                         <div class="bg-slate-100 border rounded px-2 py-1">
-                            {{ $image->getFirstMedia('Images')->human_readable_size }}
+                            {{ $image->getFirstMedia('*')->human_readable_size }}
                         </div>
                     </div>
 
@@ -136,7 +136,7 @@
                     <div class=""> {{-- h-96 --}}
                         <x-base.image-zoom
                             class="h-full w-full image-fit rounded-md mt-5"
-                            src="{{ $image->getFirstMediaUrl(App\Enums\Media\MediaEnum::Images->value) }}"
+                            src="{{ $image->getFirstMediaUrl('*') }}"
                             alt="{{ $image->name }}"
                         />
                     </div>

@@ -14,7 +14,7 @@
         <div class="relative group zoom-in">
             <x-base.file-icon
                 class="mx-auto w-11/12 mt-2"
-                src="{{ $row->getFirstMediaUrl(App\Enums\Media\MediaEnum::Images->value, 'preview') }}"
+                src="{{ $row->getFirstMediaUrl('*', 'preview') }}"
                 variant="image"
             />
             <span class="hidden group-hover:inline-block absolute inset-x-0 bottom-0 bg-black text-white text-xs px-1 rounded">

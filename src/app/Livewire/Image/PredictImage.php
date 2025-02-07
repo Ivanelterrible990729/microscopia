@@ -36,7 +36,7 @@ class PredictImage extends Component
     public function predict(CNNModel $model)
     {
         $modelMedia = $model->getFirstMedia(MediaEnum::CNN_MODEL->value);
-        $imageMedia = $this->image->getFirstMedia(MediaEnum::Images->value);
+        $imageMedia = $this->image->getFirstMedia('*');
 
         $args = [
             '--model_path' => $modelMedia?->getPath() ?? 'path del modelo',
