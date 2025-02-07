@@ -4,6 +4,7 @@ namespace App\Livewire\Image;
 
 use App\Enums\Media\MediaEnum;
 use App\Models\Image;
+use App\Services\MediaImageService;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -34,6 +35,7 @@ class UploadImages extends Component
         $this->validate();
 
         $imageIds = [];
+        $mediaImageService = new MediaImageService();
 
         foreach ($this->files as $file) {
             $image = Image::create([
@@ -41,7 +43,11 @@ class UploadImages extends Component
                 'name' => $file->getClientOriginalName(),
             ]);
 
-            $image->addMedia($file)->toMediaCollection(MediaEnum::Images->value);
+            $mediaImageService->addMedia(
+                image: $image,
+                file: $file,
+                preservingOriginal: false
+            );
 
             $imageIds[] = $image->id;
         }
