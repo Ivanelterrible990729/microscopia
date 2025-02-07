@@ -5,8 +5,6 @@ namespace App\Services;
 use App\Enums\Media\MediaEnum;
 use App\Models\Image;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
@@ -21,11 +19,11 @@ class MediaImageService
     public function addMedia(Image $image, string|UploadedFile $file, bool $preservingOriginal = false): void
     {
         $info = $this->getFileName($file);
-        $filename = $info['filename'];
+        $filename = sanitizeFileName($info['filename']);
         $extension = $info['extension'];
 
-        $customFileName = $this->generateCustomFileName(extension: $extension);
-        $labels = $image->labels->pluck('name')->toArray();
+        $customFileName = $this->generateCustomFileName(filename: $filename, extension: $extension);
+        $labels = $image->labels->pluck('folder_name')->toArray();
 
         if (empty($labels)) {
             $labels = [MediaEnum::Images->value];
@@ -83,8 +81,8 @@ class MediaImageService
     /**
      * Genera un nuevo nombre de archivo para evitar incongruencias en el almacenamiento.
      */
-    private function generateCustomFileName($extension): string
+    private function generateCustomFileName(string $filename, string $extension): string
     {
-        return Str::uuid() . '-' . time() . '.' . $extension;
+        return md5(config('app.key') . $filename) . '.' . $extension;
     }
 }

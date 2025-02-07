@@ -39,7 +39,7 @@ class PredictImage extends Component
         $imageMedia = $this->image->getFirstMedia('*');
 
         $args = [
-            '--model_path' => $modelMedia?->getPath() ?? 'path del modelo',
+            '--model_path' => $modelMedia->getPath(),
             '--image_path' => $imageMedia->getPath(),
             '--class_labels' => json_encode($model->labels->pluck('id')->toArray()),
         ];

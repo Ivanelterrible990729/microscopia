@@ -77,3 +77,13 @@ if (!function_exists('getFileList')) {
         return $files;
     }
 }
+
+if (!function_exists('sanitizeFileName')) {
+    /**
+     *  Reemplazar caracteres no permitidos con "_"
+     */
+    function sanitizeFileName($file_name)
+    {
+        return preg_replace('/[^A-Za-z0-9\-_\.]/', '_', $file_name);
+    }
+}
