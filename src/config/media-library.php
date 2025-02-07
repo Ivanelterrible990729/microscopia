@@ -1,5 +1,10 @@
 <?php
 
+use App\Models\CNNModel;
+use App\Models\Image;
+use App\Services\MediaLibrary\CNNModelPathGenerator;
+use App\Services\MediaLibrary\ImagePathGenerator;
+
 return [
 
     /*
@@ -87,9 +92,8 @@ return [
      * Here you can specify which path generator should be used for the given class.
      */
     'custom_path_generators' => [
-        // Model::class => PathGenerator::class
-        // or
-        // 'model_morph_alias' => PathGenerator::class
+        CNNModel::class => CNNModelPathGenerator::class,
+        Image::class => ImagePathGenerator::class,
     ],
 
     /*
