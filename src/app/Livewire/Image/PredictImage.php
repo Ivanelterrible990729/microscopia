@@ -3,7 +3,7 @@
 namespace App\Livewire\Image;
 
 use App\Enums\Media\MediaEnum;
-use App\Models\CNNModel;
+use App\Models\CnnModel;
 use App\Models\Image;
 use App\Models\Label;
 use App\Services\PythonService;
@@ -28,14 +28,14 @@ class PredictImage extends Component
 
     public function render()
     {
-        $models = CNNModel::query()->paginate(1);
+        $models = CnnModel::query()->paginate(1);
 
         return view('livewire.image.predict-image', compact('models'));
     }
 
-    public function predict(CNNModel $model)
+    public function predict(CnnModel $model)
     {
-        $modelMedia = $model->getFirstMedia(MediaEnum::CNN_MODEL->value);
+        $modelMedia = $model->getFirstMedia(MediaEnum::CNN_Model->value);
         $imageMedia = $this->image->getFirstMedia('*');
 
         $args = [

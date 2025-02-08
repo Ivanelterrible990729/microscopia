@@ -5,7 +5,7 @@ namespace App\Services\MediaLibrary;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\PathGenerator\PathGenerator;
 
-class CNNModelPathGenerator implements PathGenerator
+class CnnModelPathGenerator implements PathGenerator
 {
     /*
      * Get the path for the given media, relative to the root storage path.
@@ -42,6 +42,6 @@ class CNNModelPathGenerator implements PathGenerator
             $prefix = $prefix . '/';
         }
 
-        return $prefix . 'c-n-n-models/' . $media->getKey();
+        return $prefix . 'cnn-models/' . $media->getKey();
     }
 }

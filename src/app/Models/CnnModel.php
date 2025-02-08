@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class CNNModel extends Model implements HasMedia
+class CnnModel extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
@@ -29,6 +29,6 @@ class CNNModel extends Model implements HasMedia
      */
     public function labels(): BelongsToMany
     {
-        return $this->belongsToMany(Label::class, 'c_n_n_model_label', 'c_n_n_model_id', 'label_id');
+        return $this->belongsToMany(Label::class, 'cnn_model_label', 'cnn_model_id', 'label_id');
     }
 }

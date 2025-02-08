@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             // Utilizados para pruebas en desarrollo
             // y primer lanzamiento a producción
             LabelSeeder::class,
-            CNNModelSeeder::class,
+            CnnModelSeeder::class,
         ]);
     }
 }

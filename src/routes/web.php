@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CNNModelController;
+use App\Http\Controllers\CnnModelController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -50,9 +50,9 @@ Route::middleware([
     // CNN MODELS  ================================================
     // ============================================================
 
-    Route::get('admin/c-n-n-models/', [CNNModelController::class, 'index'])->name('c-n-n-model.index');
-    Route::get('admin/c-n-n-models/{model}', [CNNModelController::class, 'show'])->name('c-n-n-model.show');
-    Route::delete('admin/c-n-n-models/{model}', [CNNModelController::class, 'destroy'])->name('c-n-n-model.destroy');
+    Route::get('admin/cnn-models/', [CnnModelController::class, 'index'])->name('cnn-model.index');
+    Route::get('admin/cnn-models/{model}', [CnnModelController::class, 'show'])->name('cnn-model.show');
+    Route::delete('admin/cnn-models/{model}', [CnnModelController::class, 'destroy'])->name('cnn-model.destroy');
 
     // IMAGES =====================================================
     // ============================================================

@@ -62,6 +62,6 @@ class Label extends Model
      */
     public function models(): BelongsToMany
     {
-        return $this->belongsToMany(CNNModel::class, 'c_n_n_model_label', 'label_id', 'c_n_n_model_id');
+        return $this->belongsToMany(CnnModel::class, 'cnn_model_label', 'label_id', 'cnn_model_id');
     }
 }

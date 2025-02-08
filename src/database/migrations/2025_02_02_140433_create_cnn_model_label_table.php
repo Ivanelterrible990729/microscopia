@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('c_n_n_model_label', function (Blueprint $table) {
+        Schema::create('cnn_model_label', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('c_n_n_model_id')->constrained(table: 'c_n_n_models');
+            $table->foreignId('cnn_model_id')->constrained(table: 'cnn_models');
             $table->foreignId('label_id')->constrained(table: 'labels')->cascadeOnDelete();
             $table->timestamps();
         });
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('c_n_n_model_label');
+        Schema::dropIfExists('cnn_model_label');
     }
 };

@@ -2,31 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CNNModel;
+use App\Models\CnnModel;
 use Illuminate\Http\Request;
 
-class CNNModelController extends Controller
+class CnnModelController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('c-n-n-model.index');
+        return view('cnn-model.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(CNNModel $model)
+    public function show(CnnModel $cnnModel)
     {
-        return view('c-n-n-model.show', compact('model'));
+        return view('cnn-model.show', compact('cnnModel'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CNNModel $model)
+    public function destroy(CnnModel $cnnModel)
     {
         //
     }

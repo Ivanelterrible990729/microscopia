@@ -12,5 +12,5 @@ enum MediaEnum: string
     use EnumToArray;
 
     case Images = 'no_label'; // No cambiar, se utiliza así para el almacenamiento de imagenes.
-    case CNN_MODEL = 'cnn_model';
+    case CNN_Model = 'cnn_model';
 }

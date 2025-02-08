@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
     <x-base.breadcrumb class='h-[45px] md:ml-10 md:border-l border-white/[0.08] dark:border-white/[0.08] mr-auto -intro-x md:pl-6' light>
-        <x-base.breadcrumb.link :index="0" :active="true" href="{{ route('c-n-n-model.index') }}">
+        <x-base.breadcrumb.link :index="0" :active="true" href="{{ route('cnn-model.index') }}">
             {{ __('CNN Models') }}
         </x-base.breadcrumb.link>
     </x-base.breadcrumb>
@@ -25,7 +25,7 @@
         {{-- @can(App\Enums\Permissions\ImagePermission::Upload) --}}
             <x-base.button
                 class="shadow-md"
-                onclick="dispatchModal('modal-upload-c-n-n-model', 'show')"
+                onclick="dispatchModal('modal-upload-cnn-model', 'show')"
                 variant="primary"
             >
                 <x-base.lucide

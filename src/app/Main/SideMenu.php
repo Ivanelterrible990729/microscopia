@@ -31,10 +31,10 @@ class SideMenu
 
             'divider',
 
-            'c-n-n-model.*' => [
+            'cnn-model.*' => [
                 'icon' => 'brain-circuit',
                 'title' => __('CNN Models'),
-                'route_name' => 'c-n-n-model.index',
+                'route_name' => 'cnn-model.index',
             ],
             'image.*' => [
                 'icon' => 'images',

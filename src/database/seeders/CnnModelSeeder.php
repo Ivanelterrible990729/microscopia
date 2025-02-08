@@ -3,19 +3,19 @@
 namespace Database\Seeders;
 
 use App\Enums\Media\MediaEnum;
-use App\Models\CNNModel;
+use App\Models\CnnModel;
 use App\Models\Label;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class CNNModelSeeder extends Seeder
+class CnnModelSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        if (CNNModel::exists()) {
+        if (CnnModel::exists()) {
             $this->command->comment('- Ya hay registros en la base de datos. Seeder suspendido [Database\Seeders\CNNModelSeeder.php].');
             return;
         }
@@ -23,13 +23,13 @@ class CNNModelSeeder extends Seeder
         // TODO:
         // Una vez finalizados los modelos, cargarlos en este seeder.
 
-        $mobileNetV2 = CNNModel::create([
+        $mobileNetV2 = CnnModel::create([
             'name' => 'MobileNetV2',
         ]);
 
-        $mobileNetV2->addMedia(resource_path('c-n-n-models/MobileNetV2.h5'))
+        $mobileNetV2->addMedia(resource_path('cnn-models/MobileNetV2.h5'))
             ->preservingOriginal()
-            ->toMediaCollection(MediaEnum::CNN_MODEL->value);
+            ->toMediaCollection(MediaEnum::CNN_Model->value);
 
         $mobileNetV2->labels()->sync(
             Label::whereIn('name', ['BACILOS', 'COCOS', 'MUSCULO'])
