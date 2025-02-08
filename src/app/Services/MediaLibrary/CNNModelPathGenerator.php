@@ -42,6 +42,6 @@ class CNNModelPathGenerator implements PathGenerator
             $prefix = $prefix . '/';
         }
 
-        return $prefix . 'cnn-models/' . $media->getKey();
+        return $prefix . 'c-n-n-models/' . $media->getKey();
     }
 }

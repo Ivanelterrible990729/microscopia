@@ -12,21 +12,21 @@ class CNNModelController extends Controller
      */
     public function index()
     {
-        //
+        return view('c-n-n-model.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(CNNModel $cNNModel)
+    public function show(CNNModel $model)
     {
-        //
+        return view('c-n-n-model.show', compact('model'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CNNModel $cNNModel)
+    public function destroy(CNNModel $model)
     {
         //
     }

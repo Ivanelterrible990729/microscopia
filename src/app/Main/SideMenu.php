@@ -31,6 +31,11 @@ class SideMenu
 
             'divider',
 
+            'c-n-n-model.*' => [
+                'icon' => 'brain-circuit',
+                'title' => __('CNN Models'),
+                'route_name' => 'c-n-n-model.index',
+            ],
             'image.*' => [
                 'icon' => 'images',
                 'title' => __('Image management'),

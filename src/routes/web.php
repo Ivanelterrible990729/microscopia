@@ -50,9 +50,9 @@ Route::middleware([
     // CNN MODELS  ================================================
     // ============================================================
 
-    Route::get('admin/cnn-models/', [CNNModelController::class, 'index'])->name('c-n-n-model.index');
-    Route::get('admin/cnn-models/{c-n-n-model}', [CNNModelController::class, 'show'])->name('c-n-n-model.show');
-    Route::delete('admin/cnn-models/{c-n-n-model}', [CNNModelController::class, 'destroy'])->name('c-n-n-model.destroy');
+    Route::get('admin/c-n-n-models/', [CNNModelController::class, 'index'])->name('c-n-n-model.index');
+    Route::get('admin/c-n-n-models/{model}', [CNNModelController::class, 'show'])->name('c-n-n-model.show');
+    Route::delete('admin/c-n-n-models/{model}', [CNNModelController::class, 'destroy'])->name('c-n-n-model.destroy');
 
     // IMAGES =====================================================
     // ============================================================

@@ -27,7 +27,7 @@ class CNNModelSeeder extends Seeder
             'name' => 'MobileNetV2',
         ]);
 
-        $mobileNetV2->addMedia(resource_path('cnn-models/MobileNetV2.h5'))
+        $mobileNetV2->addMedia(resource_path('c-n-n-models/MobileNetV2.h5'))
             ->preservingOriginal()
             ->toMediaCollection(MediaEnum::CNN_MODEL->value);
 
