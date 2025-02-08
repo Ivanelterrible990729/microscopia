@@ -37,7 +37,7 @@
         @endif
     </div>
 
-    <div>
-
+    <div class="intro-y box mt-5 p-5">
+        <livewire:tables.cnn-models-table />
     </div>
 @endsection

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Listados;
+namespace App\Livewire\Tables;
 
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
@@ -41,8 +41,8 @@ class ImagesTable extends DataTableComponent
         $this->setPrimaryKey('id');
 
         $this->setConfigurableAreas([
-            'before-tools' => 'livewire.listados.images-table',
-            'toolbar-left-end' => 'livewire.listados.images-table.select-all-button',
+            'before-tools' => 'livewire.tables.images-table',
+            'toolbar-left-end' => 'livewire.tables.images-table.select-all-button',
         ]);
 
         $this->setTableWrapperAttributes([

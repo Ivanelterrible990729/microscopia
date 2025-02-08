@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Listados;
+namespace App\Livewire\Tables;
 
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;

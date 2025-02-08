@@ -157,14 +157,14 @@
         <!-- END: Tools -->
 
         <!-- BEGIN: Actions -->
-        @include('livewire.listados.images-table.actions')
+        @include('livewire.tables.images-table.actions')
         <!-- END: Actions -->
 
         <!-- BEGIN: Images grid -->
         <div class="intro-y mt-5 grid grid-cols-12 gap-3 sm:gap-6">
             @forelse ($this->getRows as $rowIndex => $row)
                 <div class="col-span-12 sm:col-span-6 lg:col-span-4 2xl:col-span-3" x-transition>
-                    @include('livewire.listados.images-table.card')
+                    @include('livewire.tables.images-table.card')
                 </div>
             @empty
                 <div class="intro-y col-span-12" style="height: 220px">
@@ -176,12 +176,12 @@
 
         <!-- BEGIN: Pagination -->
         <template x-if="selectedImages.length == 0">
-            @include('livewire.listados.images-table.pagination')
+            @include('livewire.tables.images-table.pagination')
         </template>
         <!-- END: Pagination -->
 
         <!-- BEGIN: Sroll Button -->
-        @include('livewire.listados.images-table.scroll-button')
+        @include('livewire.tables.images-table.scroll-button')
         <!-- END: Sroll Button -->
     </div>
 </div>
