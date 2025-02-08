@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Permissions\CnnModelPermission;
 use App\Models\CnnModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CnnModelController extends Controller
 {
@@ -12,7 +14,11 @@ class CnnModelController extends Controller
      */
     public function index()
     {
-        return view('cnn-model.index');
+        Gate::authorize('viewAny', CnnModel::class);
+
+        $canCreateModel = request()->user()->can(CnnModelPermission::Create);
+
+        return view('cnn-model.index', compact($canCreateModel));
     }
 
     /**
@@ -20,6 +26,8 @@ class CnnModelController extends Controller
      */
     public function show(CnnModel $cnnModel)
     {
+        Gate::authorize('view', $cnnModel);
+
         return view('cnn-model.show', compact('cnnModel'));
     }
 
@@ -28,6 +36,6 @@ class CnnModelController extends Controller
      */
     public function destroy(CnnModel $cnnModel)
     {
-        //
+        Gate::authorize('delete', $cnnModel);
     }
 }

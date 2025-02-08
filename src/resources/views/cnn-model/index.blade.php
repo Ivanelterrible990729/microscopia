@@ -22,7 +22,7 @@
             {{ __('CNN Models') }}
         </h2>
 
-        {{-- @can(App\Enums\Permissions\ImagePermission::Upload) --}}
+        @if($canCreateModel)
             <x-base.button
                 class="shadow-md"
                 onclick="dispatchModal('modal-upload-cnn-model', 'show')"
@@ -34,7 +34,7 @@
                 />
                 {{ __('Create CNN model') }}
             </x-base.button>
-        {{-- @endcan --}}
+        @endif
     </div>
 
     <div>
