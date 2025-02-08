@@ -18,7 +18,7 @@ class CnnModelController extends Controller
 
         $canCreateModel = request()->user()->can(CnnModelPermission::Create);
 
-        return view('cnn-model.index', compact($canCreateModel));
+        return view('cnn-model.index', compact('canCreateModel'));
     }
 
     /**
