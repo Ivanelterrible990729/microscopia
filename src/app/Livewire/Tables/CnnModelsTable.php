@@ -42,13 +42,13 @@ class CnnModelsTable extends DataTableComponent
                 ->searchable(
                     fn(Builder $query, $searchTerm) => $query->orWhere('name', 'like', "%$searchTerm%")
                 ),
+            Column::make(__('Model loaded'))
+                ->label(fn ($row, Column $column) => $this->getMediaStatus($row))
+                ->html(),
             Column::make(__('Labels'))
                 ->label(
                 fn($row, Column $column) => implode(', ', $row->labels->pluck('name')->toArray())
                 ),
-            Column::make(__('Model loaded'))
-                ->label(fn ($row, Column $column) => $this->getMediaStatus($row))
-                ->html(),
             Column::make(__("Created at"), "created_at")
                 ->sortable(),
             Column::make(__("Updated at"), "updated_at")
