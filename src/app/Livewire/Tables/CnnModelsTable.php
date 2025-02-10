@@ -70,7 +70,7 @@ class CnnModelsTable extends DataTableComponent
     private function getMediaStatus(CnnModel $cnnModel): string
     {
         return $cnnModel->hasMedia('*')
-            ? '<span class="text-green-500">Cargado</span> '
-            : '<span class="text-red-500">No cargado</span>';
+            ? '<span class="text-green-500">' . __('Loaded') .'</span> '
+            : '<span class="text-red-500">'. __('Not loaded') . '</span>';
     }
 }

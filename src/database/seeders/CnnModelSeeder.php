@@ -27,15 +27,15 @@ class CnnModelSeeder extends Seeder
             'name' => 'MobileNetV2',
         ]);
 
-        $mobileNetV2->addMedia(resource_path('cnn-models/MobileNetV2.h5'))
-            ->preservingOriginal()
-            ->toMediaCollection(MediaEnum::CNN_Model->value);
-
         $mobileNetV2->labels()->sync(
             Label::whereIn('name', ['BACILOS', 'COCOS', 'MUSCULO'])
                 ->get()
                 ->pluck('id')
         );
+
+        $mobileNetV2->addMedia(resource_path('cnn-models/MobileNetV2.h5'))
+            ->preservingOriginal()
+            ->toMediaCollection(MediaEnum::CNN_Model->value);
 
         // $vgg16 = CNNModel::create([
         //     'name' => 'VGG16',
