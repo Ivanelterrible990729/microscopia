@@ -28,19 +28,19 @@
 
     <x-base.tab.group>
         <div class="intro-y box mt-5 px-5 pt-5">
-            {{-- @include('user.preview.details') --}}
+            @include('cnn-model.preview.details')
 
             <x-base.tab.list
                 class="flex-col justify-center text-center sm:flex-row lg:justify-start"
                 variant="link-tabs"
             >
                 <x-base.tab
-                    id="configuration-tab"
+                    id="training-tab"
                     :fullWidth="false"
                     selected
                 >
                     <x-base.tab.button class="cursor-pointer py-4">
-                        {{ __('Configuration') }}
+                        {{ __('Train model') }}
                     </x-base.tab.button>
                 </x-base.tab>
             </x-base.tab.list>
@@ -48,12 +48,12 @@
 
         <x-base.tab.panels class="intro-y mt-5">
             <x-base.tab.panel
-                id="configuration"
+                id="training"
                 selected
             >
                 <div class="grid grid-cols-12 gap-6">
                     <div class="intro-y box col-span-12 lg:col-span-9">
-
+                        hola
                     </div>
                 </div>
             </x-base.tab.panel>
