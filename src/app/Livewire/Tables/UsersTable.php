@@ -61,7 +61,7 @@ class UsersTable extends DataTableComponent
                 ->sortable(),
             Column::make(__('Roles'))
                 ->label(
-                    fn($row, Column $column) => implode(',', $row->roles->pluck('name')->toArray())
+                    fn($row, Column $column) => implode(', ', $row->roles->pluck('name')->toArray())
                 ),
         ];
     }

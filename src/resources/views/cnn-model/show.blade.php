@@ -9,8 +9,8 @@
         <x-base.breadcrumb.link :index="0" href="{{ route('cnn-model.index') }}">
             {{ __('CNN Models') }}
         </x-base.breadcrumb.link>
-        <x-base.breadcrumb.link :index="1" :active="true" href="{{ route('cnn-model.show', $model) }}">
-            {{ $model->name }}
+        <x-base.breadcrumb.link :index="1" :active="true" href="{{ route('cnn-model.show', $cnnModel) }}">
+            {{ $cnnModel->name }}
         </x-base.breadcrumb.link>
     </x-base.breadcrumb>
 @endsection
