@@ -43,6 +43,15 @@
                         {{ __('Train model') }}
                     </x-base.tab.button>
                 </x-base.tab>
+
+                <x-base.tab
+                    id="configure-tab"
+                    :fullWidth="false"
+                >
+                    <x-base.tab.button class="cursor-pointer py-4">
+                        {{ __('Configure model') }}
+                    </x-base.tab.button>
+                </x-base.tab>
             </x-base.tab.list>
         </div>
 
