@@ -25,7 +25,7 @@
         @if($canCreateModel)
             <x-base.button
                 class="shadow-md"
-                onclick="dispatchModal('modal-upload-cnn-model', 'show')"
+                onclick="dispatchModal('modal-create-cnn-model', 'show')"
                 variant="primary"
             >
                 <x-base.lucide
@@ -40,4 +40,9 @@
     <div class="intro-y box mt-5 p-5">
         <livewire:tables.cnn-models-table />
     </div>
+
+    <!-- BEGIN: Modals para la gestión de imágenes -->
+    @if($canCreateModel)
+        @include('cnn-model.modal.modal-create')
+    @endif
 @endsection

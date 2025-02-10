@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Image;
 
-use App\Enums\Media\MediaEnum;
 use App\Models\Image;
 use App\Services\MediaImageService;
 use Livewire\Component;

@@ -45,5 +45,5 @@ return [
      * Description for the maximum file size.
      * Only used for info porpuses.
      */
-    'models' => '15MB',
+    'models_desc' => '15MB',
 ];
