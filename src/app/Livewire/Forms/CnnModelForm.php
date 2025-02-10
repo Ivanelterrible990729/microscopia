@@ -36,7 +36,7 @@ class CnnModelForm extends Form
         return [
             'name' => 'required|string|max:255|unique:cnn_models,name,' . (isset($this->id) ? $this->id : ''),
             'labelIds' => 'required|array|min:1',
-            'labelIds.*' => 'numeric|exists:cnn_models,id',
+            'labelIds.*' => 'numeric|exists:labels,id',
             'file' => 'nullable|file|mimes:h5|max:' . config('max-file-size.models'),
         ];
     }
