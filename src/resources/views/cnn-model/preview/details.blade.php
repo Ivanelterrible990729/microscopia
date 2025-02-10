@@ -59,6 +59,8 @@
                 />
                 {{ __('Delete') }}
             </x-base.button>
+
+            @include('cnn-model.modal.modal-delete')
         </div>
     </div>
 </div>

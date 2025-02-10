@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('cnn_model_label', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cnn_model_id')->constrained(table: 'cnn_models');
+            $table->foreignId('cnn_model_id')->constrained(table: 'cnn_models')->cascadeOnDelete();
             $table->foreignId('label_id')->constrained(table: 'labels')->cascadeOnDelete();
             $table->timestamps();
         });

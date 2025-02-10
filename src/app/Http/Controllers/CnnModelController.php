@@ -37,5 +37,15 @@ class CnnModelController extends Controller
     public function destroy(CnnModel $cnnModel)
     {
         Gate::authorize('delete', $cnnModel);
+
+        $cnnModel->delete();
+
+        return redirect(route('cnn-model.index'))->with([
+            'alert' => [
+                'variant' => 'soft-primary',
+                'icon' => 'check-circle',
+                'message' => __('The model has been successfully removed.')
+            ]
+        ]);
     }
 }
