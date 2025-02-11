@@ -8,7 +8,7 @@ formInline
                 <div class="font-medium">{{ __('Name') }}</div>
             </div>
             <div class="mt-3 text-xs leading-relaxed text-slate-500">
-                {{ __('Escriba aquí el nombre de la imagen.') }}
+                {{ __('Type the model name here.') }}
             </div>
         </div>
     </x-base.form-label>
@@ -32,11 +32,11 @@ formInline
                 <div class="font-medium">{{ __('Labels') }}</div>
             </div>
             <div class="mt-3 text-xs leading-relaxed text-slate-500">
-                {{ __('Se enlistan aquí las etiquetas asignadas a la imagen.') }}
+                {{ __('Indicate here the labels to train the model with.') }}
             </div>
         </div>
     </x-base.form-label>
-    <div class="mt-3 w-full flex-1 xl:mt-0">
+    <div class="mt-3 w-full flex-1 xl:mt-0" wire:ignore>
         <x-base.tom-select
             id="form.labelIds"
             name="form.labelIds"
@@ -68,29 +68,75 @@ formInline
                 </div>
             </div>
             <div class="mt-3 text-xs leading-relaxed text-slate-500">
-                {{ __('Se enlistan aquí las etiquetas asignadas a la imagen.') }}
+                {{ __('In case you have a trained model, you can upload it directly.') }}
             </div>
         </div>
     </x-base.form-label>
-    <div class="mt-3 w-full flex-1 xl:mt-0">
+    <div class="mt-3 w-full flex-1 xl:mt-0"
+        x-data="{ isDragging: false, uploading: false, progress: 0, uploaded: $wire.entangle('uploaded')}"
+        x-on:livewire-upload-start="uploading = true"
+        x-on:livewire-upload-finish="uploading = false; uploaded = true;"
+        x-on:livewire-upload-cancel="uploading = false"
+        x-on:livewire-upload-error="uploading = false"
+        x-on:livewire-upload-progress="progress = $event.detail.progress"
+    >
         <div class="flex items-center justify-center w-full">
-            <label for="form.file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500">
+            <label
+                for="form.file"
+                class="flex flex-col items-center justify-center w-full h-56 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500"
+                :class="{ 'border-blue-500 bg-blue-100': isDragging }"
+                @dragover.prevent="isDragging = true"
+                @dragleave.prevent="isDragging = false"
+                @drop.prevent="isDragging = false"
+            >
                 <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                    <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                    </svg>
-                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                    @if (isset($form->file))
+                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                            {{ __('Uploaded file') }}
+                        </p>
+                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                            <span class="font-semibold">{{ $form->file?->getClientOriginalName() }}</span>
+                        </p>
+                        <x-base.button
+                            type="button"
+                            variant="dark"
+                            wire:click='replaceFile'
+                            x-on:click="uploaded = false"
+                        >
+                            {{ __('Replace file') }}
+                        </x-base.button>
+                    @else
+                        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                        </svg>
+
+                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                            <span class="font-semibold">{{ __('Click to upload') }}</span>
+                        </p>
+                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                            {{ __('Or drag and drop your model here') }}
+                        </p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                            {{ __('.h5 format') }} ({{ __('Maximum') . ' ' . config('max-file-size.models_desc') }})
+                        </p>
+                    @endif
                 </div>
-                <input id="form.file" name='form.file' wire:model='form.file' type="file" class="hidden" />
+                <div class="flex flex-col">
+
+                </div>
+                <input id="form.file" name='form.file' wire:model='form.file' type="file" class="hidden" x-bind:disabled="uploaded" />
             </label>
+        </div>
+
+        <div x-show="uploading">
+            <progress max="100" x-bind:value="progress" class="w-full"></progress>
         </div>
     </div>
 </x-base.form-inline>
 
 @script
     <script>
-        options = {
+        const options = {
             valueField: 'id',
             searchField: 'name',
             options: $wire.availableLabels,
@@ -111,9 +157,5 @@ formInline
         }
 
         window.initTomSelect('.tom-select', options);
-
-        Livewire.hook('morph.updating', () => {
-            window.initTomSelect('.tom-select', options);
-        });
     </script>
 @endscript

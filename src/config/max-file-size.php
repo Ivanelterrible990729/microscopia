@@ -21,7 +21,7 @@ return [
      * Description for the maximum file size.
      * Only used for info porpuses.
      */
-    'profile_photos_desc' => '10MB',
+    'profile_photos_desc' => '10 MB',
 
     /**
      * The maximum file size of an item in bytes.
@@ -33,7 +33,7 @@ return [
      * Description for the maximum file size.
      * Only used for info porpuses.
      */
-    'images_desc' => '10MB',
+    'images_desc' => '10 MB',
 
     /**
      * The maximum file size of an item in bytes.
@@ -45,5 +45,5 @@ return [
      * Description for the maximum file size.
      * Only used for info porpuses.
      */
-    'models_desc' => '15MB',
+    'models_desc' => '15 MB',
 ];

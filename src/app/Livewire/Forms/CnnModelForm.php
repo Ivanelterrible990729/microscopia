@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Enums\Media\MediaEnum;
 use App\Models\CnnModel;
 use Illuminate\Http\UploadedFile;
 use Livewire\Attributes\Validate;
@@ -64,10 +65,14 @@ class CnnModelForm extends Form
     {
         $this->validate();
 
-        $cnnModel = CnnModel::create($this->except('labelIds'));
+        $cnnModel = CnnModel::create($this->except(['labelIds', 'file']));
         $cnnModel->labels()->sync($this->labelIds);
 
-        // TODO: AddMedia
+        $cnnModel->addMedia($this->file)
+            ->usingFileName(sanitizeFileName($this->file->getClientOriginalName()))
+            ->usingName(sanitizeFileName($this->file->getClientOriginalName()))
+            ->preservingOriginal(false)
+            ->toMediaCollection(MediaEnum::CNN_Model->value);
 
         return $cnnModel;
     }

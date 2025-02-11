@@ -5,7 +5,7 @@
         errors: [],
         loading: false,
         handleFiles(files) {
-            const maxFileSize = {{ config('max-file-size.images') }};
+            const maxFileSize = 1024 * {{ config('max-file-size.images') }};
             const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
             const resizeImage = (file, maxWidth = 224, maxHeight = 224) => {

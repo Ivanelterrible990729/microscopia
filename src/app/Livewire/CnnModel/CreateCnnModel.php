@@ -6,6 +6,7 @@ use App\Livewire\Forms\CnnModelForm;
 use App\Models\CnnModel;
 use App\Models\Label;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -22,6 +23,11 @@ class CreateCnnModel extends Component
      * Form del modelo a crear
      */
     public CnnModelForm $form;
+
+    /**
+     * Bandera que determina si hay un archivo subido.
+     */
+    public $uploaded = false;
 
     public function mount()
     {
@@ -40,6 +46,16 @@ class CreateCnnModel extends Component
     public function render()
     {
         return view('livewire.cnn-model.create-cnn-model');
+    }
+
+    /**
+     * - Elimina referencia de file al archivo que se había subido con anterioridad
+     * - Elimina el directorio temporal.
+     */
+    public function replaceFile()
+    {
+        $this->form->file = null;
+        Storage::disk(config('filesystems.default'))->deleteDirectory('livewire/tmp');
     }
 
     public function createModel()
