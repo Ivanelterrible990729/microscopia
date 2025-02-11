@@ -4,6 +4,7 @@ namespace App\Livewire\Forms;
 
 use App\Enums\Media\MediaEnum;
 use App\Models\CnnModel;
+use App\Rules\OnlyH5Files;
 use Illuminate\Http\UploadedFile;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
@@ -38,7 +39,12 @@ class CnnModelForm extends Form
             'name' => 'required|string|max:255|unique:cnn_models,name,' . (isset($this->id) ? $this->id : ''),
             'labelIds' => 'required|array|min:1',
             'labelIds.*' => 'numeric|exists:labels,id',
-            'file' => 'nullable|file|mimetypes:application/octet-stream|max:' . config('max-file-size.models'),
+            'file' => [
+                'nullable',
+                'file',
+                'max:' . config('max-file-size.models'),
+                new OnlyH5Files
+            ],
         ];
     }
 

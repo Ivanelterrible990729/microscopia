@@ -64,12 +64,14 @@ class CreateCnnModelTest extends TestCase
                 'form.name' => 'unique'
             ]);
 
-        // Valida etiquetas existentes en BD
+        // Valida etiquetas existentes en BD y mime de archivo
         $componente->set('form.name', AvailableModelsEnum::AlexNet->value)
             ->set('form.labelIds', [51, 52, 53]) // Etiquetas inexistentes
+            ->set('form.file', UploadedFile::fake()->create('model.asd', 1024 * 5))
             ->call('createModel')
             ->assertHasErrors([
                 'form.labelIds.*',
+                'form.file' => __('The file must have extension .h5'),
             ]);
 
         // Valida campos requeridos
@@ -99,14 +101,17 @@ class CreateCnnModelTest extends TestCase
     {
         $this->actingAs($this->desarrollador);
         $response = $this->get(route('cnn-model.index'));
+        $response->assertOk();
+
         $modelName = AvailableModelsEnum::AlexNet->value;
+        $modelFile = UploadedFile::fake()->create('model.h5', 1024 * 5);
         Storage::fake(config('filesystems.default'));
 
         // Valida que no haya errores y redireccionamiento.
         Livewire::test(CreateCnnModel::class)
             ->set('form.name', $modelName)
             ->set('form.labelIds', Label::inRandomOrder()->limit(3)->get()->pluck('id')->toArray())
-            ->set('form.file', UploadedFile::fake()->create('model.h5', 1024 * 5, 'application/octet-stream'))
+            ->set('form.file', $modelFile)
             ->call('createModel')
             ->assertHasNoErrors()
             ->assertRedirect(route('cnn-model.show', CnnModel::whereName($modelName)->first()));
@@ -115,6 +120,9 @@ class CreateCnnModelTest extends TestCase
         $this->assertDatabaseCount('cnn_model_label', 6);
         $this->assertDatabaseHas('cnn_models', [
             'name' => $modelName
+        ]);
+        $this->assertDatabaseHas('media', [
+            'name' => 'model.h5'
         ]);
 
         // Valida session del mensaje.
