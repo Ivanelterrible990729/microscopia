@@ -265,6 +265,7 @@
 	"The permissions have been successfully related.": "Los permisos se han relacionado con éxito.",
     "The image has been successfully updated.": "La imagen se ha actualizado con éxito.",
     "The impersonation was stopped.": "Se detuvo la personificación.",
+    "The model can make predictions for the following labels": "El modelo puede hacer predicciones para las siguientes etiquetas",
 	"The provided password does not match your current password.": "La contraseña proporcionada no coincide con su contraseña actual.",
 	"The provided password was incorrect.": "La contraseña proporcionada no es correcta.",
 	"The provided two factor authentication code was invalid.": "El código de autenticación de dos factores proporcionado no es válido.",

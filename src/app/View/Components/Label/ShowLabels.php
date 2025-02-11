@@ -1,13 +1,13 @@
 <?php
 
-namespace App\View\Components\Image;
+namespace App\View\Components\Label;
 
 use App\Models\Label;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class ImageLabels extends Component
+class ShowLabels extends Component
 {
     /**
      * Etiquetas a mostrar en el renderizado.
@@ -33,6 +33,6 @@ class ImageLabels extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.image.image-labels');
+        return view('components.label.show-labels');
     }
 }

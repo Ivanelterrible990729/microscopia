@@ -51,7 +51,7 @@
                                 {{ $imageForm['description'] }}
                             </x-base.table.td>
                             <x-base.table.td class="text-center sm:text-start" for="{{ __('Labels') }}">
-                                <x-image.image-labels :label-ids="$imageForm['labelIds']" />
+                                <x-label.show-labels  :label-ids="$imageForm['labelIds']" />
                             </x-base.table.td>
                         </x-base.table.tr>
                     @endforeach

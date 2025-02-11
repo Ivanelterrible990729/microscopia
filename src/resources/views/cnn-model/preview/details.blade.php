@@ -17,15 +17,14 @@
         <div class="text-center font-medium lg:mt-3 lg:text-left">
             {{ __('Details') }}
         </div>
-        <div class="mt-4 flex flex-col items-center justify-center lg:items-start">
-            <div class="mt-5 mb-3">
-                <div class="font-medium">{{ __('Labels') }}</div>
-                <div class="my-3 text-xs leading-relaxed text-slate-500">
-                    {{ __('Se enlistan aquí las etiquetas asignadas a la imagen.') }}
+
+        <div class="mt-2 flex flex-col items-center justify-center lg:items-start">
+            <div class="mb-3">
+                <div class="mb-3 text-xs leading-relaxed text-slate-500">
+                    {{ __('The model can make predictions for the following labels') }}:
                 </div>
 
-                <x-image.image-labels :label-ids="$cnnModel->labels->pluck('id')->toArray()">
-                </x-image.image-labels>
+                <x-label.show-labels :label-ids="$cnnModel->labels->pluck('id')->toArray()" class="pl-3"/>
             </div>
         </div>
     </div>

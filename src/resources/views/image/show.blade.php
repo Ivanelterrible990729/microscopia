@@ -87,7 +87,7 @@
                             {{ __('Se enlistan aquí las etiquetas asignadas a la imagen.') }}
                         </div>
 
-                        <x-image.image-labels :label-ids="$image->labels->pluck('id')->toArray()">
+                        <x-label.show-labels :label-ids="$image->labels->pluck('id')->toArray()" class="pl-3">
                             @can(App\Enums\Permissions\ImagePermission::Label)
                                 <button
                                     class="mt-2 flex items-center rounded-md px-3 py-1 hover:bg-slate-200 dark:hover:bg-slate-700 w-max"
@@ -102,7 +102,7 @@
                                     {{ __('Edit labels') }}
                                 </button>
                             @endcan
-                        </x-image.image-labels>
+                        </x-label.show-labels>
                     </div>
                 </x-base.dialog.description>
             </div>
