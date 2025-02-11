@@ -28,7 +28,7 @@ class ViewCnnModelsTest extends TestCase
         $response->assertStatus(200);
     }
 
-        /**
+    /**
      * Prepara entorno para realizar el testing
      */
     public function setUp() : void

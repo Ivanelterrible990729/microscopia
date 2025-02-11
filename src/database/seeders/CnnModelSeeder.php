@@ -28,8 +28,7 @@ class CnnModelSeeder extends Seeder
         ]);
 
         $mobileNetV2->labels()->sync(
-            Label::whereIn('name', ['BACILOS', 'COCOS', 'MUSCULO'])
-                ->get()
+            Label::all()
                 ->pluck('id')
         );
 

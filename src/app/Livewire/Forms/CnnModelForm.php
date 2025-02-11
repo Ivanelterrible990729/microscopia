@@ -29,7 +29,7 @@ class CnnModelForm extends Form
     /**
      * Archivo relacionado al modelo creado.
      */
-    public null|UploadedFile $file;
+    public null|UploadedFile $file = null;
 
     protected function rules()
     {
@@ -37,7 +37,7 @@ class CnnModelForm extends Form
             'name' => 'required|string|max:255|unique:cnn_models,name,' . (isset($this->id) ? $this->id : ''),
             'labelIds' => 'required|array|min:1',
             'labelIds.*' => 'numeric|exists:labels,id',
-            'file' => 'nullable|file|mimes:h5|max:' . config('max-file-size.models'),
+            'file' => 'nullable|file|mimetypes:application/octet-stream|max:' . config('max-file-size.models'),
         ];
     }
 
