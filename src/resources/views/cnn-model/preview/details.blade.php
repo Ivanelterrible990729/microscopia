@@ -46,20 +46,22 @@
                     {{ __('Download') }}
                 </x-base.button>
         </div>
-        <div class="mt-2 flex items-center justify-center lg:justify-start">
-            <x-base.button
-                onclick="dispatchModal('modal-delete-cnn-model', 'show')"
-                class="align-top"
-                variant="danger"
-            >
-                <x-base.lucide
-                    icon="trash-2"
-                    class="mr-2"
-                />
-                {{ __('Delete') }}
-            </x-base.button>
+        @if ($canDeleteModel)
+            <div class="mt-2 flex items-center justify-center lg:justify-start">
+                <x-base.button
+                    onclick="dispatchModal('modal-delete-cnn-model', 'show')"
+                    class="align-top"
+                    variant="danger"
+                >
+                    <x-base.lucide
+                        icon="trash-2"
+                        class="mr-2"
+                    />
+                    {{ __('Delete') }}
+                </x-base.button>
 
-            @include('cnn-model.modal.modal-delete')
-        </div>
+                @include('cnn-model.modal.modal-delete')
+            </div>
+        @endif
     </div>
 </div>
