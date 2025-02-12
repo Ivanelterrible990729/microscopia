@@ -16,6 +16,21 @@ class TrainCnnModel extends Component
     public CnnModel $cnnModel;
 
     /**
+     * Form para realizar el entrenamiento
+     */
+    public array $form;
+
+    /**
+     * Catálogo de modelos disponibles
+     */
+    public array $availableModels = [];
+
+    /**
+     * Catálogo de modelos disponibles
+     */
+    public array $availableLabels = [];
+
+    /**
      * Pasos a realizar durante el entrenamiento de la CNN.
      */
     public array $steps = [];
@@ -34,16 +49,6 @@ class TrainCnnModel extends Component
      * Bandera que indica si se canceló el entrenamiento
      */
     public bool $trainingCancelled = false;
-
-    /**
-     * Catálogo de modelos disponibles
-     */
-    public array $availableModels = [];
-
-    /**
-     * Catálogo de modelos disponibles
-     */
-    public array $availableLabels = [];
 
     public function mount(CnnModel $cnnModel)
     {
@@ -75,6 +80,13 @@ class TrainCnnModel extends Component
                     'images_count' => $label->images_count,
                 ];
         })->toArray();
+
+        $this->form = [
+            'selected_model' => $cnnModel->hasMedia('*') ? $cnnModel->getFirstMedia('*')?->getPath() : null,
+            'selected_labels' => $cnnModel->labels->pluck('id')->toArray(),
+            'validation_portion' => '0.2',
+            'images_limit' => 0,
+        ];
 
         $this->steps = [
             [
@@ -122,6 +134,24 @@ class TrainCnnModel extends Component
         ];
     }
 
+    /**
+     * Esta función se utiliza para recalcular el numero mínimo de imágenes
+     * que se utilizará por cada etiqueta en el entrenamiento.
+     * Se utiliza en el front con fines informativos y actualiza $this->form['images-limit'].
+     */
+    public function uploadMinImages(): int
+    {
+        $selectedImagesCounts = array_map(
+            fn($id) => $this->availableLabels[array_search($id, array_column($this->availableLabels, 'id'))]['images_count'] ?? PHP_INT_MAX,
+            $this->form['selected_labels']
+        );
+
+        $minImagesCount = !empty($selectedImagesCounts) ? min($selectedImagesCounts) : null;
+        $this->form['images_limit'] = ($minImagesCount ?? 0);
+
+        return $this->form['images_limit'];
+    }
+
     public function render()
     {
         return view('livewire.cnn-model.train-cnn-model');
@@ -129,6 +159,7 @@ class TrainCnnModel extends Component
 
     public function trainModel(): void
     {
+        dd($this->form);
         $this->onTraining = true;
         $this->steps[$this->activeStep]['status'] = 'processing';
         $this->dispatch('next-step', method: 'modelBackup')->self();
