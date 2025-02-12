@@ -34,23 +34,34 @@
             {{ __('Actions') }}
         </div>
         <div class="mt-2 flex items-center justify-center lg:justify-start">
-
-                <x-base.button
-                    class="align-top"
-                    variant="dark"
-                >
-                    <x-base.lucide
-                        icon="download"
-                        class="mr-2"
-                    />
-                    {{ __('Download') }}
-                </x-base.button>
+            <x-base.button
+                class="align-top w-32"
+                variant="dark"
+            >
+                <x-base.lucide
+                    icon="download"
+                    class="mr-2"
+                />
+                {{ __('Download') }}
+            </x-base.button>
+        </div>
+        <div class="mt-2 flex items-center justify-center lg:justify-start">
+            <x-base.button
+                class="align-top w-32"
+                variant="warning"
+            >
+                <x-base.lucide
+                    icon="edit"
+                    class="mr-2"
+                />
+                {{ __('Edit') }}
+            </x-base.button>
         </div>
         @if ($canDeleteModel)
             <div class="mt-2 flex items-center justify-center lg:justify-start">
                 <x-base.button
                     onclick="dispatchModal('modal-delete-cnn-model', 'show')"
-                    class="align-top"
+                    class="align-top w-32"
                     variant="danger"
                 >
                     <x-base.lucide

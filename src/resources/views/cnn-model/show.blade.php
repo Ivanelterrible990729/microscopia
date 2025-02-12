@@ -39,17 +39,37 @@
                     :fullWidth="false"
                     selected
                 >
-                    <x-base.tab.button class="cursor-pointer py-4">
+                    <x-base.tab.button class="flex items-center cursor-pointer py-4">
+                        <x-base.lucide
+                            icon="brain-cog"
+                            class="mr-2"
+                        />
                         {{ __('Train model') }}
                     </x-base.tab.button>
                 </x-base.tab>
 
                 <x-base.tab
-                    id="configure-tab"
+                    id="dataset-tab"
                     :fullWidth="false"
                 >
-                    <x-base.tab.button class="cursor-pointer py-4">
-                        {{ __('Configure model') }}
+                    <x-base.tab.button class="flex items-center cursor-pointer py-4">
+                        <x-base.lucide
+                            icon="image-down"
+                            class="mr-2"
+                        />
+                        {{ __('Download dataset') }}
+                    </x-base.tab.button>
+                </x-base.tab>
+                <x-base.tab
+                    id="code-tab"
+                    :fullWidth="false"
+                >
+                    <x-base.tab.button class="flex items-center cursor-pointer py-4">
+                        <x-base.lucide
+                            icon="code"
+                            class="mr-2"
+                        />
+                        {{ __('Download code') }}
                     </x-base.tab.button>
                 </x-base.tab>
             </x-base.tab.list>
@@ -62,7 +82,7 @@
             >
                 <div class="grid grid-cols-12 gap-6">
                     <div class="intro-y box col-span-12 lg:col-span-9">
-                        hola
+                        <livewire:cnn-model.train-cnn-model />
                     </div>
                 </div>
             </x-base.tab.panel>
