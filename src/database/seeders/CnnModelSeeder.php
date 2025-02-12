@@ -24,7 +24,7 @@ class CnnModelSeeder extends Seeder
         // Una vez finalizados los modelos, cargarlos en este seeder.
 
         $mobileNetV2 = CnnModel::create([
-            'name' => 'MobileNetV2',
+            'name' => 'MobileNetV2 - Trained',
         ]);
 
         $mobileNetV2->labels()->sync(
@@ -32,7 +32,7 @@ class CnnModelSeeder extends Seeder
                 ->pluck('id')
         );
 
-        $mobileNetV2->addMedia(resource_path('cnn-models/trained/MobileNetV2.h5'))
+        $mobileNetV2->addMedia(resource_path('cnn-models/trained/mobilenetv2.h5'))
             ->preservingOriginal()
             ->toMediaCollection(MediaEnum::CNN_Model->value);
 
