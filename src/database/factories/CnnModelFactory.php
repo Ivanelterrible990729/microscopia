@@ -21,7 +21,10 @@ class CnnModelFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->randomElement(AvailableModelsEnum::values()) . '_' .time() . '.' . fake()->fileExtension(),
+            'name' => 'modelname' . '_' .time(),
+            'base_model' => fake()->randomElement(AvailableModelsEnum::values()),
+            'val_accuracy' => '9' . fake()->randomNumber(),
+            'val_error' => '0.0123' . fake()->randomNumber(),
         ];
     }
 
@@ -31,6 +34,9 @@ class CnnModelFactory extends Factory
     public function configure(): static
     {
         return $this->afterCreating(function (CnnModel $cnnModel) {
+            $cnnModel->name = pathinfo($cnnModel->base_model, PATHINFO_FILENAME) . '_' .time() . '.keras';
+            $cnnModel->save();
+
             $cnnModel->labels()->sync(
                 Label::inRandomOrder()
                     ->limit(3)
@@ -38,8 +44,7 @@ class CnnModelFactory extends Factory
                     ->pluck('id')
             );
 
-            // TODO: Cargar los modelos base a partir de resources.
-            $cnnModel->addMedia(resource_path('cnn-models/MobileNetV2.h5'))
+            $cnnModel->addMedia(resource_path($cnnModel->base_model))
                 ->preservingOriginal()
                 ->toMediaCollection(MediaEnum::CNN_Model->value);
         });

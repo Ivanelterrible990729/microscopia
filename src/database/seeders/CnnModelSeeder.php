@@ -32,16 +32,12 @@ class CnnModelSeeder extends Seeder
                 ->pluck('id')
         );
 
-        $mobileNetV2->addMedia(resource_path('cnn-models/MobileNetV2.h5'))
+        $mobileNetV2->addMedia(resource_path('cnn-models/trained/MobileNetV2.h5'))
             ->preservingOriginal()
             ->toMediaCollection(MediaEnum::CNN_Model->value);
 
         // $vgg16 = CNNModel::create([
         //     'name' => 'VGG16',
-        // ]);
-
-        // $alexNet = CNNModel::create([
-        //     'name' => 'AlexNet',
         // ]);
     }
 }

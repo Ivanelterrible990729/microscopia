@@ -20,6 +20,9 @@ class CnnModel extends Model implements HasMedia
      */
     protected $fillable = [
         'name',
+        'base_model',
+        'val_accuracy',
+        'val_error',
     ];
 
     /**

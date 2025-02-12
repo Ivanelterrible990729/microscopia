@@ -2,10 +2,18 @@
 
 namespace App\Livewire\CnnModel;
 
+use App\Enums\CnnModel\AvailableModelsEnum;
+use App\Enums\Media\MediaEnum;
+use App\Models\CnnModel;
 use Livewire\Component;
 
 class TrainCnnModel extends Component
 {
+    /**
+     * Referencia al modelo el cual entrenar.
+     */
+    public CnnModel $cnnModel;
+
     /**
      * Pasos a realizar durante el entrenamiento de la CNN.
      */
@@ -26,8 +34,26 @@ class TrainCnnModel extends Component
      */
     public bool $trainingCancelled = false;
 
-    public function mount()
+    /**
+     * Catálogo de modelos disponibles
+     */
+    public array $availableModels = [];
+
+    public function mount(CnnModel $cnnModel)
     {
+        $this->cnnModel = $cnnModel;
+
+        $this->availableModels = AvailableModelsEnum::arrayResource();
+        $modelMedia = $cnnModel->getFirstMedia(MediaEnum::CNN_Model->value);
+
+        if (isset($modelMedia)) {
+            $this->availableModels += [
+                $modelMedia->getPath() => $cnnModel->name,
+            ];
+        }
+
+        // dd($this->availableModels);
+
         $this->steps = [
             [
                 'status' => null,

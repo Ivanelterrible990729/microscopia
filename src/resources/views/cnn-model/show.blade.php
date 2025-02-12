@@ -82,7 +82,7 @@
             >
                 <div class="grid grid-cols-12 gap-6">
                     <div class="intro-y box col-span-12 lg:col-span-9">
-                        <livewire:cnn-model.train-cnn-model />
+                        <livewire:cnn-model.train-cnn-model :cnn-model="$cnnModel"/>
                     </div>
                 </div>
             </x-base.tab.panel>

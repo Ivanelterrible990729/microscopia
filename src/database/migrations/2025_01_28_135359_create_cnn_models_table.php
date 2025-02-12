@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('cnn_models', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('base_model')->nullable();
+            $table->string('val_accuracy')->nullable();
+            $table->string('val_error')->nullable();
             $table->timestamps();
         });
     }
