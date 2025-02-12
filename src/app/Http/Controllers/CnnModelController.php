@@ -28,7 +28,6 @@ class CnnModelController extends Controller
     {
         Gate::authorize('view', $cnnModel);
 
-        $cnnModel->load('media');
         $canDeleteModel = request()->user()->can(CnnModelPermission::Delete);
 
         return view('cnn-model.show', compact('cnnModel', 'canDeleteModel'));

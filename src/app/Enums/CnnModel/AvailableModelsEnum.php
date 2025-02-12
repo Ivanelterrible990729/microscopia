@@ -22,8 +22,8 @@ enum AvailableModelsEnum: string
     public static function arrayResource(): array
     {
         return [
-            resource_path(Self::MobileNetV2->value) =>Self::MobileNetV2->value,
-            resource_path(Self::VGG16->value) =>Self::VGG16->value,
+            resource_path(Self::MobileNetV2->value) =>Self::MobileNetV2->name . ' [imagenet]',
+            resource_path(Self::VGG16->value) =>Self::VGG16->name . ' [imagenet]',
         ];
     }
 }

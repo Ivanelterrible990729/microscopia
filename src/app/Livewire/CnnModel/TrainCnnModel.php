@@ -5,6 +5,7 @@ namespace App\Livewire\CnnModel;
 use App\Enums\CnnModel\AvailableModelsEnum;
 use App\Enums\Media\MediaEnum;
 use App\Models\CnnModel;
+use App\Models\Label;
 use Livewire\Component;
 
 class TrainCnnModel extends Component
@@ -39,20 +40,41 @@ class TrainCnnModel extends Component
      */
     public array $availableModels = [];
 
+    /**
+     * Catálogo de modelos disponibles
+     */
+    public array $availableLabels = [];
+
     public function mount(CnnModel $cnnModel)
     {
         $this->cnnModel = $cnnModel;
 
         $this->availableModels = AvailableModelsEnum::arrayResource();
-        $modelMedia = $cnnModel->getFirstMedia(MediaEnum::CNN_Model->value);
+        $modelsMedia = CnnModel::whereHas('media')
+            ->with('media')
+            ->get()
+            ->map(function($cnnModel) {
+                return [
+                    $cnnModel->getFirstMedia(MediaEnum::CNN_Model->value)->getPath() => $cnnModel->name,
+                ];
+            })->toArray();
 
-        if (isset($modelMedia)) {
-            $this->availableModels += [
-                $modelMedia->getPath() => $cnnModel->name,
-            ];
-        }
+        $this->availableModels += array_reduce($modelsMedia, function (null|array $carry, array $item) {
+            return is_null($carry) ? $item : $carry += $item;
+        });
 
-        // dd($this->availableModels);
+        $this->availableLabels = Label::whereHas('images')
+            ->withCount('images')
+            ->orderBy('name')
+            ->get()
+            ->map(function($label) {
+                return [
+                    'id' => $label->id,
+                    'name' => $label->name,
+                    'color' => $label->color,
+                    'images_count' => $label->images_count,
+                ];
+        })->toArray();
 
         $this->steps = [
             [
