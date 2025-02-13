@@ -103,7 +103,8 @@
                         @endforelse
                     </div>
                     <div class="col-span-12 sm:col-span-6 text-center">
-                        <div class="mt-5">{{ __('Maximum number of images per label') }}:
+                        <div class="mt-5" wire:ignore>
+                            {{ __('Maximum number of images per label') }}:
                             <span class="border rounded bg-slate-100 px-1 py-1" x-text="count"></span>
                         </div>
                     </div>
