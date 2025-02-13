@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Enums\Media\MediaEnum;
 use App\Models\Image;
 use App\Models\Label;
 use App\Models\User;

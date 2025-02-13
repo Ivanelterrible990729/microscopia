@@ -6,6 +6,8 @@ use App\Enums\CnnModel\AvailableModelsEnum;
 use App\Enums\Media\MediaEnum;
 use App\Models\CnnModel;
 use App\Models\Label;
+use App\Services\ModelTrainingService;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 
 class TrainCnnModel extends Component
@@ -76,6 +78,7 @@ class TrainCnnModel extends Component
                 return [
                     'id' => $label->id,
                     'name' => $label->name,
+                    'folder_name' => $label->folder_name,
                     'color' => $label->color,
                     'images_count' => $label->images_count,
                 ];
@@ -159,22 +162,29 @@ class TrainCnnModel extends Component
 
     public function trainModel(): void
     {
-        dd($this->form);
         $this->onTraining = true;
         $this->steps[$this->activeStep]['status'] = 'processing';
-        $this->dispatch('next-step', method: 'modelBackup')->self();
+
+        if ($this->cnnModel->hasMedia('*')) {
+            $this->dispatch('next-step', method: 'modelBackup')->self();
+        } else {
+            unset($this->steps[$this->activeStep]);
+            $this->steps[++$this->activeStep]['status'] = 'processing';
+            $this->dispatch('next-step', method: 'trainingEnvironment')->self();
+        }
     }
 
-    public function modelBackup(): void
+    public function modelBackup()
     {
         if ($this->trainingCancelled) {
             $this->stopTraining(__('Process stopped by the user'));
             return;
         }
 
-        sleep(2);
-
         $this->goToNextStep(result: __('Model downloaded.'), method: 'trainingEnvironment');
+
+        $modelService = new ModelTrainingService();
+        return $modelService->downloadModel($this->cnnModel->getFirstMedia(MediaEnum::CNN_Model->value));
     }
 
     public function trainingEnvironment(): void
@@ -184,7 +194,12 @@ class TrainCnnModel extends Component
             return;
         }
 
-        sleep(2);
+        $selected_directories = array_map(
+            fn($id) => 'images/' . $this->availableLabels[array_search($id, array_column($this->availableLabels, 'id'))]['folder_name'],
+            $this->form['selected_labels']
+        );
+
+        $directories = Storage::disk(config('filesystems.default'))->makeDirectory('training-images');
 
         $this->goToNextStep(result: '', method: 'extractImagesForTraining');
     }
