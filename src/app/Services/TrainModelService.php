@@ -114,7 +114,24 @@ class TrainModelService
      */
     public static function augmentImages(): int
     {
-        return 0;
+        $args = [
+            '--input_dir' => Storage::disk(config('filesystems.default', 'public'))->path(self::CROPPED_DIRECTORY),
+            '--output_dir' => Storage::disk(config('filesystems.default', 'public'))->path(self::AUGMENTED_DIRECTORY),
+        ];
+
+        $pythonService = new PythonService();
+        $output = $pythonService->runScript(
+            script: 'image_augmentation.py',
+            args: $args
+        );
+
+        $output = array_values(array_slice($output, -1, 1, true));
+
+        if (count($output) != 1) {
+            return 0;
+        }
+
+        return (int) $output[0];
     }
 
     /**

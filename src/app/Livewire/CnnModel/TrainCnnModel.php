@@ -212,7 +212,7 @@ class TrainCnnModel extends Component
             return;
         }
 
-        $this->goToNextStep(result: $numImages . 'new images were created successfully.', method: 'cnnModelTraining');
+        $this->goToNextStep(result: $numImages . ' new images were created successfully.', method: 'cnnModelTraining');
     }
 
     public function cnnModelTraining(): void
