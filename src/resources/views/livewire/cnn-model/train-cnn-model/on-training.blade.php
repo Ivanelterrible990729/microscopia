@@ -49,7 +49,7 @@
 </x-base.dialog.description>
 
 <x-base.dialog.footer>
-    @if ($activeStep == count($steps))
+    @if ($activeStep == count($steps) || $steps[$activeStep]['status'] == 'error')
         <x-base.button
             variant="dark"
             wire:click='backToForm'

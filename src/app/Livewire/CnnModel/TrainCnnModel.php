@@ -83,9 +83,15 @@ class TrainCnnModel extends Component
             'selected_model' => $cnnModel->hasMedia('*') ? $cnnModel->getFirstMedia('*')?->getPath() : null,
             'selected_labels' => $cnnModel->labels->pluck('id')->toArray(),
             'validation_portion' => '0.2',
-            'images_limit' => empty($cnnModel->labels) ? 0 : $this->uploadMinImages(),
+            'images_limit' => 0,
         ];
 
+        $this->uploadMinImages();
+        $this->defineSteps();
+    }
+
+    private function defineSteps()
+    {
         $this->steps = [
             [
                 'status' => null,
@@ -172,7 +178,6 @@ class TrainCnnModel extends Component
     public function modelBackup()
     {
         $this->goToNextStep(result: __('Model downloaded.'), method: 'trainingEnvironment');
-
         return TrainModelService::downloadModel($this->cnnModel->getFirstMedia(MediaEnum::CNN_Model->value));
     }
 
@@ -188,16 +193,26 @@ class TrainCnnModel extends Component
 
     public function imageCropping(): void
     {
-        // Ubicación de imagenes: ModelTrainingServce::OriginalDirectory.
+        $numImages = TrainModelService::cropImages();
 
-        $this->goToNextStep(result: '', method: 'imageAugmentation');
+        if ($numImages == 0) {
+            $this->stopTraining(__('Cropping process failed.'));
+            return;
+        }
+
+        $this->goToNextStep(result: $numImages . ' images were cropped successfully.', method: 'imageAugmentation');
     }
 
     public function imageAugmentation(): void
     {
-        // Ubicación de imagenes: ModelTrainingServce::CroppedDirectory.
+        $numImages = TrainModelService::augmentImages();
 
-        $this->goToNextStep(result: '', method: 'cnnModelTraining');
+        if ($numImages == 0) {
+            $this->stopTraining(__('Augmentation process failed.'));
+            return;
+        }
+
+        $this->goToNextStep(result: $numImages . 'new images were created successfully.', method: 'cnnModelTraining');
     }
 
     public function cnnModelTraining(): void
@@ -220,6 +235,7 @@ class TrainCnnModel extends Component
     public function backToForm(): void
     {
         $this->reset(['activeStep', 'onTraining']);
+        $this->defineSteps();
     }
 
     /**
@@ -257,7 +273,9 @@ class TrainCnnModel extends Component
     private function stopTraining(string $result): void
     {
         $this->steps[$this->activeStep]['status'] = 'error';
-        $this->steps[$this->activeStep]['result'] = $result;
+        $this->steps[$this->activeStep]['result'] = $result . ' Training environment removed.';
+
+        TrainModelService::removeEnvironment();
 
         $this->toast(title: __('Error'), message: $result)->danger();
     }
