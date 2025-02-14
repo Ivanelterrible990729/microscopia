@@ -5,12 +5,9 @@ namespace App\Livewire\CnnModel;
 use App\Enums\CnnModel\AvailableModelsEnum;
 use App\Enums\Media\MediaEnum;
 use App\Models\CnnModel;
-use App\Models\Image;
 use App\Models\Label;
-use App\Services\ModelTrainingService;
-use Illuminate\Support\Facades\Storage;
+use App\Services\TrainModelService;
 use Livewire\Component;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TrainCnnModel extends Component
 {
@@ -186,12 +183,12 @@ class TrainCnnModel extends Component
 
         $this->goToNextStep(result: __('Model downloaded.'), method: 'trainingEnvironment');
 
-        $modelService = new ModelTrainingService();
-        return $modelService->downloadModel($this->cnnModel->getFirstMedia(MediaEnum::CNN_Model->value));
+        return TrainModelService::downloadModel($this->cnnModel->getFirstMedia(MediaEnum::CNN_Model->value));
     }
 
     /**
      * Crea el ambiente de entrenamiento generando los directorios correspondentes
+     * y moviendo las imagenes correspondientes
      */
     public function trainingEnvironment(): void
     {
@@ -200,34 +197,7 @@ class TrainCnnModel extends Component
             return;
         }
 
-        Storage::disk(config('filesystems.default'))->makeDirectory(ModelTrainingService::ORIGINAL_DIRECTORY);
-        Storage::disk(config('filesystems.default'))->makeDirectory(ModelTrainingService::CROPPED_DIRECTORY);
-        Storage::disk(config('filesystems.default'))->makeDirectory(ModelTrainingService::AUGMENTED_DIRECTORY);
-
-        $selected_directories = array_map(
-            fn($id) => 'images/' . $this->availableLabels[array_search($id, array_column($this->availableLabels, 'id'))]['folder_name'],
-            $this->form['selected_labels']
-        );
-
-        foreach ($selected_directories as $key => $directory) {
-            $folderName = $this->availableLabels[$key]['folder_name'];
-            $images = Storage::disk(config('filesystems.default'))->files($directory);
-            $deletedImages = Media::with('model')
-                ->where('collection_name', $this->availableLabels[$key]['folder_name'])
-                ->where('model_type', Image::class)
-                ->get()
-                ->where('model.deleted_at', '!=', null)
-                ->map(function($media) {
-                    return $media->getPathRelativeToRoot();
-                })->toArray();
-
-            $imagesToTrain = array_diff($images, $deletedImages);
-
-            foreach ($imagesToTrain as $imagePath) {
-                $filename = pathinfo($imagePath, PATHINFO_BASENAME);
-                Storage::disk(config('filesystems.default'))->move($imagePath, ModelTrainingService::ORIGINAL_DIRECTORY . '/' . $folderName . '/' . $filename);
-            }
-        }
+        TrainModelService::createEnvironment($this->availableLabels, $this->form['selected_labels']);
 
         $this->goToNextStep(result: '', method: 'imageCropping');
     }
@@ -275,19 +245,7 @@ class TrainCnnModel extends Component
             return;
         }
 
-        $directories = Storage::disk(config('filesystems.default'))->directories(ModelTrainingService::ORIGINAL_DIRECTORY);
-
-        foreach ($directories as $directory) {
-            $images = Storage::disk(config('filesystems.default'))->files($directory);
-            $folderName = pathinfo($directory, PATHINFO_BASENAME);
-
-            foreach ($images as $imagePath) {
-                $filename = pathinfo($imagePath, PATHINFO_BASENAME);
-                Storage::disk(config('filesystems.default'))->move($imagePath, 'images/' . $folderName . '/' . $filename);
-            }
-        }
-
-        Storage::disk(config('filesystems.default'))->deleteDirectory(ModelTrainingService::TRAINING_WORKSPACE);
+        TrainModelService::removeEnvironment();
 
         $this->finish('Images moved.');
     }
@@ -327,6 +285,8 @@ class TrainCnnModel extends Component
             $this->stopTraining(__('Process stopped by the user'));
             return;
         }
+
+        // TODO: Save model and metrics
 
         $this->steps[$this->activeStep]['status'] = 'successfull';
         $this->steps[$this->activeStep]['result'] = $result;

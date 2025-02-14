@@ -4,7 +4,7 @@ namespace App\Livewire\CnnModel;
 
 use App\Enums\Media\MediaEnum;
 use App\Models\CnnModel;
-use App\Services\ModelTrainingService;
+use App\Services\TrainModelService;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -32,7 +32,7 @@ class InfoCnnModel extends Component
     }
 
     /**
-     * Realiza la descarga del modelo por medio de ModelTrainingService.
+     * Realiza la descarga del modelo por medio de TrainModelService.
      */
     public function downloadModel()
     {
@@ -41,8 +41,7 @@ class InfoCnnModel extends Component
             return;
         }
 
-        $modelService = new ModelTrainingService();
-        return $modelService->downloadModel($this->cnnModel->getFirstMedia(MediaEnum::CNN_Model->value));
+        return TrainModelService::downloadModel($this->cnnModel->getFirstMedia(MediaEnum::CNN_Model->value));
     }
 
     /**
