@@ -46,11 +46,6 @@ class TrainCnnModel extends Component
      */
     public bool $onTraining = false;
 
-    /**
-     * Bandera que indica si se canceló el entrenamiento
-     */
-    public bool $trainingCancelled = false;
-
     public function mount(CnnModel $cnnModel)
     {
         $this->cnnModel = $cnnModel;
@@ -176,11 +171,6 @@ class TrainCnnModel extends Component
      */
     public function modelBackup()
     {
-        if ($this->trainingCancelled) {
-            $this->stopTraining(__('Process stopped by the user'));
-            return;
-        }
-
         $this->goToNextStep(result: __('Model downloaded.'), method: 'trainingEnvironment');
 
         return TrainModelService::downloadModel($this->cnnModel->getFirstMedia(MediaEnum::CNN_Model->value));
@@ -192,11 +182,6 @@ class TrainCnnModel extends Component
      */
     public function trainingEnvironment(): void
     {
-        if ($this->trainingCancelled) {
-            $this->stopTraining(__('Process stopped by the user'));
-            return;
-        }
-
         TrainModelService::createEnvironment($this->availableLabels, $this->form['selected_labels']);
 
         $this->goToNextStep(result: '', method: 'imageCropping');
@@ -204,11 +189,6 @@ class TrainCnnModel extends Component
 
     public function imageCropping(): void
     {
-        if ($this->trainingCancelled) {
-            $this->stopTraining(__('Process stopped by the user'));
-            return;
-        }
-
         // Ubicación de imagenes: ModelTrainingServce::OriginalDirectory.
 
         $this->goToNextStep(result: '', method: 'imageAugmentation');
@@ -216,11 +196,6 @@ class TrainCnnModel extends Component
 
     public function imageAugmentation(): void
     {
-        if ($this->trainingCancelled) {
-            $this->stopTraining(__('Process stopped by the user'));
-            return;
-        }
-
         // Ubicación de imagenes: ModelTrainingServce::CroppedDirectory.
 
         $this->goToNextStep(result: '', method: 'cnnModelTraining');
@@ -228,11 +203,6 @@ class TrainCnnModel extends Component
 
     public function cnnModelTraining(): void
     {
-        if ($this->trainingCancelled) {
-            $this->stopTraining(__('Process stopped by the user'));
-            return;
-        }
-
         // Ubicación de imagenes: ModelTrainingServce::AugmentedDirectory.
 
         $this->goToNextStep(result: '', method: 'removingTrainingEnvironment');
@@ -240,11 +210,6 @@ class TrainCnnModel extends Component
 
     public function removingTrainingEnvironment(): void
     {
-        if ($this->trainingCancelled) {
-            $this->stopTraining(__('Process stopped by the user'));
-            return;
-        }
-
         TrainModelService::removeEnvironment();
 
         $this->finish('Images moved.');
@@ -255,7 +220,7 @@ class TrainCnnModel extends Component
      */
     public function backToForm(): void
     {
-        $this->reset(['activeStep', 'onTraining', 'trainingCancelled']);
+        $this->reset(['activeStep', 'onTraining']);
     }
 
     /**
@@ -263,11 +228,6 @@ class TrainCnnModel extends Component
      */
     private function goToNextStep(string $result, string $method): void
     {
-        if ($this->trainingCancelled) {
-            $this->stopTraining(__('Process stopped by the user'));
-            return;
-        }
-
         $this->steps[$this->activeStep]['status'] = 'successfull';
         $this->steps[$this->activeStep]['result'] = $result;
 
@@ -281,11 +241,6 @@ class TrainCnnModel extends Component
      */
     private function finish($result): void
     {
-        if ($this->trainingCancelled) {
-            $this->stopTraining(__('Process stopped by the user'));
-            return;
-        }
-
         // TODO: Save model and metrics
 
         $this->steps[$this->activeStep]['status'] = 'successfull';

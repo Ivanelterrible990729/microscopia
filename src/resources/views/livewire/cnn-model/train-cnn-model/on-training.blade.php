@@ -48,25 +48,8 @@
     </ul>
 </x-base.dialog.description>
 
-<x-base.dialog.footer x-data="{showMessage: false}">
-    @if ($activeStep < count($steps) && !$trainingCancelled)
-        <span class="mr-2" x-show="showMessage">
-            {{ __('Please wait.') }}
-        </span>
-
-        <x-base.button
-            variant="secondary"
-            x-ref="cancel"
-            x-on:click="
-                $refs.cancel.disabled = true;
-                $wire.trainingCancelled = true;
-                showMessage = true;
-            "
-        >
-            {{ __('Cancel') }}
-        </x-base.button>
-    @endif
-    @if ($activeStep == count($steps) || $trainingCancelled)
+<x-base.dialog.footer>
+    @if ($activeStep == count($steps))
         <x-base.button
             variant="dark"
             wire:click='backToForm'
