@@ -40,11 +40,11 @@ class ImageFactory extends Factory
                     ->pluck('id')
             );
 
-            $labelName = $image->labels->first()->name;
+            $labelName = $image->labels->first()->folder_name;
             $mediaImageService = new MediaImageService();
             $mediaImageService->addMedia(
                 image: $image,
-                file: resource_path('images/dataset/' . $labelName . '.jpg'),
+                file: resource_path('images/dataset/' . sanitizeFileName($labelName) . '.jpg'),
                 preservingOriginal: true
             );
         });

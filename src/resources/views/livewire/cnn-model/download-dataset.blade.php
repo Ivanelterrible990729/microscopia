@@ -90,7 +90,7 @@
                                 type="checkbox"
                                 wire:model='form.all_images'
                             />
-                            <x-base.form-check.label for="form.selected_labels.{{ $key }}">
+                            <x-base.form-check.label for="form.all_images">
                                 <span>
                                     {{ __('Download all images') }}
                                 </span>
@@ -123,7 +123,7 @@
                                 type="checkbox"
                                 wire:model='form.data_augmentation'
                             />
-                            <x-base.form-check.label for="form.selected_labels.{{ $key }}">
+                            <x-base.form-check.label for="form.data_augmentation">
                                 <span>
                                     {{ __('Enable data augmentation') }}
                                 </span>

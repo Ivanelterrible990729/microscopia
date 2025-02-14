@@ -5,10 +5,12 @@ namespace App\Livewire\CnnModel;
 use App\Enums\CnnModel\AvailableModelsEnum;
 use App\Enums\Media\MediaEnum;
 use App\Models\CnnModel;
+use App\Models\Image;
 use App\Models\Label;
 use App\Services\ModelTrainingService;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TrainCnnModel extends Component
 {
@@ -70,8 +72,9 @@ class TrainCnnModel extends Component
             return is_null($carry) ? $item : $carry += $item;
         });
 
-        $this->availableLabels = Label::whereHas('images')
-            ->withCount('images')
+        $this->availableLabels = Label::withCount(['images' => function ($query) {
+                $query->whereNull('deleted_at');
+            }])
             ->orderBy('name')
             ->get()
             ->map(function($label) {
@@ -160,6 +163,9 @@ class TrainCnnModel extends Component
         return view('livewire.cnn-model.train-cnn-model');
     }
 
+    /**
+     * Comienza el proceso de entrenamiento.
+     */
     public function trainModel(): void
     {
         $this->onTraining = true;
@@ -174,6 +180,9 @@ class TrainCnnModel extends Component
         }
     }
 
+    /**
+     * Realiza la descarga del modelo (Si es que existía alguno)
+     */
     public function modelBackup()
     {
         if ($this->trainingCancelled) {
@@ -187,7 +196,28 @@ class TrainCnnModel extends Component
         return $modelService->downloadModel($this->cnnModel->getFirstMedia(MediaEnum::CNN_Model->value));
     }
 
+    /**
+     * Crea el ambiente de entrenamiento generando los directorios correspondentes
+     */
     public function trainingEnvironment(): void
+    {
+        if ($this->trainingCancelled) {
+            $this->stopTraining(__('Process stopped by the user'));
+            return;
+        }
+
+        Storage::disk(config('filesystems.default'))->makeDirectory(ModelTrainingService::ORIGINAL_DIRECTORY);
+        Storage::disk(config('filesystems.default'))->makeDirectory(ModelTrainingService::CROPPED_DIRECTORY);
+        Storage::disk(config('filesystems.default'))->makeDirectory(ModelTrainingService::AUGMENTED_DIRECTORY);
+
+        $this->goToNextStep(result: '', method: 'extractImagesForTraining');
+    }
+
+    /**
+     * Mueve las imagenes originales al ambiente de entrenamiento.
+     * - Realiza el movimiento de imagenes por cada etiqueta.
+     */
+    public function extractImagesForTraining(): void
     {
         if ($this->trainingCancelled) {
             $this->stopTraining(__('Process stopped by the user'));
@@ -199,19 +229,25 @@ class TrainCnnModel extends Component
             $this->form['selected_labels']
         );
 
-        $directories = Storage::disk(config('filesystems.default'))->makeDirectory('training-images');
+        foreach ($selected_directories as $key => $directory) {
+            $folderName = $this->availableLabels[$key]['folder_name'];
+            $images = Storage::disk(config('filesystems.default'))->files($directory);
+            $deletedImages = Media::with('model')
+                ->where('collection_name', $this->availableLabels[$key]['folder_name'])
+                ->where('model_type', Image::class)
+                ->get()
+                ->where('model.deleted_at', '!=', null)
+                ->map(function($media) {
+                    return $media->getPathRelativeToRoot();
+                })->toArray();
 
-        $this->goToNextStep(result: '', method: 'extractImagesForTraining');
-    }
+            $imagesToTrain = array_diff($images, $deletedImages);
 
-    public function extractImagesForTraining(): void
-    {
-        if ($this->trainingCancelled) {
-            $this->stopTraining(__('Process stopped by the user'));
-            return;
+            foreach ($imagesToTrain as $imagePath) {
+                $filename = pathinfo($imagePath, PATHINFO_BASENAME);
+                Storage::disk(config('filesystems.default'))->move($imagePath, ModelTrainingService::ORIGINAL_DIRECTORY . '/' . $folderName . '/' . $filename);
+            }
         }
-
-        sleep(2);
 
         $this->goToNextStep(result: '', method: 'imageCropping');
     }
@@ -223,7 +259,7 @@ class TrainCnnModel extends Component
             return;
         }
 
-        sleep(2);
+        // Ubicación de imagenes: ModelTrainingServce::OriginalDirectory.
 
         $this->goToNextStep(result: '', method: 'imageAugmentation');
     }
@@ -235,7 +271,7 @@ class TrainCnnModel extends Component
             return;
         }
 
-        sleep(2);
+        // Ubicación de imagenes: ModelTrainingServce::CroppedDirectory.
 
         $this->goToNextStep(result: '', method: 'cnnModelTraining');
     }
@@ -247,7 +283,7 @@ class TrainCnnModel extends Component
             return;
         }
 
-        sleep(2);
+        // Ubicación de imagenes: ModelTrainingServce::AugmentedDirectory.
 
         $this->goToNextStep(result: '', method: 'removingTrainingEnvironment');
     }
@@ -259,9 +295,21 @@ class TrainCnnModel extends Component
             return;
         }
 
-        sleep(2);
+        $directories = Storage::disk(config('filesystems.default'))->directories(ModelTrainingService::ORIGINAL_DIRECTORY);
 
-        $this->finish('');
+        foreach ($directories as $directory) {
+            $images = Storage::disk(config('filesystems.default'))->files($directory);
+            $folderName = pathinfo($directory, PATHINFO_BASENAME);
+
+            foreach ($images as $imagePath) {
+                $filename = pathinfo($imagePath, PATHINFO_BASENAME);
+                Storage::disk(config('filesystems.default'))->move($imagePath, 'images/' . $folderName . '/' . $filename);
+            }
+        }
+
+        Storage::disk(config('filesystems.default'))->deleteDirectory(ModelTrainingService::TRAINING_WORKSPACE);
+
+        $this->finish('Images moved.');
     }
 
     /**
