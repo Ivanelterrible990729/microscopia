@@ -104,13 +104,7 @@ class TrainCnnModel extends Component
             [
                 'status' => null,
                 'title' => __('Training environment'),
-                'description' => __("Creating a new directory to allocate the training set."),
-                'result' => null,
-            ],
-            [
-                'status' => null,
-                'title' => __('Exctract images for training'),
-                'description' => __("Getting the required images to perform the training."),
+                'description' => __("Creating a new directory to allocate the training set. Getting the required images to perform the training."),
                 'result' => null,
             ],
             [
@@ -209,20 +203,6 @@ class TrainCnnModel extends Component
         Storage::disk(config('filesystems.default'))->makeDirectory(ModelTrainingService::ORIGINAL_DIRECTORY);
         Storage::disk(config('filesystems.default'))->makeDirectory(ModelTrainingService::CROPPED_DIRECTORY);
         Storage::disk(config('filesystems.default'))->makeDirectory(ModelTrainingService::AUGMENTED_DIRECTORY);
-
-        $this->goToNextStep(result: '', method: 'extractImagesForTraining');
-    }
-
-    /**
-     * Mueve las imagenes originales al ambiente de entrenamiento.
-     * - Realiza el movimiento de imagenes por cada etiqueta.
-     */
-    public function extractImagesForTraining(): void
-    {
-        if ($this->trainingCancelled) {
-            $this->stopTraining(__('Process stopped by the user'));
-            return;
-        }
 
         $selected_directories = array_map(
             fn($id) => 'images/' . $this->availableLabels[array_search($id, array_column($this->availableLabels, 'id'))]['folder_name'],
