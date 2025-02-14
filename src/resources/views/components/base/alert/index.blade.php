@@ -8,7 +8,7 @@
     // Main Colors
     $primary = [
         'bg-primary border-primary text-white', // Default
-        'dark:border-primary', // Dark
+        'dark:border-primary dark:text-primary', // Dark
     ];
     $secondary = [
         'bg-secondary/70 border-secondary/70 text-slate-500', // Default
@@ -16,19 +16,19 @@
     ];
     $success = [
         'bg-success border-success text-slate-900', // Default
-        'dark:border-success', // Dark mode
+        'dark:border-success dark:text-slate-900', // Dark mode
     ];
     $warning = [
         'bg-warning border-warning text-slate-900', // Default
-        'dark:border-warning', // Dark mode
+        'dark:border-warning dark:text-warning', // Dark mode
     ];
     $pending = [
         'bg-pending border-pending text-white', // Default
-        'dark:border-pending', // Dark mode
+        'dark:border-pending dark:text-pending', // Dark mode
     ];
     $danger = [
         'bg-danger border-danger text-white', // Default
-        'dark:border-danger', // Dark mode
+        'dark:border-danger dark:text-danger', // Dark mode
     ];
     $dark = [
         'bg-dark border-dark text-white', // Default

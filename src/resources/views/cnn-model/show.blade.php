@@ -28,7 +28,7 @@
 
     <x-base.tab.group>
         <div class="intro-y box mt-5 px-5 pt-5">
-            @include('cnn-model.preview.details')
+            <livewire:cnn-model.info-cnn-model :cnn-model="$cnnModel" :can-delete-model="$canDeleteModel" />
 
             <x-base.tab.list
                 class="flex-col justify-center text-center sm:flex-row lg:justify-start"
@@ -60,18 +60,6 @@
                         {{ __('Download dataset') }}
                     </x-base.tab.button>
                 </x-base.tab>
-                <x-base.tab
-                    id="code-tab"
-                    :fullWidth="false"
-                >
-                    <x-base.tab.button class="flex items-center cursor-pointer py-4">
-                        <x-base.lucide
-                            icon="code"
-                            class="mr-2"
-                        />
-                        {{ __('Download code') }}
-                    </x-base.tab.button>
-                </x-base.tab>
             </x-base.tab.list>
         </div>
 
@@ -98,4 +86,8 @@
             </x-base.tab.panel>
         </x-base.tab.panels>
     </x-base.tab.group>
+
+    @if ($canDeleteModel)
+        @include('cnn-model.modal.modal-delete')
+    @endif
 @endsection

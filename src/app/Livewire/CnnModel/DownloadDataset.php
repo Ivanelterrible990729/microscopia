@@ -4,6 +4,7 @@ namespace App\Livewire\CnnModel;
 
 use App\Models\CnnModel;
 use App\Models\Label;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class DownloadDataset extends Component
@@ -95,5 +96,14 @@ class DownloadDataset extends Component
     public function downloadDataset()
     {
         $this->validate();
+    }
+
+    /**
+     * Refrezca el contenido del modelo para actualizarlo en la vista.
+     */
+    #[On('refresh-model')]
+    public function refreshModel()
+    {
+        $this->cnnModel->refresh();
     }
 }
