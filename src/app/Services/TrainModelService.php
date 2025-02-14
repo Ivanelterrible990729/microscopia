@@ -43,7 +43,7 @@ class TrainModelService
      * - Crea los directorios para el entrenamiento
      * - Mueve las imagenes que serán entrenadas.
      */
-    public static function createEnvironment(array $availableLabels, array $selectedLabels): void
+    public static function createEnvironment(array $availableLabels, array $selectedLabels, int $maxNumImages): int
     {
         Storage::disk(config('filesystems.default'))->makeDirectory(self::ORIGINAL_DIRECTORY);
         Storage::disk(config('filesystems.default'))->makeDirectory(self::CROPPED_DIRECTORY);
@@ -65,14 +65,21 @@ class TrainModelService
                     return $media->getPathRelativeToRoot();
                 })->toArray();
 
+            $maxNum = 1;
             $imagesToTrain = array_diff($images, $deletedImages);
             $folderName = $availableLabels[$key]['folder_name'];
 
             foreach ($imagesToTrain as $imagePath) {
                 $fileName = pathinfo($imagePath, PATHINFO_BASENAME);
                 Storage::disk(config('filesystems.default'))->move($imagePath, self::ORIGINAL_DIRECTORY . '/' . $folderName . '/' . $fileName);
+
+                if ($maxNum == $maxNumImages) {
+                    break;
+                }
             }
         }
+
+        return count($selected_directories);
     }
 
     /**
@@ -80,7 +87,7 @@ class TrainModelService
      * - Mueve las imagenes a su ubicación original.
      * - Elimina los directorios creados con anterioridad.
      */
-    public static function removeEnvironment()
+    public static function removeEnvironment(): void
     {
         $directories = Storage::disk(config('filesystems.default'))->directories(self::ORIGINAL_DIRECTORY);
 

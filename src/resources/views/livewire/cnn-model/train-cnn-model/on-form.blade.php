@@ -1,28 +1,30 @@
 <x-base.dialog.description>
     @if ($cnnModel->hasMedia('*'))
-        <x-base.alert
-            class="intro-y box col-span-11 mb-6 dark:border-darkmode-600"
-            variant="warning"
-            dismissible
-        >
-            <div class="flex items-center">
-                <span>
-                    <x-base.lucide
-                        class="mr-2 h-4 w-4"
-                        icon="octagon-alert"
-                    />
-                </span>
-                <span>
-                    {{ __('Since this model has been already trained, a model backup will be downloaded at the start of the training process.') }}
-                </span>
-                <x-base.alert.dismiss-button class="text-white">
-                    <x-base.lucide
-                        class="h-4 w-4"
-                        icon="X"
-                    />
-                </x-base.alert.dismiss-button>
-            </div>
-        </x-base.alert>
+        <div wire:ignore>
+            <x-base.alert
+                class="intro-y box col-span-11 mb-6 dark:border-darkmode-600"
+                variant="warning"
+                dismissible
+            >
+                <div class="flex items-center">
+                    <span>
+                        <x-base.lucide
+                            class="mr-2 h-4 w-4"
+                            icon="octagon-alert"
+                        />
+                    </span>
+                    <span>
+                        {{ __('Since this model has been already trained, a model backup will be downloaded at the start of the training process.') }}
+                    </span>
+                    <x-base.alert.dismiss-button class="text-white">
+                        <x-base.lucide
+                            class="h-4 w-4"
+                            icon="X"
+                        />
+                    </x-base.alert.dismiss-button>
+                </div>
+            </x-base.alert>
+        </div>
     @endif
 
     <x-validation-errors class="mb-5"/>

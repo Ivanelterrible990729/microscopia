@@ -83,7 +83,7 @@ class TrainCnnModel extends Component
             'selected_model' => $cnnModel->hasMedia('*') ? $cnnModel->getFirstMedia('*')?->getPath() : null,
             'selected_labels' => $cnnModel->labels->pluck('id')->toArray(),
             'validation_portion' => '0.2',
-            'images_limit' => 0,
+            'images_limit' => empty($cnnModel->labels) ? 0 : $this->uploadMinImages(),
         ];
 
         $this->steps = [
@@ -182,9 +182,8 @@ class TrainCnnModel extends Component
      */
     public function trainingEnvironment(): void
     {
-        TrainModelService::createEnvironment($this->availableLabels, $this->form['selected_labels']);
-
-        $this->goToNextStep(result: '', method: 'imageCropping');
+        $numLabels = TrainModelService::createEnvironment($this->availableLabels, $this->form['selected_labels'], $this->form['images_limit']);
+        $this->goToNextStep(result: __('Environment created.') . ' (' . $numLabels . ' ' . __('labels') . ').', method: 'imageCropping');
     }
 
     public function imageCropping(): void
@@ -212,7 +211,7 @@ class TrainCnnModel extends Component
     {
         TrainModelService::removeEnvironment();
 
-        $this->finish('Images moved.');
+        $this->finish(__('Environment removed.'));
     }
 
     /**
