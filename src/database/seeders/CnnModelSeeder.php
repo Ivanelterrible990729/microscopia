@@ -27,7 +27,11 @@ class CnnModelSeeder extends Seeder
 
         $mobileNetV2 = CnnModel::create([
             'name' => 'MobileNetV2 - Trained',
-            'base_model' => 'cnn-models/trained/mobilenetv2.h5',
+            'base_model' => 'cnn-models/trained/mobilenetv2.keras',
+            'accuracy' => 0.9930,
+            'loss' => 0.0992,
+            'val_accuracy' => 1.0000,
+            'val_loss' => 0.0716,
         ]);
 
         $mobileNetV2->labels()->sync($labels);
