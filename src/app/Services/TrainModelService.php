@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\CnnModel\AvailableModelsEnum;
 use App\Models\Image;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -132,6 +133,46 @@ class TrainModelService
         }
 
         return (int) $output[0];
+    }
+
+    /**
+     * Realiza el entrenamiento del modelo
+     */
+    public static function trainModel(array $availableLabels, array $selectedLabels, $modelDirectory, string $validationPortion)
+    {
+        $classNames = array_map(
+            fn($id) => $availableLabels[array_search($id, array_column($availableLabels, 'id'))]['folder_name'],
+            $selectedLabels
+        );
+
+        $args = [
+            '--class_names' => json_encode($classNames),
+            '--model_directory' => $modelDirectory,
+            '--data_directory' => Storage::disk(config('filesystems.default', 'public'))->path(self::AUGMENTED_DIRECTORY),
+            '--validation_portion' => $validationPortion,
+            '--is_base_model' => in_array($modelDirectory, array_keys(AvailableModelsEnum::arrayResource())) ? "1" : "0",
+            '--output_dir' => Storage::disk(config('filesystems.default', 'public'))->path(self::TRAINING_WORKSPACE),
+        ];
+
+        $pythonService = new PythonService();
+        $output = $pythonService->runScript(
+            script: 'train_model.py',
+            args: $args
+        );
+
+        $output = array_values(array_slice($output, -5, 5, true));
+
+        if (count($output) != 5) {
+            return [];
+        }
+
+        return [
+            'model_path' => $output[0],
+            'accuracy' => $output[1],
+            'loss' => $output[2],
+            'val_accuracy' => $output[3],
+            'val_loss' => $output[4],
+        ];
     }
 
     /**

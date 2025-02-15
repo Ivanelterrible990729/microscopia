@@ -74,11 +74,13 @@ class CnnModelForm extends Form
         $cnnModel = CnnModel::create($this->except(['labelIds', 'file']));
         $cnnModel->labels()->sync($this->labelIds);
 
-        $cnnModel->addMedia($this->file)
-            ->usingFileName(sanitizeFileName($this->file->getClientOriginalName()))
-            ->usingName(sanitizeFileName($this->file->getClientOriginalName()))
-            ->preservingOriginal(false)
-            ->toMediaCollection(MediaEnum::CNN_Model->value);
+        if (isset($this->file)) {
+            $cnnModel->addMedia($this->file)
+                ->usingFileName(sanitizeFileName($this->file->getClientOriginalName()))
+                ->usingName(sanitizeFileName($this->file->getClientOriginalName()))
+                ->preservingOriginal(false)
+                ->toMediaCollection(MediaEnum::CNN_Model->value);
+        }
 
         return $cnnModel;
     }

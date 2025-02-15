@@ -80,7 +80,7 @@ class TrainCnnModel extends Component
         })->toArray();
 
         $this->form = [
-            'selected_model' => $cnnModel->hasMedia('*') ? $cnnModel->getFirstMedia('*')?->getPath() : null,
+            'selected_model' => $cnnModel->hasMedia('*') ? $cnnModel->getFirstMedia('*')?->getPath() : array_key_first($this->availableModels),
             'selected_labels' => $cnnModel->labels->pluck('id')->toArray(),
             'validation_portion' => '0.2',
             'images_limit' => 0,
@@ -178,7 +178,10 @@ class TrainCnnModel extends Component
     public function modelBackup()
     {
         $this->goToNextStep(result: __('Model downloaded.'), method: 'trainingEnvironment');
-        return TrainModelService::downloadModel($this->cnnModel->getFirstMedia(MediaEnum::CNN_Model->value));
+
+        return TrainModelService::downloadModel(
+            modelMedia: $this->cnnModel->getFirstMedia(MediaEnum::CNN_Model->value)
+        );
     }
 
     /**
@@ -187,10 +190,18 @@ class TrainCnnModel extends Component
      */
     public function trainingEnvironment(): void
     {
-        $numLabels = TrainModelService::createEnvironment($this->availableLabels, $this->form['selected_labels'], $this->form['images_limit']);
+        $numLabels = TrainModelService::createEnvironment(
+            availableLabels: $this->availableLabels,
+            selectedLabels: $this->form['selected_labels'],
+            maxNumImages: $this->form['images_limit']
+        );
+
         $this->goToNextStep(result: __('Environment created.') . ' (' . $numLabels . ' ' . __('labels') . ').', method: 'imageCropping');
     }
 
+    /**
+     * Realiza el recorte de imagenes para evitar ruido por las métricas de la muestra tomada.
+     */
     public function imageCropping(): void
     {
         $numImages = TrainModelService::cropImages();
@@ -203,6 +214,9 @@ class TrainCnnModel extends Component
         $this->goToNextStep(result: $numImages . ' images were cropped successfully.', method: 'imageAugmentation');
     }
 
+    /**
+     * Realiza data augmentation para enriquecer la generalización del modelo.
+     */
     public function imageAugmentation(): void
     {
         $numImages = TrainModelService::augmentImages();
@@ -215,18 +229,40 @@ class TrainCnnModel extends Component
         $this->goToNextStep(result: $numImages . ' new images were created successfully.', method: 'cnnModelTraining');
     }
 
+    /**
+     * Realiza el entrenamiento del modelo, y si todo salió bien, entonces actualiza modelo.
+     */
     public function cnnModelTraining(): void
     {
-        // Ubicación de imagenes: ModelTrainingServce::AugmentedDirectory.
+        $metrics = TrainModelService::trainModel(
+            availableLabels: $this->availableLabels,
+            selectedLabels: $this->form['selected_labels'],
+            modelDirectory: $this->form['selected_model'],
+            validationPortion: $this->form['validation_portion']
+        );
 
-        $this->goToNextStep(result: '', method: 'removingTrainingEnvironment');
+        if (empty($metrics)) {
+            $this->stopTraining(__('Training process failed.'));
+            return;
+        }
+
+        // Save new model
+        $this->cnnModel->media()->get()->each->delete();
+        $this->cnnModel->addMedia($metrics['model_path'])
+            ->preservingOriginal(false)
+            ->toMediaCollection(MediaEnum::CNN_Model->value);
+
+        // TODO: save metrics to model.
+        unset($metrics['model_path']);
+
+        $this->goToNextStep(result: 'Model trained: ' . json_encode($metrics), method: 'removingTrainingEnvironment');
     }
 
     public function removingTrainingEnvironment(): void
     {
         TrainModelService::removeEnvironment();
 
-        $this->finish(__('Environment removed.'));
+        $this->finish(result: __('Environment removed.'));
     }
 
     /**
@@ -254,10 +290,8 @@ class TrainCnnModel extends Component
      * Finaliza el flujo del entrenamiento y manda mensaje
      * de confirmación.
      */
-    private function finish($result): void
+    private function finish(string $result): void
     {
-        // TODO: Save model and metrics
-
         $this->steps[$this->activeStep]['status'] = 'successfull';
         $this->steps[$this->activeStep]['result'] = $result;
         $this->activeStep = count($this->steps);
