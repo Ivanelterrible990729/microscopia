@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('cnn_models', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('base_model')->nullable();
-            $table->string('val_accuracy')->nullable();
-            $table->string('val_error')->nullable();
+            $table->decimal('accuracy', 5, 4)->nullable();
+            $table->decimal('loss', 5, 4)->nullable();
+            $table->decimal('val_accuracy', 5, 4)->nullable();
+            $table->decimal('val_loss', 5, 4)->nullable();
             $table->timestamps();
         });
     }

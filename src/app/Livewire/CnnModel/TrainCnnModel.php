@@ -254,7 +254,11 @@ class TrainCnnModel extends Component
 
         // TODO: save metrics to model.
         unset($metrics['model_path']);
+        if (in_array($this->form['selected_model'], array_keys(AvailableModelsEnum::arrayResource()))) {
+            $metrics['base_model'] = str_replace(resource_path(''), '', $this->form['selected_model']);
+        }
 
+        $this->cnnModel->update($metrics);
         $this->goToNextStep(result: 'Model trained: ' . json_encode($metrics), method: 'removingTrainingEnvironment');
     }
 
@@ -296,6 +300,7 @@ class TrainCnnModel extends Component
         $this->steps[$this->activeStep]['result'] = $result;
         $this->activeStep = count($this->steps);
 
+        $this->dispatch('refresh-model');
         $this->toast(title: __('Success'), message: __('Model training successfully completed. The trained Model is now in use.'))->success();
     }
 

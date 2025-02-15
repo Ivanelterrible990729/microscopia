@@ -21,10 +21,12 @@ class CnnModelFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'modelname' . '_' .time(),
+            'name' => 'modelname',
             'base_model' => fake()->randomElement(AvailableModelsEnum::values()),
-            'val_accuracy' => '9' . fake()->randomNumber(),
-            'val_error' => '0.0123' . fake()->randomNumber(),
+            'accuracy' => (double)('0.9' . fake()->randomNumber(nbDigits: 3)),
+            'loss' => (double)('0.01' . fake()->randomNumber(nbDigits: 2)),
+            'val_accuracy' => (double)('0.9' . fake()->randomNumber(nbDigits: 3)),
+            'val_loss' => (double)('0.01' . fake()->randomNumber(nbDigits: 2)),
         ];
     }
 

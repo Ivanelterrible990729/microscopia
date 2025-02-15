@@ -20,24 +20,24 @@ class CnnModelSeeder extends Seeder
             return;
         }
 
+        $labels = Label::all()->pluck('id');
+
         // TODO:
         // Una vez finalizados los modelos, cargarlos en este seeder.
 
         $mobileNetV2 = CnnModel::create([
             'name' => 'MobileNetV2 - Trained',
+            'base_model' => 'cnn-models/trained/mobilenetv2.h5',
         ]);
 
-        $mobileNetV2->labels()->sync(
-            Label::all()
-                ->pluck('id')
-        );
-
-        $mobileNetV2->addMedia(resource_path('cnn-models/trained/mobilenetv2.h5'))
+        $mobileNetV2->labels()->sync($labels);
+        $mobileNetV2->addMedia(resource_path($mobileNetV2->base_model))
             ->preservingOriginal()
             ->toMediaCollection(MediaEnum::CNN_Model->value);
 
         // $vgg16 = CNNModel::create([
-        //     'name' => 'VGG16',
+        //     'name' => 'VGG16 - Trained',
+        //     'base_model' => 'cnn-models/trained/vgg16.h5',
         // ]);
     }
 }
