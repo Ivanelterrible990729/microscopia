@@ -29,6 +29,7 @@ class DownloadDataset extends Component
         return [
             'form.selected_labels' => 'required|array|min:1',
             'form.all_images' => 'required|boolean',
+            'form.crop_images' => 'required|boolean',
             'form.data_augmentation' => 'required|boolean',
             'form.images_limit' => 'required_if:form.all_images|numeric|min:1',
         ];
@@ -39,6 +40,7 @@ class DownloadDataset extends Component
         return [
             'form.selected_labels' => __('Training labels'),
             'form.all_images' => __('Download all images'),
+            'form.crop_images' => __('Crop images'),
             'form.data_augmentation' => __('Data augmentation'),
             'form.images_limit' => __('Maximum number of images'),
         ];
@@ -62,6 +64,7 @@ class DownloadDataset extends Component
         $this->form = [
             'selected_labels' => $cnnModel->labels->pluck('id')->toArray(),
             'all_images' => false,
+            'crop_images' => false,
             'data_augmentation' => false,
             'images_limit' => 0,
         ];

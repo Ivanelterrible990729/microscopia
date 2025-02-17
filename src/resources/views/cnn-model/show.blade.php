@@ -90,4 +90,8 @@
     @if ($canDeleteModel)
         @include('cnn-model.modal.modal-delete')
     @endif
+
+    @if ($canUpdateModel)
+        @include('cnn-model.modal.modal-edit')
+    @endif
 @endsection

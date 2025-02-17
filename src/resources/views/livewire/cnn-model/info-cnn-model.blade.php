@@ -50,6 +50,8 @@
             </div>
             <div class="mt-2 flex items-center justify-center lg:justify-start">
                 <x-base.button
+                    as="button"
+                    onclick="dispatchModal('modal-edit-cnn-model', 'show')"
                     class="align-top w-32"
                     variant="warning"
                 >

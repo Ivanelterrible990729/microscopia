@@ -4,7 +4,7 @@ namespace App\Livewire\Forms;
 
 use App\Enums\Media\MediaEnum;
 use App\Models\CnnModel;
-use App\Rules\OnlyH5Files;
+use App\Rules\OnlyKerasFiles;
 use Illuminate\Http\UploadedFile;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
@@ -43,7 +43,7 @@ class CnnModelForm extends Form
                 'nullable',
                 'file',
                 'max:' . config('max-file-size.models'),
-                new OnlyH5Files
+                new OnlyKerasFiles
             ],
         ];
     }
@@ -75,6 +75,25 @@ class CnnModelForm extends Form
         $cnnModel->labels()->sync($this->labelIds);
 
         if (isset($this->file)) {
+            $cnnModel->addMedia($this->file)
+                ->usingFileName(sanitizeFileName($this->file->getClientOriginalName()))
+                ->usingName(sanitizeFileName($this->file->getClientOriginalName()))
+                ->preservingOriginal(false)
+                ->toMediaCollection(MediaEnum::CNN_Model->value);
+        }
+
+        return $cnnModel;
+    }
+
+    public function updateModel(CnnModel $cnnModel): CnnModel
+    {
+        $this->validate();
+
+        $cnnModel->update($this->except(['labelIds', 'file']));
+        $cnnModel->labels()->sync($this->labelIds);
+
+        if (isset($this->file)) {
+            $cnnModel->media()->get()->each->delete();
             $cnnModel->addMedia($this->file)
                 ->usingFileName(sanitizeFileName($this->file->getClientOriginalName()))
                 ->usingName(sanitizeFileName($this->file->getClientOriginalName()))
