@@ -34,34 +34,41 @@
             <div class="text-center font-medium lg:mt-3 lg:text-left">
                 {{ __('Actions') }}
             </div>
-            <div class="mt-2 flex items-center justify-center lg:justify-start">
-                <x-base.button
-                    as="button"
-                    class="align-top w-32"
-                    variant="dark"
-                    wire:click='downloadModel'
-                >
-                    <x-base.lucide
-                        icon="download"
-                        class="mr-2"
-                    />
-                    {{ __('Download') }}
-                </x-base.button>
-            </div>
-            <div class="mt-2 flex items-center justify-center lg:justify-start">
-                <x-base.button
-                    as="button"
-                    onclick="dispatchModal('modal-edit-cnn-model', 'show')"
-                    class="align-top w-32"
-                    variant="warning"
-                >
-                    <x-base.lucide
-                        icon="edit"
-                        class="mr-2"
-                    />
-                    {{ __('Edit') }}
-                </x-base.button>
-            </div>
+
+            @if ($canDownloadModel)
+                <div class="mt-2 flex items-center justify-center lg:justify-start">
+                    <x-base.button
+                        as="button"
+                        class="align-top w-32"
+                        variant="dark"
+                        wire:click='downloadModel'
+                    >
+                        <x-base.lucide
+                            icon="download"
+                            class="mr-2"
+                        />
+                        {{ __('Download') }}
+                    </x-base.button>
+                </div>
+            @endif
+
+            @if ($canUpdateModel)
+                <div class="mt-2 flex items-center justify-center lg:justify-start">
+                    <x-base.button
+                        as="button"
+                        onclick="dispatchModal('modal-edit-cnn-model', 'show')"
+                        class="align-top w-32"
+                        variant="warning"
+                    >
+                        <x-base.lucide
+                            icon="edit"
+                            class="mr-2"
+                        />
+                        {{ __('Edit') }}
+                    </x-base.button>
+                </div>
+            @endif
+
             @if ($canDeleteModel)
                 <div class="mt-2 flex items-center justify-center lg:justify-start">
                     <x-base.button

@@ -28,7 +28,7 @@
 
     <x-base.tab.group>
         <div class="intro-y box mt-5 px-5 pt-5">
-            <livewire:cnn-model.info-cnn-model :cnn-model="$cnnModel" :can-delete-model="$canDeleteModel" />
+            <livewire:cnn-model.info-cnn-model :cnn-model="$cnnModel" :can-download-model="$canDownloadModel" :can-update-model="$canUpdateModel" :can-delete-model="$canDeleteModel" />
 
             <x-base.tab.list
                 class="flex-col justify-center text-center sm:flex-row lg:justify-start"

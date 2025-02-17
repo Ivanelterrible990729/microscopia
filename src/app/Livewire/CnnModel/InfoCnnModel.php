@@ -20,9 +20,21 @@ class InfoCnnModel extends Component
      */
     public bool $canDeleteModel;
 
-    public function mount(CnnModel $cnnModel, bool $canDeleteModel)
+    /**
+     * Determina si el usuario tiene permisos para editar el modelo.
+     */
+    public bool $canUpdateModel;
+
+        /**
+     * Determina si el usuario tiene permisos para descargar el modelo.
+     */
+    public bool $canDownloadModel;
+
+    public function mount(CnnModel $cnnModel, bool $canDownloadModel, bool $canUpdateModel, bool $canDeleteModel)
     {
         $this->cnnModel = $cnnModel;
+        $this->canDownloadModel = $canDownloadModel;
+        $this->canUpdateModel = $canUpdateModel;
         $this->canDeleteModel = $canDeleteModel;
     }
 
