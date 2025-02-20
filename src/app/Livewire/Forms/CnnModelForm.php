@@ -33,6 +33,11 @@ class CnnModelForm extends Form
      */
     public null|UploadedFile $file = null;
 
+    /**
+     * Nombre del archivo (Solo para edición)
+     */
+    public null|string $filename = null;
+
     protected function rules()
     {
         return [

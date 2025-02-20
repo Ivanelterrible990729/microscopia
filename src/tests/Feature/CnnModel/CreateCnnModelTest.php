@@ -71,7 +71,7 @@ class CreateCnnModelTest extends TestCase
             ->call('createModel')
             ->assertHasErrors([
                 'form.labelIds.*',
-                'form.file' => __('The file must have extension .h5'),
+                'form.file' => __('The file must have extension .keras'),
             ]);
 
         // Valida campos requeridos

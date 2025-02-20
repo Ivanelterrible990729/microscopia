@@ -90,12 +90,12 @@ formInline
                 @drop.prevent="isDragging = false"
             >
                 <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                    @if (isset($form->file))
+                    @if (isset($form->file) || isset($form->filename))
                         <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
                             {{ __('Uploaded file') }}
                         </p>
                         <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                            <span class="font-semibold">{{ $form->file?->getClientOriginalName() }}</span>
+                            <span class="font-semibold">{{ $form->file?->getClientOriginalName() ?? $form->filename }}</span>
                         </p>
                         <x-base.button
                             type="button"
@@ -117,12 +117,9 @@ formInline
                             {{ __('Or drag and drop your model here') }}
                         </p>
                         <p class="text-xs text-gray-500 dark:text-gray-400">
-                            {{ __('.h5 format') }} ({{ __('Maximum') . ' ' . config('max-file-size.models_desc') }})
+                            {{ __('.keras format') }} ({{ __('Maximum') . ' ' . config('max-file-size.models_desc') }})
                         </p>
                     @endif
-                </div>
-                <div class="flex flex-col">
-
                 </div>
                 <input id="form.file" name='form.file' wire:model='form.file' type="file" class="hidden" x-bind:disabled="uploaded" />
             </label>

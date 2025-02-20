@@ -24,8 +24,20 @@ class EditCnnModel extends Component
      */
     public CnnModelForm $form;
 
-    public function mount()
+    /**
+     * Referencia del modelo a actualizar
+     */
+    public CnnModel $cnnModel;
+
+    /**
+     * Bandera que determina si hay un archivo subido.
+     */
+    public $uploaded = false;
+
+    public function mount(CnnModel $cnnModel)
     {
+        $this->cnnModel = $cnnModel;
+
         $this->availableLabels = Label::query()
             ->orderBy('name')
             ->get()
@@ -36,12 +48,18 @@ class EditCnnModel extends Component
                     'color' => $label->color,
                 ];
             })->toArray();
-    }
 
-    /**
-     * Bandera que determina si hay un archivo subido.
-     */
-    public $uploaded = false;
+        $this->form->fill([
+            'id' => $this->cnnModel->id,
+            'name' => $this->cnnModel->name,
+            'labelIds' => $this->cnnModel->labels->pluck('id')->toArray(),
+        ]);
+
+        if ($this->cnnModel->hasMedia('*')) {
+            $this->uploaded = true;
+            $this->form->filename = $this->cnnModel->getFirstMedia('*')->file_name;
+        }
+    }
 
     public function render()
     {
@@ -54,13 +72,13 @@ class EditCnnModel extends Component
      */
     public function replaceFile()
     {
-        $this->form->file = null;
+        $this->form->file = $this->form->filename = null;
         Storage::disk(config('filesystems.default'))->deleteDirectory('livewire/tmp');
     }
 
     public function updateModel()
     {
-        Gate::authorize('update', CnnModel::class);
+        Gate::authorize('update', $this->cnnModel);
 
         return redirect()->route('cnn-model.show', ['cnnModel' => $this->form->updateModel(cnnModel: $this->cnnModel)])->with([
             'alert' => [
