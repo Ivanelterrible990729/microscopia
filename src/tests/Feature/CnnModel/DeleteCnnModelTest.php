@@ -70,7 +70,7 @@ class DeleteCnnModelTest extends TestCase
             'name' => $modelName
         ]);
         $this->assertDatabaseMissing('media', [
-            'name' => 'MobileNetV2.h5'
+            'name' => 'MobileNetV2.keras'
         ]);
 
         // Valida session del mensaje.

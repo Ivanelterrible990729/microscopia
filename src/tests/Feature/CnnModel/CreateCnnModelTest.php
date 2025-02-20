@@ -65,7 +65,7 @@ class CreateCnnModelTest extends TestCase
             ]);
 
         // Valida etiquetas existentes en BD y mime de archivo
-        $componente->set('form.name', pathinfo(AvailableModelsEnum::VGG16->value, PATHINFO_FILENAME))
+        $componente->set('form.name', pathinfo(AvailableModelsEnum::MobileNetV2->value, PATHINFO_FILENAME))
             ->set('form.labelIds', [51, 52, 53]) // Etiquetas inexistentes
             ->set('form.file', UploadedFile::fake()->create('model.asd', 1024 * 5))
             ->call('createModel')
@@ -91,7 +91,7 @@ class CreateCnnModelTest extends TestCase
         $this->actingAs($this->desarrollador);
 
         Livewire::test(CreateCnnModel::class)
-            ->set('form.name', pathinfo(AvailableModelsEnum::VGG16->value, PATHINFO_FILENAME))
+            ->set('form.name', pathinfo(AvailableModelsEnum::MobileNetV2->value, PATHINFO_FILENAME))
             ->set('form.labelIds', Label::inRandomOrder()->limit(3)->pluck('id')->toArray())
             ->call('createModel')
             ->assertForbidden();
@@ -103,8 +103,8 @@ class CreateCnnModelTest extends TestCase
         $response = $this->get(route('cnn-model.index'));
         $response->assertOk();
 
-        $modelName = pathinfo(AvailableModelsEnum::VGG16->value, PATHINFO_FILENAME);
-        $modelFile = UploadedFile::fake()->create('model.h5', 1024 * 5);
+        $modelName = pathinfo(AvailableModelsEnum::MobileNetV2->value, PATHINFO_FILENAME);
+        $modelFile = UploadedFile::fake()->create('model.keras', 1024 * 5);
         Storage::fake(config('filesystems.default'));
 
         // Valida que no haya errores y redireccionamiento.
@@ -122,7 +122,7 @@ class CreateCnnModelTest extends TestCase
             'name' => $modelName
         ]);
         $this->assertDatabaseHas('media', [
-            'name' => 'model.h5'
+            'name' => 'model.keras'
         ]);
 
         // Valida session del mensaje.

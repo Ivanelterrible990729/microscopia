@@ -12,7 +12,6 @@ enum AvailableModelsEnum: string
     use EnumToArray;
 
     case MobileNetV2 = 'cnn-models/base/mobilenetv2.keras';
-    case VGG16 = 'cnn-models/base/vgg16.keras';
 
     /**
      *  Devuelve un array [r_esource_path('value') => 'name'] del enumerado.
@@ -23,7 +22,6 @@ enum AvailableModelsEnum: string
     {
         return [
             resource_path(Self::MobileNetV2->value) =>Self::MobileNetV2->name . ' [imagenet]',
-            resource_path(Self::VGG16->value) =>Self::VGG16->name . ' [imagenet]',
         ];
     }
 }
