@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -26,6 +27,25 @@ class Label extends Model
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'folder_name',
+    ];
+
+    /**
+     * Get the images's label colors.
+     */
+    protected function folderName(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => sanitizeFileName(strtolower($this->name))
+        );
+    }
+
+    /**
      * The images that belong to the Label
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -42,6 +62,6 @@ class Label extends Model
      */
     public function models(): BelongsToMany
     {
-        return $this->belongsToMany(CNNModel::class, 'c_n_n_model_label', 'label_id', 'c_n_n_model_id');
+        return $this->belongsToMany(CnnModel::class, 'cnn_model_label', 'label_id', 'cnn_model_id');
     }
 }

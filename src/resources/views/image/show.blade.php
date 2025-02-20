@@ -66,7 +66,7 @@
                             {{ __('Weight') }}
                         </span>
                         <div class="bg-slate-100 border rounded px-2 py-1">
-                            {{ $image->getFirstMedia('Images')->human_readable_size }}
+                            {{ $image->getFirstMedia('*')->human_readable_size }}
                         </div>
                     </div>
 
@@ -87,7 +87,7 @@
                             {{ __('Se enlistan aquí las etiquetas asignadas a la imagen.') }}
                         </div>
 
-                        <x-image.image-labels :label-ids="$image->labels->pluck('id')->toArray()">
+                        <x-label.show-labels :label-ids="$image->labels->pluck('id')->toArray()" class="pl-3">
                             @can(App\Enums\Permissions\ImagePermission::Label)
                                 <button
                                     class="mt-2 flex items-center rounded-md px-3 py-1 hover:bg-slate-200 dark:hover:bg-slate-700 w-max"
@@ -102,7 +102,7 @@
                                     {{ __('Edit labels') }}
                                 </button>
                             @endcan
-                        </x-image.image-labels>
+                        </x-label.show-labels>
                     </div>
                 </x-base.dialog.description>
             </div>
@@ -136,7 +136,7 @@
                     <div class=""> {{-- h-96 --}}
                         <x-base.image-zoom
                             class="h-full w-full image-fit rounded-md mt-5"
-                            src="{{ $image->getFirstMediaUrl(App\Enums\Media\MediaEnum::Images->value) }}"
+                            src="{{ $image->getFirstMediaUrl('*') }}"
                             alt="{{ $image->name }}"
                         />
                     </div>

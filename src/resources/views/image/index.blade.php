@@ -38,7 +38,7 @@
     </div>
 
     <div x-data="{showGrid: true}">
-        <livewire:listados.images-table />
+        <livewire:tables.images-table />
     </div>
 
     <!-- BEGIN: Modals para la gestión de imágenes -->

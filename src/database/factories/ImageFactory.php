@@ -2,10 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Enums\Media\MediaEnum;
 use App\Models\Image;
 use App\Models\Label;
 use App\Models\User;
+use App\Services\MediaImageService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -40,10 +40,13 @@ class ImageFactory extends Factory
                     ->pluck('id')
             );
 
-            $labelName = $image->labels->first()->name;
-            $image->addMedia(resource_path('images/dataset/' . $labelName . '.jpg'))
-                ->preservingOriginal()
-                ->toMediaCollection(MediaEnum::Images->value);
+            $labelName = $image->labels->first()->folder_name;
+            $mediaImageService = new MediaImageService();
+            $mediaImageService->addMedia(
+                image: $image,
+                file: resource_path('images/dataset/' . sanitizeFileName($labelName) . '.jpg'),
+                preservingOriginal: true
+            );
         });
     }
 }

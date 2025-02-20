@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CnnModelController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -45,6 +46,13 @@ Route::middleware([
     Route::get('admin/users/{user}/profile-photo/download', [UserController::class, 'downloadProfilePhoto'])->name('user.profile-photo.download');
     Route::get('admin/users/{user}/personification/start', [UserController::class, 'startPersonification'])->name('user.personification.start');
     Route::get('admin/users/personification/stop', [UserController::class, 'stopPersonification'])->name('user.personification.stop');
+
+    // CNN MODELS  ================================================
+    // ============================================================
+
+    Route::get('cnn-models/', [CnnModelController::class, 'index'])->name('cnn-model.index');
+    Route::get('cnn-models/{cnnModel}', [CnnModelController::class, 'show'])->name('cnn-model.show');
+    Route::delete('cnn-models/{cnnModel}', [CnnModelController::class, 'destroy'])->name('cnn-model.destroy');
 
     // IMAGES =====================================================
     // ============================================================

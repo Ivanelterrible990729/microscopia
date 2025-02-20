@@ -39,6 +39,6 @@
     </div>
 
     <div class="intro-y box mt-5 p-5">
-        <livewire:listados.users-table />
+        <livewire:tables.users-table />
     </div>
 @endsection

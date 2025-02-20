@@ -1,12 +1,17 @@
 <?php
 
+use App\Models\CnnModel;
+use App\Models\Image;
+use App\Services\MediaLibrary\CnnModelPathGenerator;
+use App\Services\MediaLibrary\ImagePathGenerator;
+
 return [
 
     /*
      * The disk on which to store added files and derived images by default. Choose
      * one or more of the disks you've configured in config/filesystems.php.
      */
-    'disk_name' => env('MEDIA_DISK', 'public'),
+    'disk_name' => env('FILESYSTEM_DISK', 'public'),
 
     /*
      * The maximum file size of an item in bytes.
@@ -87,9 +92,8 @@ return [
      * Here you can specify which path generator should be used for the given class.
      */
     'custom_path_generators' => [
-        // Model::class => PathGenerator::class
-        // or
-        // 'model_morph_alias' => PathGenerator::class
+        CnnModel::class => CnnModelPathGenerator::class,
+        Image::class => ImagePathGenerator::class,
     ],
 
     /*

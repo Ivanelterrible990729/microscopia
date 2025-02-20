@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Models\Image;
+use App\Services\MediaImageService;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -84,6 +85,11 @@ class ImageForm extends Form
         }
 
         $image->labels()->sync($this->labelIds);
+        $image->refresh();
+
+        $mediaImageService = new MediaImageService();
+        $mediaImageService->syncMedia($image);
+
         return $image;
     }
 }

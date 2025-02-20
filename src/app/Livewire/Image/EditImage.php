@@ -58,7 +58,6 @@ class EditImage extends Component
         Gate::authorize('update', $this->image);
 
         $this->form->update($this->image);
-        $this->image->refresh();
 
         return redirect()->route('image.show', $this->image)->with([
             'alert' => [

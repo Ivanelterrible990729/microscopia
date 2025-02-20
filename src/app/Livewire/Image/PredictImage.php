@@ -3,7 +3,7 @@
 namespace App\Livewire\Image;
 
 use App\Enums\Media\MediaEnum;
-use App\Models\CNNModel;
+use App\Models\CnnModel;
 use App\Models\Image;
 use App\Models\Label;
 use App\Services\PythonService;
@@ -28,20 +28,20 @@ class PredictImage extends Component
 
     public function render()
     {
-        $models = CNNModel::query()->paginate(1);
+        $models = CnnModel::query()->paginate(1);
 
         return view('livewire.image.predict-image', compact('models'));
     }
 
-    public function predict(CNNModel $model)
+    public function predict(CnnModel $model)
     {
-        $modelMedia = $model->getFirstMedia(MediaEnum::CNN_MODEL->value);
-        $imageMedia = $this->image->getFirstMedia(MediaEnum::Images->value);
+        $modelMedia = $model->getFirstMedia(MediaEnum::CNN_Model->value);
+        $imageMedia = $this->image->getFirstMedia('*');
 
         $args = [
-            '--model_path' => $modelMedia?->getPath() ?? 'path del modelo',
+            '--model_path' => $modelMedia->getPath(),
             '--image_path' => $imageMedia->getPath(),
-            '--class_labels' => json_encode($model->labels->pluck('name')->toArray()),
+            '--class_labels' => json_encode($model->labels->pluck('id')->toArray()),
         ];
 
         $pythonService = new PythonService();
@@ -51,10 +51,15 @@ class PredictImage extends Component
         );
 
         $output = array_values(array_slice($output, -2, 2, true));
-        $labelName = $output[0];
+
+        if (count($output) != 2) {
+            return;
+        }
+
+        $labelId = $output[0];
         $percentage = $output[1];
 
-        $label = Label::whereName($labelName)->first();
+        $label = Label::find($labelId);
 
         if ($label) {
             $this->prediction = [

@@ -4,7 +4,7 @@ namespace Tests\Feature\Role;
 
 use App\Concerns\Tests\CustomMethods;
 use App\Enums\RoleEnum;
-use App\Livewire\Listados\RolesTable;
+use App\Livewire\Tables\RolesTable;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
