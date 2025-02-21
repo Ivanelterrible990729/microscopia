@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Role\RoleService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;
@@ -31,11 +32,11 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Role $role)
+    public function destroy(RoleService $roleService, Role $role)
     {
         Gate::authorize('delete', $role);
 
-        $role->delete();
+        $roleService->deleteRole($role);
 
         return redirect(route('role.index'))->with([
             'alert' => [

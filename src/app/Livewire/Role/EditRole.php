@@ -12,7 +12,12 @@ class EditRole extends Component
     /**
      * Form para la edición del rol.
      */
-    public RoleForm $roleForm;
+    public RoleForm $form;
+
+    /**
+     * Modelo del rol a actualizar.
+     */
+    public Role $role;
 
     /**
      * Asigna datos del rol.
@@ -20,8 +25,8 @@ class EditRole extends Component
      */
     public function mount(Role $role)
     {
-        $this->roleForm->roleModel = $role;
-        $this->roleForm->role = $role->getAttributes();
+        $this->role = $role;
+        $this->form->fill($role->getAttributes());
     }
 
     public function render()
@@ -34,9 +39,9 @@ class EditRole extends Component
      */
     public function updateRole()
     {
-        Gate::authorize('update', $this->roleForm->roleModel);
+        Gate::authorize('update', $this->role);
 
-        return redirect()->route('role.show', $this->roleForm->update())->with([
+        return redirect()->route('role.show', $this->form->update($this->role))->with([
             'alert' => [
                 'variant' => 'soft-primary',
                 'icon' => 'check-circle',

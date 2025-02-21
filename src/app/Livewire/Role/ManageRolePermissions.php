@@ -3,6 +3,7 @@
 namespace App\Livewire\Role;
 
 use App\Enums\Permissions\RolePermission;
+use App\Services\Role\RoleService;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Spatie\Permission\Models\Permission;
@@ -40,10 +41,23 @@ class ManageRolePermissions extends Component
         })->groupBy('prefix');
     }
 
+    protected function rules()
+    {
+        return [
+            'selectedPermissions' => 'array|min:0'
+        ];
+    }
+
+    protected function messages()
+    {
+        return [
+            'selectedPermissions' => __('Please select the permissions listed below.'),
+        ];
+    }
+
     public function mount(Role $role)
     {
         $this->role = $role;
-
         $this->selectedPermissions = $this->role->permissions->pluck('name')->toArray();
     }
 
@@ -55,20 +69,16 @@ class ManageRolePermissions extends Component
     /**
      * Relaciona los permisos al rol especificado
      */
-    public function storePermissions()
+    public function storePermissions(RoleService $roleService)
     {
-        $this->validate(rules: [
-            'selectedPermissions' => 'array|min:0'
-        ], messages: [
-            'selectedPermissions' => __('Please select the permissions listed below.'),
-        ]);
+        $this->validate();
 
         if (request()->user()->cannot(RolePermission::ManagePermissions)) {
             $this->addError('autorization', __('You do not have permissions to perform this action.'));
             return;
         }
 
-        $this->role->syncPermissions($this->selectedPermissions);
+        $roleService->syncPermissions($this->role, $this->selectedPermissions);
 
         return redirect()->route('role.show', $this->role)->with([
             'alert' => [

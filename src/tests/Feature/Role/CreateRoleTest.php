@@ -54,28 +54,28 @@ class CreateRoleTest extends TestCase
 
         // Valida nombres unicos
         $componente = Livewire::test(CreateRole::class)
-            ->set('roleForm.role.name', Role::inRandomOrder()->first()->name)
+            ->set('form.name', Role::inRandomOrder()->first()->name)
             ->call('storeRole')
             ->assertHasErrors([
-                'roleForm.role.name' => 'unique'
+                'form.name' => 'unique'
             ]);
 
         // Valida que nombres no excedan los 250 caracteres
         $name = str_repeat($this->faker->words(50, true) . ' ', 5);
         $name = substr($name, 0, 256);
-        $componente->set('roleForm.role.name', $name)
+        $componente->set('form.name', $name)
             ->call('storeRole')
             ->assertHasErrors([
-                'roleForm.role.name' => 'max'
+                'form.name' => 'max'
             ]);
 
         // Valida campos requeridos
-        $componente->set('roleForm.role.name', null)
-            ->set('roleForm.role.guard_name', null)
+        $componente->set('form.name', '')
+            ->set('form.guard_name', '')
             ->call('storeRole')
             ->assertHasErrors([
-                'roleForm.role.name' => 'required',
-                'roleForm.role.guard_name' => 'required'
+                'form.name' => 'required',
+                'form.guard_name' => 'required'
             ]);
     }
 
@@ -87,7 +87,7 @@ class CreateRoleTest extends TestCase
         $roleName =  $this->faker->word();
 
         Livewire::test(CreateRole::class)
-            ->set('roleForm.role.name', $roleName)
+            ->set('form.name', $roleName)
             ->call('storeRole')
             ->assertForbidden();
     }
@@ -100,7 +100,7 @@ class CreateRoleTest extends TestCase
 
         // Valida que no haya errores y redireccionamiento.
         Livewire::test(CreateRole::class)
-            ->set('roleForm.role.name', $roleName)
+            ->set('form.name', $roleName)
             ->call('storeRole')
             ->assertHasNoErrors()
             ->assertRedirect(route('role.show', Role::findByName($roleName, 'web')));

@@ -67,17 +67,25 @@ class ManageRolePermissionsTest extends TestCase
     {
         $this->actingAs($this->desarrollador);
         $response = $this->get(route('role.show', $this->role));
-        $pivotsCount = Permission::count();
+        $permissions = Permission::inRandomOrder()->limit(3)->get();
 
         // Valida que no haya errores y redireccionamiento.
         Livewire::test(ManageRolePermissions::class, ['role' => $this->role])
-            ->set('selectedPermissions', Permission::inRandomOrder()->limit(3)->pluck('name')->toArray())
+            ->set('selectedPermissions', $permissions->pluck('name')->toArray())
             ->call('storePermissions')
             ->assertHasNoErrors()
             ->assertRedirect(route('role.show', $this->role));
 
         // Valida existencia del registro en BD.
-        $this->assertDatabaseCount('role_has_permissions', $pivotsCount + 3);
+        foreach ($permissions as $permission) {
+            $this->assertDatabaseHas('role_has_permissions', [
+                'role_id' => $this->role->id,
+                'permission_id' => $permission->id,
+            ]);
+        }
+
+        // Valida que no haya otros permisos relacionados al rol
+        $this->assertEquals(3, $this->role->permissions()->count());
 
         // Valida session del mensaje.
         $response->assertSessionHas([

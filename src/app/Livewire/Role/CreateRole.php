@@ -12,19 +12,7 @@ class CreateRole extends Component
     /**
      * Form para la creación del rol.
      */
-    public RoleForm $roleForm;
-
-        /**
-     * Asigna datos del rol.
-     *
-     */
-    public function mount()
-    {
-        $this->roleForm->role = [
-            'name' => null,
-            'guard_name' => 'web',
-        ];
-    }
+    public RoleForm $form;
 
     public function render()
     {
@@ -38,7 +26,7 @@ class CreateRole extends Component
     {
         Gate::authorize('create', Role::class);
 
-        return redirect()->route('role.show', $this->roleForm->store())->with([
+        return redirect()->route('role.show', $this->form->store())->with([
             'alert' => [
                 'variant' => 'soft-primary',
                 'icon' => 'check-circle',
