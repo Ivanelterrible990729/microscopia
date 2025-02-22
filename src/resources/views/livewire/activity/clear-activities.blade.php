@@ -33,7 +33,7 @@
                 <x-base.form-input
                     id="log_name"
                     wire:model='logName'
-                    placeholder="{{ __('Empty to delete all.') }}"
+                    placeholder="{{ __('Empty to delete all') }}"
                 />
             </div>
         </div>
