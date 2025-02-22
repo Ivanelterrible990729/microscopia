@@ -4,12 +4,12 @@
             <img
                 class="rounded-full"
                 src="{{ $user->profile_photo_url }}"
-                alt="{{ $user->prefijo . ' ' . $user->name }} picture"
+                alt="{{ $user->full_name }} picture"
             />
         </div>
         <div class="ml-5">
             <div class="w-24 truncate text-lg font-medium sm:w-40 sm:whitespace-normal">
-                {{ $user->prefijo . ' ' . $user->name }}
+                {{ $user->full_name }}
             </div>
             <div class="text-slate-500">
                 {{ $user->cargo }}

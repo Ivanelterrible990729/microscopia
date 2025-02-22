@@ -91,7 +91,7 @@
             <x-base.menu.button class="intro-x zoom-in flex flex-row items-center">
                 <div class="hidden sm:flex flex-col text-right mr-3">
                     <div class="font-medium text-white">
-                        {{ Auth::user()->prefijo . ' ' . Auth::user()->name }}
+                        {{ Auth::user()->full_name }}
                     </div>
                     <div class="mt-0.5 text-xs text-white/70 dark:text-slate-500">
                         {{ Auth::user()->cargo }}

@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Console\Commands\SincronizarPermisos;
 use App\Enums\RoleEnum;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Artisan;
 use Spatie\Permission\Models\Role;
 
 class RoleSeeder extends Seeder

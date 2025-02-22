@@ -28,7 +28,7 @@
                 </h2>
             </div>
             <div class="text-black mt-2">
-                {{ __('Uploaded by') }}: {{ $image->user->prefijo . ' ' . $image->user->name }}
+                {{ __('Uploaded by') }}: {{ $image->user->full_name }}
             </div>
         </div>
 

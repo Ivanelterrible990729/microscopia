@@ -9,9 +9,9 @@ enum ActivitylogPermission: string
 {
     use HasPermissions;
 
-    case ViewAny = 'activity-log.Ver cualquiera';
-    case View = 'activity-log.Ver';
-    case Delete = 'activity-log.Eliminar';
+    case ViewAny = 'activitylog.Ver cualquiera';
+    case View = 'activitylog.Ver';
+    case Delete = 'activitylog.Eliminar';
 
     public static function map(): array
     {

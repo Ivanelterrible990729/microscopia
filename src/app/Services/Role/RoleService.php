@@ -17,7 +17,14 @@ class RoleService
      */
     public function createRole(array $data): Role
     {
-        return $this->roleRepository->create($data);
+        $role = $this->roleRepository->create($data);
+
+        activity('Roles')
+            ->performedOn($role)
+            ->withProperties($role->getAttributes())
+            ->log(__("created"));
+
+        return $role;
     }
 
     /**
@@ -25,7 +32,19 @@ class RoleService
      */
     public function updateRole(Role $role, array $data): Role
     {
-        return $this->roleRepository->update($role, $data);
+        $oldValues = $role->getAttributes();
+
+        $role = $this->roleRepository->update($role, $data);
+
+        activity('Roles')
+            ->performedOn($role)
+            ->withProperties([
+                'attributes' => $role->getAttributes(),
+                'old' => $oldValues,
+            ])
+            ->log(__("updated"));
+
+        return $role;
     }
 
     /**
@@ -34,6 +53,11 @@ class RoleService
     public function deleteRole(Role $role): void
     {
         $this->roleRepository->delete($role);
+
+        activity('Roles')
+            ->performedOn($role)
+            ->withProperties($role->getAttributes())
+            ->log(__("deleted"));
     }
 
     /**

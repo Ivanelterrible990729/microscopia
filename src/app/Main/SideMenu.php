@@ -28,10 +28,10 @@ class SideMenu
                 'title' => __('Users'),
                 'route_name' => 'user.index',
             ],
-            'activity-log.*' => [
+            'activitylog.*' => [
                 'icon' => 'square-activity',
                 'title' => __('Activity log'),
-                'route_name' => 'activity-log.index',
+                'route_name' => 'activitylog.index',
             ],
 
             'divider',

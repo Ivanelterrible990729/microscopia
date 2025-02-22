@@ -55,7 +55,7 @@ Route::middleware([
         // ACTIVITY LOG  ==============================================
         // ============================================================
 
-        Route::get('acciones', [ActivitylogController::class, 'index'])->name('activity-log.index');
+        Route::get('acciones', [ActivitylogController::class, 'index'])->name('activitylog.index');
     });
 
     // CNN MODELS  ================================================

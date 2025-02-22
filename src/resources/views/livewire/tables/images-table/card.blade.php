@@ -35,7 +35,7 @@
             {{ __('Uploaded by') }}:
         </span>
         <span>
-            {{ $row->user->prefijo . ' ' . $row->user->name }}
+            {{ $row->user->full_name }}
         </span>
     </div>
 
