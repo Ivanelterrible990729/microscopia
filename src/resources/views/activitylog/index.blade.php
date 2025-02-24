@@ -1,3 +1,7 @@
+@php
+    use App\Enums\Permissions\ActivitylogPermission;
+@endphp
+
 @extends('../theme/main-layout')
 
 @section('subhead')
@@ -22,17 +26,19 @@
             {{ __('Activity log') }}
         </h2>
 
-        <x-base.button
-            class="shadow-md"
-            onclick="dispatchModal('modal-clear-activities', 'show')"
-            variant="danger"
-        >
-            <x-base.lucide
-                icon="trash-2"
-                class="mr-2"
-            />
-            {{ __('Clear activity log') }}
-        </x-base.button>
+        @can(ActivitylogPermission::Clear)
+            <x-base.button
+                class="shadow-md"
+                onclick="dispatchModal('modal-clear-activities', 'show')"
+                variant="danger"
+            >
+                <x-base.lucide
+                    icon="trash-2"
+                    class="mr-2"
+                />
+                {{ __('Clear activity log') }}
+            </x-base.button>
+        @endcan
     </div>
 
     <div class="intro-y box mt-5 p-5">
@@ -45,9 +51,11 @@
         </x-base.slideover.panel>
     </x-base.slideover>
 
-    <x-base.dialog id="modal-clear-activities" size="lg">
-        <x-base.dialog.panel>
-            <livewire:activity.clear-activities />
-        </x-base.dialog.panel>
-    </x-base.dialog>
+    @can(ActivitylogPermission::Clear)
+        <x-base.dialog id="modal-clear-activities" size="lg">
+            <x-base.dialog.panel>
+                <livewire:activity.clear-activities />
+            </x-base.dialog.panel>
+        </x-base.dialog>
+    @endcan
 @endsection

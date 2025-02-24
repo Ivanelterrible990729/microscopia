@@ -10,15 +10,13 @@ enum ActivitylogPermission: string
     use HasPermissions;
 
     case ViewAny = 'activitylog.Ver cualquiera';
-    case View = 'activitylog.Ver';
-    case Delete = 'activitylog.Eliminar';
+    case Clear = 'activitylog.Limpiar';
 
     public static function map(): array
     {
         return [
             self::ViewAny->value => [RoleEnum::Desarrollador, RoleEnum::Administrador],
-            self::View->value => [RoleEnum::Desarrollador, RoleEnum::Administrador],
-            self::Delete->value => [RoleEnum::Desarrollador],
+            self::Clear->value => [RoleEnum::Desarrollador],
         ];
     }
 }

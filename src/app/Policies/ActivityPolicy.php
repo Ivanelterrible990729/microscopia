@@ -21,22 +21,12 @@ class ActivityPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Activity $activity): Response
-    {
-        return $user->hasPermissionTo(ActivitylogPermission::View)
-            ? Response::allow()
-            : Response::deny(__('#UP-VI-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
-    }
-
-    /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Activity $activity): Response
+    public function clear(User $user, Activity $activity): Response
     {
-        return $user->hasPermissionTo(ActivitylogPermission::Delete)
+        return $user->hasPermissionTo(ActivitylogPermission::Clear)
             ? Response::allow()
-            : Response::deny(__('#UP-DE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
+            : Response::deny(__('#AP-CL-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
     }
 }
