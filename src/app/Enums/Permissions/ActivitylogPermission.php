@@ -10,7 +10,7 @@ enum ActivitylogPermission: string
     use HasPermissions;
 
     case ViewAny = 'activitylog.Ver cualquiera';
-    case Clear = 'activitylog.Limpiar';
+    case Clear = 'activitylog.Limpiar registro de actividad';
 
     public static function map(): array
     {
