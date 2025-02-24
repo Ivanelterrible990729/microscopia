@@ -61,6 +61,16 @@ class RolePolicy
     }
 
     /**
+     * Determina si el usuario puede administrar permisos del rol.
+     */
+    public function managePermissions(User $user, Role $role): Response
+    {
+            return $user->hasPermissionTo(RolePermission::ManagePermissions)
+            ? Response::allow()
+            : Response::deny(__('#RP-MP-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
+    }
+
+    /**
      * Determine whether the user can restore the model.
      */
     public function restore(User $user, Role $spatiePermissionModelsRole): bool

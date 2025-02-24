@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Role;
 
-use App\Enums\Permissions\RolePermission;
 use App\Services\Role\RoleService;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Spatie\Permission\Models\Permission;
@@ -71,12 +71,8 @@ class ManageRolePermissions extends Component
      */
     public function storePermissions(RoleService $roleService)
     {
+        Gate::authorize('managePermissions', $this->role);
         $this->validate();
-
-        if (request()->user()->cannot(RolePermission::ManagePermissions)) {
-            $this->addError('autorization', __('You do not have permissions to perform this action.'));
-            return;
-        }
 
         $roleService->syncPermissions($this->role, $this->selectedPermissions);
 
