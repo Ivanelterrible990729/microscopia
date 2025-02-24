@@ -3,7 +3,7 @@
 namespace App\Livewire\Role;
 
 use App\Livewire\Forms\RoleForm;
-use App\Services\Role\RoleService;
+use App\Services\RoleService;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;

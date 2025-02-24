@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Contracts\Services\ActivityInterface;
 use App\Enums\RoleEnum;
 use App\Models\User;
 use App\Policies\ActivityPolicy;
 use App\Policies\RolePolicy;
+use App\Services\ActivitylogService;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Activitylog\Models\Activity;
@@ -18,7 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Enlaza interfaz a ActivitylogService para el almacenamiento de acciones en el sistema.
+        $this->app->bind(ActivityInterface::class, ActivitylogService::class);
     }
 
     /**
