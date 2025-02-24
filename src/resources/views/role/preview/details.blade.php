@@ -1,3 +1,8 @@
+@php
+    use App\Enums\Permissions\RolePermission;
+@endphp
+
+
 <div class="grid grid-cols-3 gap-4 p-5">
     <div class="col-span-3 lg:col-span-1 p-5">
         <div class="flex flex-1 items-center justify-start sm:justify-center px-5 lg:justify-start pb-10 sm:pb-0">
@@ -58,7 +63,7 @@
         <div class="text-center font-medium lg:mt-3 lg:text-left">
             {{ __('Actions') }}
         </div>
-        @can(App\Enums\Permissions\RolePermission::Update)
+        @can(RolePermission::Update)
             <div class="mt-2 flex items-center justify-center lg:justify-start">
                 <x-base.button
                     x-on:click="modoEdicion = true"
@@ -73,7 +78,7 @@
                 </x-base.button>
             </div>
         @endcan
-        @can(App\Enums\Permissions\RolePermission::Delete)
+        @can(RolePermission::Delete)
             <div class="mt-2 flex items-center justify-center lg:justify-start">
                 <x-base.button
                     onclick="dispatchModal('modal-delete-role', 'show')"
@@ -86,8 +91,6 @@
                     />
                     {{ __('Delete') }}
                 </x-base.button>
-
-                @include('role.modal.modal-delete')
             </div>
         @endcan
     </div>

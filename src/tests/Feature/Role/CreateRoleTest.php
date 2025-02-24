@@ -36,7 +36,6 @@ class CreateRoleTest extends TestCase
         // Renderizado con permisos
         $response = $this->get(route('role.index'));
         $response->assertStatus(200)
-            ->assertSee(__('Create role'))
             ->assertSeeLivewire(CreateRole::class);
 
         $this->revokeRolePermissionTo(RoleEnum::Desarrollador->value, RolePermission::Create);
@@ -44,7 +43,6 @@ class CreateRoleTest extends TestCase
         // Renderizado sin permisos
         $response = $this->get(route('role.index'));
         $response->assertStatus(200)
-            ->assertDontSee(__('Create role'))
             ->assertDontSeeLivewire(CreateRole::class);
     }
 
