@@ -19,14 +19,14 @@ class CreateUser extends Component
     public string|null $password = null;
     public string|null $password_confirmation = null;
 
-    public function render()
-    {
-        return view('livewire.user.create-user');
-    }
-
     public function mount()
     {
         $this->generateRandomPassword();
+    }
+
+    public function render()
+    {
+        return view('livewire.user.create-user');
     }
 
     public function generateRandomPassword($length = 8): void
@@ -42,14 +42,11 @@ class CreateUser extends Component
         $this->password = $this->password_confirmation = $randomPassword;
     }
 
-    public function storeUser()
+    public function storeUser(CreateNewUser $userCreater)
     {
         Gate::authorize('create', User::class);
 
-        $userCreater = new CreateNewUser();
-        $user = $userCreater->create($this->all());
-
-        return redirect()->route('user.show', $user)->with([
+        return redirect()->route('user.show', $userCreater->create($this->all()))->with([
             'alert' => [
                 'variant' => 'soft-primary',
                 'icon' => 'check-circle',

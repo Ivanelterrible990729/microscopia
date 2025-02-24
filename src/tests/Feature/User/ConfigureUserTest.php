@@ -42,11 +42,19 @@ class ConfigureUserTest extends TestCase
         $response->assertStatus(200)
             ->assertSee(__('Save'));
 
+        Livewire::test(ConfigureUser::class, ['user' => $this->usuarioPrueba])
+            ->assertSet('user.id', $this->usuarioPrueba->id)
+            ->assertSee(__('Save'));
+
         $this->revokeRolePermissionTo(RoleEnum::Desarrollador->value, UserPermission::AssignRoles);
 
         // Renderizado sin permisos
         $response = $this->get(route('user.show', $this->usuarioPrueba));
         $response->assertStatus(200)
+            ->assertDontSee(__('Save'));
+
+        Livewire::test(ConfigureUser::class, ['user' => $this->usuarioPrueba])
+            ->assertSet('user.id', $this->usuarioPrueba->id)
             ->assertDontSee(__('Save'));
     }
 
@@ -60,6 +68,7 @@ class ConfigureUserTest extends TestCase
 
         // Un administrador no puede asignar desarrolladores
         $this->actingAs($this->getUser(RoleEnum::Administrador, create: true));
+
         Livewire::test(ConfigureUser::class, ['user' => $this->usuarioPrueba])
             ->assertDontSee(RoleEnum::Desarrollador->value);
     }
@@ -72,7 +81,7 @@ class ConfigureUserTest extends TestCase
 
         Livewire::test(ConfigureUser::class, ['user' => $this->usuarioPrueba])
             ->call('save')
-            ->assertHasErrors(['autorization' => __('You do not have permissions to perform this action.')]);
+            ->assertForbidden();
 
         // Valida que un usuario que no sea desarrollador asigne permisos a un desarrollador
         $this->giveRolePermissionTo(RoleEnum::TecnicoUnidad->value, UserPermission::AssignRoles);
@@ -80,28 +89,28 @@ class ConfigureUserTest extends TestCase
 
         Livewire::test(ConfigureUser::class, ['user' => $this->desarrollador])
             ->call('save')
-            ->assertHasErrors(['autorization' => __('You do not have permissions to perform this action.')]);
+            ->assertForbidden();
     }
 
     public function test_funcionamiento_al_asignar_roles()
     {
         $this->actingAs($this->desarrollador);
-        $roles = Role::where('name', [RoleEnum::Administrador])->get()->map(function($role) {
-            return [
-                'id' => $role->id,
-                'name' => $role->name,
-            ];
-        })->toArray();
+        $response = $this->get(route('user.show', $this->usuarioPrueba));
+        $roles = Role::where('name', [RoleEnum::Administrador])->pluck('name')->toArray();
 
         Livewire::test(ConfigureUser::class, ['user' => $this->usuarioPrueba])
-            ->set('state.roles', $roles)
+            ->set('roles', $roles)
             ->call('save')
             ->assertHasNoErrors()
-            ->assertDispatched('toastify-js', [
-                'id' => 'success-notification',
-                'message' => __('Saved user settings'),
-                'title' => __('Success'),
-            ]);
+            ->assertRedirect(route('user.show', $this->usuarioPrueba));
+
+        $response->assertSessionHas([
+            'alert' => [
+                'variant' => 'soft-primary',
+                'icon' => 'check-circle',
+                'message' => __('Saved user settings')
+            ]
+        ]);
 
         $this->usuarioPrueba->load('roles');
         assertTrue($this->usuarioPrueba->hasRole(RoleEnum::Administrador));

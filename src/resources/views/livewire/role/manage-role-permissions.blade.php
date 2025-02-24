@@ -1,4 +1,8 @@
 <div>
+    @php
+        use App\Enums\Permissions\RolePermission;
+    @endphp
+
     <x-base.dialog.title>
         <h3 class="text-base font-medium">{{ __('Permissions') }}</h3>
     </x-base.dialog.title>
@@ -57,7 +61,7 @@
     </x-base.dialog.description>
 
     <x-base.dialog.footer>
-        @can(App\Enums\Permissions\RolePermission::ManagePermissions)
+        @can(RolePermission::ManagePermissions)
             <x-base.button
                 wire:click='storePermissions'
                 variant="success"

@@ -42,15 +42,12 @@ Route::middleware([
         // USERS  =====================================================
         // ============================================================
 
-        // Route::resource('users', UserController::class)->except('create', 'edit', 'update')->withTrashed(['show']);
-
-        Route::get('users', [UserController::class, 'index'])->name('user.index');
-        Route::get('users/{user}', [UserController::class, 'show'])->name('user.show')->withTrashed();
-        Route::delete('users/{user}', [UserController::class, 'destroy'])->name('user.destroy');
         Route::post('users/{user}', [UserController::class, 'restore'])->name('user.restore')->withTrashed();
         Route::get('users/{user}/profile-photo/download', [UserController::class, 'downloadProfilePhoto'])->name('user.profile-photo.download');
         Route::get('users/{user}/personification/start', [UserController::class, 'startPersonification'])->name('user.personification.start');
         Route::get('users/personification/stop', [UserController::class, 'stopPersonification'])->name('user.personification.stop');
+
+        Route::resource('users', UserController::class)->except('create', 'edit', 'update')->withTrashed(['show']);
 
         // ACTIVITY LOG  ==============================================
         // ============================================================

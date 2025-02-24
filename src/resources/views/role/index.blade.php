@@ -41,7 +41,6 @@
     </div>
 
     <div class="intro-y box mt-5 p-5">
-
         <x-base.alert
             class="intro-y relative mb-5"
             variant="secondary"

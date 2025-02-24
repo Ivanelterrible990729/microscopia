@@ -4,27 +4,40 @@ namespace App\Livewire\User;
 
 use App\Enums\RoleEnum;
 use App\Models\User;
-use Illuminate\Support\Collection;
-use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\Gate;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
 
 class ConfigureUser extends Component
 {
-    public $user;
+    /**
+     * Usuario al cual realizar la configuración.
+     */
+    public User $user;
 
     /**
      * Roles a asignar al usuario.
      */
-    public array $state = [
-        'user_id' => null,
-        'roles' => [],
-    ];
+    #[Validate('required|array|min:0')]
+    public array $roles = [];
 
     /**
      * Catalogo de los roles existentes en el sistema.
      */
     public array $availableRoles;
+
+    public function mount(User $user)
+    {
+        $this->user = $user;
+        $this->roles = $user->roles->pluck('name')->toArray();
+        $this->availableRoles = $this->getAvailableRoles();
+    }
+
+    public function render()
+    {
+        return view('livewire.user.configure-user');
+    }
 
     /**
      * Funcion que carga los roles en el componente.
@@ -45,33 +58,15 @@ class ConfigureUser extends Component
         })->toArray();
     }
 
-    public function mount(User $user)
-    {
-        $this->user = $user;
-        $user->load('roles');
-
-        $this->state['user_id'] = $user['id'];
-        $this->state['roles'] = $user->roles->pluck('id')->toArray();
-        $this->availableRoles = $this->getAvailableRoles();
-    }
-
-    public function render()
-    {
-        return view('livewire.user.configure-user');
-    }
-
     public function save()
     {
-        if (request()->user()->cannot('assignRoles', $this->user)) {
-            $this->addError('autorization', __('You do not have permissions to perform this action.'));
-            return;
-        }
+        Gate::authorize('assignRoles', $this->user);
+        $this->validate();
 
-        $user = User::findOrFail($this->state['user_id']);
-        $user->syncRoles(Role::whereIn('id', $this->state['roles'])->pluck('id'));
-        $user->save();
+        $this->user->syncRoles($this->roles);
+        $this->user->save();
 
-        return redirect()->route('user.show', $this->state['user_id'])->with([
+        return redirect()->route('user.show', $this->user)->with([
             'alert' => [
                 'variant' => 'soft-primary',
                 'icon' => 'check-circle',
