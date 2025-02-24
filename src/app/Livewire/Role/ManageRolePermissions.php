@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Role;
 
+use App\Livewire\Forms\RolePermissionsForm;
 use App\Services\Role\RoleService;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Computed;
@@ -12,14 +13,14 @@ use Spatie\Permission\Models\Role;
 class ManageRolePermissions extends Component
 {
     /**
+     * Form para la edición del rol.
+     */
+    public RolePermissionsForm $form;
+
+    /**
      * Rol definido para calcular los permisos seleccionados
      */
     public Role $role;
-
-    /**
-     * Almacena los permisos seleccionados para el rol especificado.
-     */
-    public array $selectedPermissions;
 
     /**
      * Catálogo de los permisos existentes en el sistema agroupados por su prefijo.
@@ -41,24 +42,10 @@ class ManageRolePermissions extends Component
         })->groupBy('prefix');
     }
 
-    protected function rules()
-    {
-        return [
-            'selectedPermissions' => 'array|min:0'
-        ];
-    }
-
-    protected function messages()
-    {
-        return [
-            'selectedPermissions' => __('Please select the permissions listed below.'),
-        ];
-    }
-
     public function mount(Role $role)
     {
         $this->role = $role;
-        $this->selectedPermissions = $this->role->permissions->pluck('name')->toArray();
+        $this->form->selectedPermissions = $this->role->permissions->pluck('name')->toArray();
     }
 
     public function render()
@@ -74,7 +61,7 @@ class ManageRolePermissions extends Component
         Gate::authorize('managePermissions', $this->role);
         $this->validate();
 
-        $roleService->syncPermissions($this->role, $this->selectedPermissions);
+        $roleService->syncPermissions($this->role, $this->form->selectedPermissions);
 
         return redirect()->route('role.show', $this->role)->with([
             'alert' => [

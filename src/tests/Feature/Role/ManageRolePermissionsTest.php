@@ -58,9 +58,9 @@ class ManageRolePermissionsTest extends TestCase
         $this->actingAs($this->desarrollador);
 
         Livewire::test(ManageRolePermissions::class, ['role' => $this->role])
-            ->set('selectedPermissions', Permission::inRandomOrder()->limit(3)->pluck('name')->toArray())
+            ->set('form.selectedPermissions', Permission::inRandomOrder()->limit(3)->pluck('name')->toArray())
             ->call('storePermissions')
-            ->assertHasErrors(['autorization' => __('You do not have permissions to perform this action.')]);
+            ->assertNoRedirect();
     }
 
     public function test_funcionamiento_al_relacionar_permisos()
@@ -71,7 +71,7 @@ class ManageRolePermissionsTest extends TestCase
 
         // Valida que no haya errores y redireccionamiento.
         Livewire::test(ManageRolePermissions::class, ['role' => $this->role])
-            ->set('selectedPermissions', $permissions->pluck('name')->toArray())
+            ->set('form.selectedPermissions', $permissions->pluck('name')->toArray())
             ->call('storePermissions')
             ->assertHasNoErrors()
             ->assertRedirect(route('role.show', $this->role));

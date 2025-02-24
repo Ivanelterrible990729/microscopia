@@ -28,12 +28,12 @@
                     <div class="col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3">
                         <x-base.form-check>
                             <x-base.form-check.input
-                                id="selectedPermissions.{{ $permission['id'] }}"
+                                id="form.selectedPermissions.{{ $permission['id'] }}"
                                 type="checkbox"
                                 value="{{ $permission['name'] }}"
-                                wire:model="selectedPermissions"
+                                wire:model="form.selectedPermissions"
                             />
-                            <x-base.form-check.label for="selectedPermissions.{{ $permission['id'] }}">
+                            <x-base.form-check.label for="form.selectedPermissions.{{ $permission['id'] }}">
                                 {{ $permission['subfix'] }}
                             </x-base.form-check.label>
                         </x-base.form-check>
