@@ -60,7 +60,7 @@ class ManageRolePermissionsTest extends TestCase
         Livewire::test(ManageRolePermissions::class, ['role' => $this->role])
             ->set('form.selectedPermissions', Permission::inRandomOrder()->limit(3)->pluck('name')->toArray())
             ->call('storePermissions')
-            ->assertNoRedirect();
+            ->assertForbidden();
     }
 
     public function test_funcionamiento_al_relacionar_permisos()
