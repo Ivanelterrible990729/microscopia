@@ -65,11 +65,7 @@ class ClearActivitiesTest extends TestCase
 
         Livewire::test(ClearActivities::class)
             ->call('clearActivities')
-            ->assertDispatched('toastify-js', [
-                'id' => 'error-notification',
-                'message' => __("You do not have permissions to perform this action."),
-                'title' => __('Error'),
-            ]);
+            ->assertForbidden();
     }
 
     /**

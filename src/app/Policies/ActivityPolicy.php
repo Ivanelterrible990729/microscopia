@@ -6,7 +6,6 @@ use App\Enums\Permissions\ActivitylogPermission;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Activitylog\Models\Activity;
 
 class ActivityPolicy
 {
@@ -23,7 +22,7 @@ class ActivityPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function clear(User $user, Activity $activity): Response
+    public function clearActivityLog(User $user): Response
     {
         return $user->hasPermissionTo(ActivitylogPermission::Clear)
             ? Response::allow()

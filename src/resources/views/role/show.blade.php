@@ -1,7 +1,3 @@
-@php
-    use App\Enums\Permissions\RolePermission;
-@endphp
-
 @extends('../theme/main-layout')
 
 @section('subhead')
@@ -36,7 +32,7 @@
         </div>
 
         <div class="md:grid md:grid-cols-3 md:gap-6 mt-5" x-show="modoEdicion" x-transition:enter.duration.200ms>
-            @can(RolePermission::Update)
+            @can('update', $role)
                 <x-section-title>
                     <x-slot name="title">
                         <div class="flex flex-1 items-center">
@@ -62,13 +58,13 @@
         </div>
 
         <div class="intro-y box mt-5" x-show="!modoEdicion">
-            @can(RolePermission::ManagePermissions)
+            @can('managePermissions', $role)
                 <livewire:role.manage-role-permissions :role="$role" />
             @endcan
         </div>
     </div>
 
-    @can(RolePermission::Delete)
+    @can('delete', $role)
         <x-base.dialog id="modal-delete-role" static-backdrop>
             <x-base.dialog.panel>
                 <div class="p-5 text-center">

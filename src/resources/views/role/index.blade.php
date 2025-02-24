@@ -1,5 +1,5 @@
 @php
-    use App\Enums\Permissions\RolePermission;
+    use Spatie\Permission\Models\Role;
 @endphp
 
 @extends('../theme/main-layout')
@@ -26,7 +26,7 @@
             {{ __('Roles') }}
         </h2>
 
-        @can(RolePermission::Create)
+        @can('create', Role::class)
             <x-base.button
                 onclick="dispatchModal('modal-create-role', 'show')"
                 variant="primary"
@@ -73,7 +73,7 @@
         <livewire:tables.roles-table />
     </div>
 
-    @can(RolePermission::Create)
+    @can('create', Role::class)
         <x-base.dialog id="modal-create-role" size="md" static-backdrop>
             <x-base.dialog.panel>
                 <livewire:role.create-role />

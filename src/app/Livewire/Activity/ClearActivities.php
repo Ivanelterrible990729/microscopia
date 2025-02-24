@@ -4,6 +4,7 @@ namespace App\Livewire\Activity;
 
 use App\Enums\Permissions\ActivitylogPermission;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Spatie\Activitylog\Models\Activity;
 
@@ -24,10 +25,7 @@ class ClearActivities extends Component
 
     public function clearActivities()
     {
-        if (request()->user()->cannot(ActivitylogPermission::Clear)) {
-            $this->toast(__('Error'), __("You do not have permissions to perform this action."))->danger();
-            return;
-        }
+        Gate::authorize('clearActivityLog', Activity::class);
 
         $command = 'activitylog:clean --force' . ' --days=' . $this->numDays;
 

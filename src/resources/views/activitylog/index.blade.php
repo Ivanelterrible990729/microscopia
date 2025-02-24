@@ -1,5 +1,5 @@
 @php
-    use App\Enums\Permissions\ActivitylogPermission;
+    use Spatie\Activitylog\Models\Activity;
 @endphp
 
 @extends('../theme/main-layout')
@@ -26,7 +26,7 @@
             {{ __('Activity log') }}
         </h2>
 
-        @can(ActivitylogPermission::Clear)
+        @can('clearActivityLog', Activity::class)
             <x-base.button
                 class="shadow-md"
                 onclick="dispatchModal('modal-clear-activities', 'show')"
@@ -51,7 +51,7 @@
         </x-base.slideover.panel>
     </x-base.slideover>
 
-    @can(ActivitylogPermission::Clear)
+    @can('clearActivityLog', Activity::class)
         <x-base.dialog id="modal-clear-activities" size="lg">
             <x-base.dialog.panel>
                 <livewire:activity.clear-activities />
