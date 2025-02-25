@@ -47,7 +47,7 @@ Route::middleware([
         Route::get('users/{user}/personification/start', [UserController::class, 'startPersonification'])->name('user.personification.start');
         Route::get('users/personification/stop', [UserController::class, 'stopPersonification'])->name('user.personification.stop');
 
-        Route::resource('users', UserController::class)->except('create', 'edit', 'update')->withTrashed(['show']);
+        Route::resource('user', UserController::class)->except('create', 'edit', 'update')->withTrashed(['show']);
 
         // ACTIVITY LOG  ==============================================
         // ============================================================

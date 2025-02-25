@@ -59,24 +59,26 @@
         <div class="text-center font-medium lg:mt-3 lg:text-left">
             {{ __('Actions') }}
         </div>
-        <div class="mt-2 flex items-center justify-center lg:justify-start">
-            @can('personify', $user)
+
+        @can('personify', $user)
+            <div class="mt-2 flex items-center justify-center lg:justify-start">
                 <x-base.button
-                        as="a"
-                        href="{{ route('user.personification.start', $user) }}"
-                        class="align-top"
-                        variant="warning"
-                    >
-                    <x-base.lucide
-                        icon="user"
-                        class="mr-2"
-                    />
-                    {{ __('Personify') }}
-                </x-base.button>
-            @endcan
-        </div>
-        <div class="mt-2 flex items-center justify-center lg:justify-start">
-            @can('delete', $user)
+                    as="a"
+                    href="{{ route('user.personification.start', $user) }}"
+                    class="align-top"
+                    variant="warning"
+                >
+                <x-base.lucide
+                    icon="user"
+                    class="mr-2"
+                />
+                {{ __('Personify') }}
+            </x-base.button>
+            </div>
+        @endcan
+
+        @can('delete', $user)
+            <div class="mt-2 flex items-center justify-center lg:justify-start">
                 <x-base.button
                     onclick="dispatchModal('modal-delete-user', 'show')"
                     class="align-top"
@@ -90,10 +92,11 @@
                 </x-base.button>
 
                 @include('user.modal.modal-delete')
-            @endcan
-        </div>
-        <div class="mt-2 flex items-center justify-center lg:justify-start">
-            @can('restore', $user)
+            </div>
+        @endcan
+
+        @can('restore', $user)
+            <div class="mt-2 flex items-center justify-center lg:justify-start">
                 <x-base.button
                     onclick="dispatchModal('modal-restore-user', 'show')"
                     class="align-top"
@@ -107,7 +110,7 @@
                 </x-base.button>
 
                 @include('user.modal.modal-restore')
-            @endcan
-        </div>
+            </div>
+        @endcan
     </div>
 </div>

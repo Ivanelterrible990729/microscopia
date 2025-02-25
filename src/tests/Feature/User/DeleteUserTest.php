@@ -6,6 +6,7 @@ use App\Concerns\Tests\CustomMethods;
 use App\Enums\Permissions\UserPermission;
 use App\Enums\RoleEnum;
 use App\Models\User;
+use App\Repositories\UserRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -28,7 +29,7 @@ class DeleteUserTest extends TestCase
         $this->usuarioPrueba = $this->getUser(RoleEnum::TecnicoUnidad);
     }
 
-    public function test_permisos_para_ver_boton_eliminar_usuario()
+    public function test_permisos_para_ver_modal_eliminar_usuario()
     {
         $this->actingAs($this->desarrollador);
 
@@ -43,6 +44,17 @@ class DeleteUserTest extends TestCase
         $response = $this->get(route('user.show', $this->usuarioPrueba));
         $response->assertStatus(200)
             ->assertDontSee(__('Are you sure to delete the selected user?'));
+    }
+
+    public function test_no_se_puede_eliminar_un_usuario_ya_eliminado()
+    {
+        (new UserRepository)->delete($this->usuarioPrueba);
+        $this->actingAs($this->desarrollador);
+
+        // Renderizado al mismo usuario
+        $response = $this->get(route('user.show', $this->usuarioPrueba));
+        $response->assertStatus(200)
+            ->assertDontSee(__('Delete'));
     }
 
     public function test_permisos_para_eliminar_un_usuario()
@@ -75,11 +87,12 @@ class DeleteUserTest extends TestCase
         $userName = $this->usuarioPrueba->name;
 
         $response = $this->delete(route('user.destroy', $this->usuarioPrueba));
-        $response->assertRedirect(route('user.index'));
+        $response->assertRedirect(route('user.show', $this->usuarioPrueba));
 
         // Valida existencia del registro en BD.
         $this->assertDatabaseMissing('users', [
-            'name' => $userName
+            'name' => $userName,
+            'deleted_at' => null,
         ]);
 
         // Valida session del mensaje.

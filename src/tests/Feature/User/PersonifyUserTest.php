@@ -6,6 +6,7 @@ use App\Concerns\Tests\CustomMethods;
 use App\Enums\Permissions\UserPermission;
 use App\Enums\RoleEnum;
 use App\Models\User;
+use App\Repositories\UserRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -51,6 +52,17 @@ class PersonifyUserTest extends TestCase
 
         // Renderizado al mismo usuario
         $response = $this->get(route('user.show', $this->desarrollador));
+        $response->assertStatus(200)
+            ->assertDontSee(__('Personify'));
+    }
+
+    public function test_evita_personificacion_a_un_usuario_eliminado()
+    {
+        (new UserRepository)->delete($this->usuarioPrueba);
+        $this->actingAs($this->desarrollador);
+
+        // Renderizado al mismo usuario
+        $response = $this->get(route('user.show', $this->usuarioPrueba));
         $response->assertStatus(200)
             ->assertDontSee(__('Personify'));
     }

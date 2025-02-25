@@ -58,6 +58,7 @@
         <div class="text-center font-medium lg:mt-3 lg:text-left">
             {{ __('Actions') }}
         </div>
+
         @can('update', $role)
             <div class="mt-2 flex items-center justify-center lg:justify-start">
                 <x-base.button
@@ -73,6 +74,7 @@
                 </x-base.button>
             </div>
         @endcan
+
         @can('delete', $role)
             <div class="mt-2 flex items-center justify-center lg:justify-start">
                 <x-base.button

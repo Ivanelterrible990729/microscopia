@@ -232,6 +232,7 @@
     "Reset Password Notification": "Notificación de restablecimiento de contraseña",
     "Restore": "Restaurar",
     "Restore image": "Restaurar imagen",
+    "Restore user": "Restaurar usuario",
     "Restored images will be displayed again by default.": "Las imágenes restauradas se mostrarán de nuevo por defecto.",
     "results": "resultados",
     "Return": "Regresar",
@@ -363,5 +364,8 @@
     "Your account is not active.": "Su cuenta no está activa.",
     "Your email address is unverified.": "Su dirección de correo electrónico no está verificada.",
     "Click in any user name in the listing to configure a user.": "Haga clic en cualquier nombre de usuario para configurarlo.",
-    "For creating a new user, click in 'Create user'.": "Para crear un nuevo usuaro, haga clic en 'Crear usuario'."
+    "For creating a new user, click in 'Create user'.": "Para crear un nuevo usuaro, haga clic en 'Crear usuario'.",
+    "The user has been successfully restored.": "El usuario se restauró con éxito",
+    "Are you sure to restore the selected user?": "¿Está usted seguro de restaurar al usuario seleccionado?",
+    "This user is not active. Please restore the user to make effective any action of this user.": "Este usuario no está activo. Por favor, restaure al usuario antes de ejecutar cualquier acción para este usuario."
 }

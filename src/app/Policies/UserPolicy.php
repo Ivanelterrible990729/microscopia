@@ -80,7 +80,7 @@ class UserPolicy
      */
     public function assignRoles(User $user, User $model): Response
     {
-        if ($user->hasPermissionTo(UserPermission::AssignRoles)) {
+        if ($user->hasPermissionTo(UserPermission::AssignRoles) && is_null($model->deleted_at)) {
 
             if ($model->hasRole(RoleEnum::Desarrollador) && !$user->hasRole(RoleEnum::Desarrollador)) {
                 return Response::deny(__('#UP-PE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);

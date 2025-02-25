@@ -8,9 +8,6 @@ use Spatie\Permission\Models\Role;
 
 class RoleService
 {
-    /**
-     * Repositorio de Role.
-     */
     public function __construct(
         protected RoleRepository $roleRepository,
         protected ActivityInterface $activityService
