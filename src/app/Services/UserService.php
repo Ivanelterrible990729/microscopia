@@ -27,7 +27,7 @@ class UserService
         $this->userRepository->syncRoles($user, $roles);
 
         $this->activityService->logActivity(
-            logName: 'Usuarios',
+            logName: __('Users'),
             performedOn: $user,
             properties: $user->roles()->pluck('name', 'id')->toArray(),
             description: __('Roles assigned.')
@@ -42,9 +42,18 @@ class UserService
         $this->userRepository->delete($user);
 
         $this->activityService->logActivity(
-            logName: 'Usuarios',
+            logName: __('Users'),
             performedOn: $user,
-            properties: $user->getAttributes(),
+            properties: [
+                'id' => $user->id,
+                'prefijo' => $user->prefijo,
+                'name' => $user->name,
+                'cargo' => $user->cargo,
+                'email' => $user->email,
+                'created_at' => $user->created_at,
+                'updated_at' => $user->updated_at,
+                'deleted_at' => $user->deleted_at,
+            ],
             description: __('User deleted.')
         );
     }
@@ -57,9 +66,18 @@ class UserService
         $this->userRepository->restore($user);
 
         $this->activityService->logActivity(
-            logName: 'Usuarios',
+            logName: __('Users'),
             performedOn: $user,
-            properties: $user->getAttributes(),
+            properties: [
+                'id' => $user->id,
+                'prefijo' => $user->prefijo,
+                'name' => $user->name,
+                'cargo' => $user->cargo,
+                'email' => $user->email,
+                'created_at' => $user->created_at,
+                'updated_at' => $user->updated_at,
+                'deleted_at' => $user->deleted_at,
+            ],
             description: __('User restored.')
         );
     }
@@ -89,9 +107,12 @@ class UserService
         Session::put('personified_by', $originalId);
 
         $this->activityService->logActivity(
-            logName: 'Usuarios',
+            logName: __('Users'),
             performedOn: $user,
-            properties: $user->getAttributes(),
+            properties: [
+                'user_id' => $user->id,
+                'name' => $user->name,
+            ],
             description: __('Started personification.')
         );
     }
@@ -113,7 +134,7 @@ class UserService
         }
 
         $this->activityService->logActivity(
-            logName: 'Usuarios',
+            logName: __('Users'),
             performedOn: $personifiedUser,
             properties: [
                 'user_id' => $personifiedUser->id,

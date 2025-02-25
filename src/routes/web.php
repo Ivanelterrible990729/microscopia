@@ -42,11 +42,10 @@ Route::middleware([
         // USERS  =====================================================
         // ============================================================
 
-        Route::post('users/{user}', [UserController::class, 'restore'])->name('user.restore')->withTrashed();
-        Route::get('users/{user}/profile-photo/download', [UserController::class, 'downloadProfilePhoto'])->name('user.profile-photo.download');
-        Route::get('users/{user}/personification/start', [UserController::class, 'startPersonification'])->name('user.personification.start');
-        Route::get('users/personification/stop', [UserController::class, 'stopPersonification'])->name('user.personification.stop');
-
+        Route::post('user/{user}', [UserController::class, 'restore'])->name('user.restore')->withTrashed();
+        Route::get('user/{user}/profile-photo/download', [UserController::class, 'downloadProfilePhoto'])->name('user.profile-photo.download');
+        Route::get('user/{user}/personification/start', [UserController::class, 'startPersonification'])->name('user.personification.start');
+        Route::get('user/personification/stop', [UserController::class, 'stopPersonification'])->name('user.personification.stop');
         Route::resource('user', UserController::class)->except('create', 'edit', 'update')->withTrashed(['show']);
 
         // ACTIVITY LOG  ==============================================
@@ -65,8 +64,6 @@ Route::middleware([
     // IMAGES =====================================================
     // ============================================================
 
-    Route::get('images', [ImageController::class, 'index'])->name('image.index');
-    Route::get('/images/labeling', [ImageController::class, 'labeling'])->name('image.labeling');
-    Route::get('images/{image}', [ImageController::class, 'show'])->name('image.show')->withTrashed();
-    Route::get('images/{image}/edit', [ImageController::class, 'edit'])->name('image.edit');
+    Route::get('/image/labeling', [ImageController::class, 'labeling'])->name('image.labeling');
+    Route::resource('image', ImageController::class)->except('create', 'update', 'delete')->withTrashed(['show']);
 });

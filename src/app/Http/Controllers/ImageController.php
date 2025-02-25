@@ -72,13 +72,4 @@ class ImageController extends Controller
 
         return view('image.edit', compact('image'));
     }
-
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Image $image)
-    {
-
-    }
 }

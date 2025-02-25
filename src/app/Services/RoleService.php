@@ -21,10 +21,10 @@ class RoleService
         $role = $this->roleRepository->create($data);
 
         $this->activityService->logActivity(
-            logName: 'Roles',
+            logName: __('Roles'),
             performedOn: $role,
             properties: $role->getAttributes(),
-            description: __('Role created')
+            description: __('Role created.')
         );
 
         return $role;
@@ -40,10 +40,10 @@ class RoleService
         $role = $this->roleRepository->update($role, $data);
 
         $this->activityService->logActivity(
-            logName: 'Roles',
+            logName: __('Roles'),
             performedOn: $role,
             properties: $role->getAttributes(),
-            description: __('Role updated')
+            description: __('Role updated.')
         );
 
         return $role;
@@ -57,10 +57,10 @@ class RoleService
         $this->roleRepository->delete($role);
 
         $this->activityService->logActivity(
-            logName: 'Roles',
+            logName: __('Roles'),
             performedOn: $role,
             properties: $role->getAttributes(),
-            description: __('Role deleted')
+            description: __('Role deleted.')
         );
     }
 
@@ -74,10 +74,10 @@ class RoleService
         $this->roleRepository->syncPermissions($role, $permissionNames);
 
         $this->activityService->logActivity(
-            logName: 'Roles',
+            logName: __('Roles'),
             performedOn: $role,
             properties: $role->permissions->pluck('name', 'id')->toArray(),
-            description: __('Permission assigned')
+            description: __('Permission assigned.')
         );
     }
 }
