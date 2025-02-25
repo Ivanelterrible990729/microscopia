@@ -114,6 +114,9 @@ class PersonifyUserTest extends TestCase
                 'message' => __('Successful impersonation.')
             ]
         ]);
+
+        $response = $this->get(route('dashboard'));
+        $response->assertSee(__('Stop personification'));
     }
 
     public function test_fin_de_personificacion()

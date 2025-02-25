@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\Services\ActivityInterface;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class ActivitylogService implements ActivityInterface
@@ -23,7 +24,7 @@ class ActivitylogService implements ActivityInterface
     /**
      * Realiza log.
      */
-    public function logActivity(string $logName, null|Model $performedOn, array $properties, string $description, bool $causedByAnonymous = false): void
+    public function logActivity(string $logName, null|Model $performedOn, array $properties, string $description, null|User $causer = null, bool $causedByAnonymous = false): void
     {
         $activity = activity($logName);
 
@@ -41,6 +42,10 @@ class ActivitylogService implements ActivityInterface
             ];
 
         $activity = $activity->withProperties($logProperties);
+
+        if (isset($causer)) {
+            $activity = $activity->causedBy($causer);
+        }
 
         if ($causedByAnonymous) {
             $activity = $activity->causedByAnonymous();

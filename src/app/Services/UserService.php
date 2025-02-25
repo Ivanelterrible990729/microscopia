@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Contracts\Services\ActivityInterface;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
@@ -12,8 +13,26 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class UserService
 {
     public function __construct(
-        protected UserRepository $userRepository
+        protected UserRepository $userRepository,
+        protected ActivityInterface $activityService
     ) {}
+
+    /**
+     * Proceso de asignación de roles
+     */
+    public function syncRoles(User $user, array $roles): void
+    {
+        $this->activityService->setOldProperties($user->roles()->pluck('name', 'id')->toArray());
+
+        $this->userRepository->syncRoles($user, $roles);
+
+        $this->activityService->logActivity(
+            logName: 'Usuarios',
+            performedOn: $user,
+            properties: $user->roles()->pluck('name', 'id')->toArray(),
+            description: __('Roles assigned.')
+        );
+    }
 
     /**
      * Proceso de eliminación de un usuario.
@@ -21,6 +40,13 @@ class UserService
     public function deleteUser(User $user): void
     {
         $this->userRepository->delete($user);
+
+        $this->activityService->logActivity(
+            logName: 'Usuarios',
+            performedOn: $user,
+            properties: $user->getAttributes(),
+            description: __('User deleted.')
+        );
     }
 
     /**
@@ -29,6 +55,13 @@ class UserService
     public function restoreUser(User $user): void
     {
         $this->userRepository->restore($user);
+
+        $this->activityService->logActivity(
+            logName: 'Usuarios',
+            performedOn: $user,
+            properties: $user->getAttributes(),
+            description: __('User restored.')
+        );
     }
 
     /**
@@ -54,6 +87,13 @@ class UserService
         request()->setUserResolver(fn () => $user);
 
         Session::put('personified_by', $originalId);
+
+        $this->activityService->logActivity(
+            logName: 'Usuarios',
+            performedOn: $user,
+            properties: $user->getAttributes(),
+            description: __('Started personification.')
+        );
     }
 
     /**
@@ -71,6 +111,17 @@ class UserService
 
             Session::forget('personified_by');
         }
+
+        $this->activityService->logActivity(
+            logName: 'Usuarios',
+            performedOn: $personifiedUser,
+            properties: [
+                'user_id' => $personifiedUser->id,
+                'name' => $personifiedUser->name,
+            ],
+            description: __('Stopped personification.'),
+            causer: $user
+        );
 
         return $personifiedUser;
     }

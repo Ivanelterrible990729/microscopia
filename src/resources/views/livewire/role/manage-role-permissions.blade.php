@@ -4,10 +4,6 @@
     </x-base.dialog.title>
 
     <x-base.dialog.description>
-        <div class="flex items-center text-slate-500 mb-5">
-
-        </div>
-
         <x-base.alert
             class="intro-y relative mb-5"
             variant="secondary"

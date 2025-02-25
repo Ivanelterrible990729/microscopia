@@ -13,6 +13,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -26,6 +28,7 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
     use SoftDeletes;
+    use LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -85,6 +88,27 @@ class User extends Authenticatable
         );
     }
 
+    /**
+     * Register the events to log.
+     */
+    protected static $recordEvents = ['created', 'updated'];
+
+    /**
+     * log the created & updated events.
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logExcept([
+                'password',
+                'remember_token',
+                'two_factor_recovery_codes',
+                'two_factor_secret',
+            ])
+            ->dontSubmitEmptyLogs()
+            ->useLogName('Usuarios')
+            ->setDescriptionForEvent(fn(string $eventName) => __("User {$eventName}."));
+    }
 
     /**
      * Get all of the images for the User

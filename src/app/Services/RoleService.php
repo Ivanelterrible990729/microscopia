@@ -24,7 +24,7 @@ class RoleService
             logName: 'Roles',
             performedOn: $role,
             properties: $role->getAttributes(),
-            description: "Rol creado"
+            description: __('Role created')
         );
 
         return $role;
@@ -43,7 +43,7 @@ class RoleService
             logName: 'Roles',
             performedOn: $role,
             properties: $role->getAttributes(),
-            description: "Rol actualizado"
+            description: __('Role updated')
         );
 
         return $role;
@@ -60,7 +60,7 @@ class RoleService
             logName: 'Roles',
             performedOn: $role,
             properties: $role->getAttributes(),
-            description: "Rol eliminado"
+            description: __('Role deleted')
         );
     }
 
@@ -77,7 +77,7 @@ class RoleService
             logName: 'Roles',
             performedOn: $role,
             properties: $role->permissions->pluck('name', 'id')->toArray(),
-            description: "Permisos sincronizados"
+            description: __('Permission assigned')
         );
     }
 }

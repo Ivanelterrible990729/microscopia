@@ -4,6 +4,7 @@ namespace App\Livewire\User;
 
 use App\Enums\RoleEnum;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -58,13 +59,12 @@ class ConfigureUser extends Component
         })->toArray();
     }
 
-    public function save()
+    public function save(UserService $userService)
     {
         Gate::authorize('assignRoles', $this->user);
         $this->validate();
 
-        $this->user->syncRoles($this->roles);
-        $this->user->save();
+        $userService->syncRoles($this->user, $this->roles);
 
         return redirect()->route('user.show', $this->user)->with([
             'alert' => [

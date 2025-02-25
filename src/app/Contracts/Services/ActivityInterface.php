@@ -2,6 +2,7 @@
 
 namespace App\Contracts\Services;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Models\Activity;
 
@@ -15,5 +16,5 @@ interface ActivityInterface
     /**
      * Realiza log.
      */
-    public function logActivity(string $logName, null|Model $performedOn, array $properties, string $description, bool $causedByAnonymous = false): void;
+    public function logActivity(string $logName, null|Model $performedOn, array $properties, string $description, null|User $causer = null, bool $causedByAnonymous = false): void;
 }
