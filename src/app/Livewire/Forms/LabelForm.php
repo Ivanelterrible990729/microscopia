@@ -58,9 +58,7 @@ class LabelForm extends Form
      */
     public function store(): Label
     {
-        $this->validateOnly('name');
-        $this->validateOnly('description');
-        $this->validateOnly('color');
+        $this->validate();
 
         return Label::create($this->all());
     }

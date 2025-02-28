@@ -1,3 +1,7 @@
+@php
+    use App\Enums\Permissions\LabelPermission;
+@endphp
+
 @extends('../theme/main-layout')
 
 @section('subhead')
@@ -54,14 +58,26 @@
     <!-- END: Modals para la gestión de imágenes -->
 
     <!-- BEGIN: Modals para la gestión de etiquetas -->
-    @can(App\Enums\Permissions\LabelPermission::Create)
-        @include('label.modal.modal-create')
+    @can(LabelPermission::Create)
+        <x-base.dialog id="modal-create-label" size="xl" static-backdrop>
+            <x-base.dialog.panel>
+                <livewire:label.create-label />
+            </x-base.dialog.panel>
+        </x-base.dialog>
     @endcan
-    @can(App\Enums\Permissions\LabelPermission::Update)
-        @include('label.modal.modal-edit')
+    @can(LabelPermission::Update)
+        <x-base.dialog id="modal-edit-label" size="xl" static-backdrop>
+            <x-base.dialog.panel>
+                <livewire:label.edit-label />
+            </x-base.dialog.panel>
+        </x-base.dialog>
     @endcan
-    @can(App\Enums\Permissions\LabelPermission::Delete)
-        @include('label.modal.modal-delete')
+    @can(LabelPermission::Delete)
+        <x-base.dialog id="modal-delete-label" static-backdrop>
+            <x-base.dialog.panel>
+                <livewire:label.delete-label />
+            </x-base.dialog.panel>
+        </x-base.dialog>
     @endcan
     <!-- END: Modals para la gestión de imágenes -->
 @endsection

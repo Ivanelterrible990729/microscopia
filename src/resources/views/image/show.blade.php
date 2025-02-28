@@ -99,7 +99,7 @@
                                         icon="tags"
                                         class="mr-2"
                                     />
-                                    {{ __('Edit labels') }}
+                                    {{ __('Manage labels') }}
                                 </button>
                             @endcan
                         </x-label.show-labels>

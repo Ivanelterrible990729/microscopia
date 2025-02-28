@@ -1,4 +1,8 @@
 <div class="mt-8 grid grid-cols-12 gap-6 mb-5" x-data="{ selectedImages: $wire.entangle('selectedImages'), showButton: false, selectAll: false }">
+    @php
+        use App\Enums\Permissions\LabelPermission;
+    @endphp
+
     <div class="col-span-12 lg:col-span-4 2xl:col-span-3">
         <!-- BEGIN: Filter Manager Menu -->
         <div class="intro-y box p-5">
@@ -66,22 +70,27 @@
 
                                 <x-slot name="content">
                                     <div class="w-60">
-                                        <x-base.menu.item
-                                            as="button"
-                                            x-on:click="$dispatch('edit-label', { labelId: {{ $label->id }} })"
-                                            class="w-full text-warning"
-                                        >
-                                            @include('icons.edit')
-                                            {{ __('Edit label') }}
-                                        </x-base.menu.item>
-                                        <x-base.menu.item
-                                            as="button"
-                                            x-on:click="$dispatch('delete-label', { labelId: {{ $label->id }} })"
-                                            class="w-full text-danger"
-                                        >
-                                            @include('icons.delete')
-                                            {{ __('Delete label') }}
-                                        </x-base.menu.item>
+                                        @can(LabelPermission::Update)
+                                            <x-base.menu.item
+                                                as="button"
+                                                x-on:click="$dispatch('edit-label', { labelId: {{ $label->id }} })"
+                                                class="w-full text-warning"
+                                            >
+                                                @include('icons.edit')
+                                                {{ __('Edit label') }}
+                                            </x-base.menu.item>
+                                        @endcan
+
+                                        @can(LabelPermission::Delete)
+                                            <x-base.menu.item
+                                                as="button"
+                                                x-on:click="$dispatch('delete-label', { labelId: {{ $label->id }} })"
+                                                class="w-full text-danger"
+                                            >
+                                                @include('icons.delete')
+                                                {{ __('Delete label') }}
+                                            </x-base.menu.item>
+                                        @endcan
                                     </div>
                                 </x-slot>
                             </x-dropdown>
@@ -89,15 +98,17 @@
                     </div>
                 @endforeach
 
-                <button
-                    class="mt-2 flex items-center rounded-md px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-700 w-full"
-                    onclick="dispatchModal('modal-create-label', 'show')"
-                >
-                    <x-base.lucide
-                        class="mr-2 h-4 w-4"
-                        icon="Plus"
-                    /> {{__('New label') }}
-                </button>
+                @can(LabelPermission::Create)
+                    <button
+                        class="mt-2 flex items-center rounded-md px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-700 w-full"
+                        onclick="dispatchModal('modal-create-label', 'show')"
+                    >
+                        <x-base.lucide
+                            class="mr-2 h-4 w-4"
+                            icon="Plus"
+                        /> {{__('New label') }}
+                    </button>
+                @endcan
             </div>
         </div>
         <!-- END: Filter Manager Menu -->
@@ -117,7 +128,7 @@
                 />
                 <h2 class="text-base font-medium">Tips</h2>
 
-                <ul class="mt-2 mb-8 list-disc pl-5 text-xs leading-relaxed text-justify text-slate-600 dark:text-slate-500">
+                <ul class="mt-2 mb-8 list-disc pl-5 text-sm leading-relaxed text-justify text-slate-600 dark:text-slate-500">
                     <li>
                         {{ __('Click on any tag to filter images according to their tags.') }}
                     </li>

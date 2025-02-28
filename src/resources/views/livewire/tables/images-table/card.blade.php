@@ -55,7 +55,7 @@
                         class="w-full"
                     >
                         @include('icons.tags')
-                        {{ __('Edit labels') }}
+                        {{ __('Manage labels') }}
                     </x-base.menu.item>
                     <x-base.menu.item
                         as="a"

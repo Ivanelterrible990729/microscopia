@@ -5,7 +5,7 @@
                 icon="tags"
                 class="mr-2"
             />
-            {{ __('Edit labels') }}
+            {{ __('Manage labels') }}
         </h2>
     </x-base.dialog.title>
 

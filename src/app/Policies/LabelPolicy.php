@@ -17,7 +17,7 @@ class LabelPolicy
     {
         return $user->hasPermissionTo(LabelPermission::Create)
             ? Response::allow()
-            : Response::deny(__('#RP-CR-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
+            : Response::deny(__('#LP-CR-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
     }
 
     /**
@@ -27,7 +27,7 @@ class LabelPolicy
     {
         return $user->hasPermissionTo(LabelPermission::Update)
             ? Response::allow()
-            : Response::deny(__('#RP-CR-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
+            : Response::deny(__('#LP-UP-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
     }
 
     /**
@@ -37,7 +37,7 @@ class LabelPolicy
     {
         return $user->hasPermissionTo(LabelPermission::Delete)
             ? Response::allow()
-            : Response::deny(__('#RP-CR-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
+            : Response::deny(__('#LP-DE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
     }
 
     /**
