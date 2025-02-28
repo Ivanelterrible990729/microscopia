@@ -52,33 +52,4 @@ class LabelForm extends Form
             'color' => __('Color'),
         ];
     }
-
-    /**
-     * Realiza la creación de la etiqueta.
-     */
-    public function store(): Label
-    {
-        $this->validate();
-
-        return Label::create($this->all());
-    }
-
-    /**
-     * Actualiza el contenido de la etiqueta.
-     */
-    public function update(Label $label): Label
-    {
-        $this->validate();
-
-        $label->update($this->all());
-        return $label;
-    }
-
-    /**
-     * Realiza la eliminación de la etiqueta
-     */
-    public function delete(Label $label): int
-    {
-        return $label->delete();
-    }
 }

@@ -4,6 +4,7 @@ namespace App\Livewire\Label;
 
 use App\Livewire\Forms\LabelForm;
 use App\Models\Label;
+use App\Services\LabelService;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
@@ -19,15 +20,15 @@ class CreateLabel extends Component
         return view('livewire.label.create-label');
     }
 
-    public function storeLabel()
+    public function storeLabel(LabelService $labelService)
     {
         Gate::authorize('create', Label::class);
+        $this->validate();
 
-        $this->form->store();
+        $labelService->createLabel($this->form->all());
         $this->form->reset();
-        $message = __('The label has been successfully stored.');
 
-        $this->dispatch('label-created', message: $message);
+        $this->dispatch('label-created', message:  __('The label has been successfully stored.'));
         $this->modal('modal-create-label')->hide();
     }
 }

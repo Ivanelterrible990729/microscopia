@@ -128,9 +128,9 @@ class EditLabelTest extends TestCase
             ->call('updateLabel');
 
         $component->assertHasNoErrors()
-        // ->assertSet('form.name', '')
-        // ->assertSet('form.description', null)
-        // ->assertSet('form.color', '#FFFFFF')
+        ->assertSet('form.name', '')
+        ->assertSet('form.description', null)
+        ->assertSet('form.color', '#FFFFFF')
         ->assertSet('label', null)
         ->assertDispatched('label-updated')
         ->assertDispatched('toggle-modal', [
