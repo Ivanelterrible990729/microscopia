@@ -4,6 +4,7 @@ namespace App\Livewire\Image;
 
 use App\Models\Image;
 use App\Services\MediaImageService;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -31,6 +32,7 @@ class UploadImages extends Component
 
     public function uploadFiles()
     {
+        Gate::authorize('create', Image::class);
         $this->validate();
 
         $imageIds = [];
@@ -56,7 +58,7 @@ class UploadImages extends Component
                 'variant' => 'soft-primary',
                 'icon' => 'check-circle',
                 'message' => count($imageIds) == 1
-                    ? __('Image uploaded successfully.') . ' ' . __('Please follow the wizard instructions.')
+                    ? __('Image uploaded successfully.') . ' ' . __('Please bring more info about this image.')
                     : __('Images uploaded successfully.') . ' ' . __('Please follow the wizard instructions.')
             ]
         ]);

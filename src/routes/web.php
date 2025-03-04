@@ -19,7 +19,6 @@ Route::get('inactive-page', function () {
     return view('errors.inactive');
 })->name('inactive-page');
 
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),

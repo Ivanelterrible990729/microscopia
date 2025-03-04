@@ -19,7 +19,7 @@ class DeleteLabelTest extends TestCase
 {
     use RefreshDatabase, WithFaker, CustomMethods;
 
-    protected User $desarrollador;
+    protected User $jefeUnidad;
 
     /**
      * Prepara entorno para realizar el testing
@@ -28,7 +28,7 @@ class DeleteLabelTest extends TestCase
     {
         parent::setUp();
 
-        $this->desarrollador = $this->getUser(RoleEnum::Desarrollador);
+        $this->jefeUnidad = $this->getUser(RoleEnum::JefeUnidad);
     }
 
     /**
@@ -36,14 +36,14 @@ class DeleteLabelTest extends TestCase
      */
     public function test_el_usuario_puede_ver_el_boton_para_eliminar_etiquetas(): void
     {
-        $this->actingAs($this->desarrollador);
+        $this->actingAs($this->jefeUnidad);
 
         $response = $this->get(route('image.index'));
         $response->assertOk()
             ->assertSee(__('Delete label'))
             ->assertSeeLivewire(DeleteLabel::class);
 
-        $this->revokeRolePermissionTo(RoleEnum::Desarrollador->value, LabelPermission::Delete);
+        $this->revokeRolePermissionTo(RoleEnum::JefeUnidad->value, LabelPermission::Delete);
 
         // Renderizado sin permisos
         $response = $this->get(route('image.index'));
@@ -57,7 +57,7 @@ class DeleteLabelTest extends TestCase
      */
     public function test_mecanismo_para_abrir_modal_al_eliminar_etiqueta()
     {
-        $this->actingAs($this->desarrollador);
+        $this->actingAs($this->jefeUnidad);
 
         $existingLabel = Label::inRandomOrder()->first();
 
@@ -77,8 +77,8 @@ class DeleteLabelTest extends TestCase
      */
     public function test_permisos_para_eliminar_una_etiqueta()
     {
-        $this->actingAs($this->desarrollador);
-        $this->revokeRolePermissionTo(RoleEnum::Desarrollador->value, LabelPermission::Delete);
+        $this->actingAs($this->jefeUnidad);
+        $this->revokeRolePermissionTo(RoleEnum::JefeUnidad->value, LabelPermission::Delete);
 
         $label = Label::inRandomOrder()->first();
 
@@ -92,7 +92,7 @@ class DeleteLabelTest extends TestCase
      */
     public function test_comprueba_funcionamiento_al_eliminar_etiqueta()
     {
-        $this->actingAs($this->desarrollador);
+        $this->actingAs($this->jefeUnidad);
 
         $existingLabel = Label::inRandomOrder()->first();
 
@@ -114,7 +114,7 @@ class DeleteLabelTest extends TestCase
      */
     public function test_el_listado_de_imagenes_se_actualiza_al_eliminar_etiquetas()
     {
-        $this->actingAs($this->desarrollador);
+        $this->actingAs($this->jefeUnidad);
 
         $existingLabel = Label::inRandomOrder()->first();
 
@@ -135,7 +135,7 @@ class DeleteLabelTest extends TestCase
      */
     public function test_el_componente_de_edicion_de_etiquetas_de_imagenes_al_eliminar_etiqueta(): void
     {
-        $this->actingAs($this->desarrollador);
+        $this->actingAs($this->jefeUnidad);
 
         $existingLabel = Label::inRandomOrder()->first();
 

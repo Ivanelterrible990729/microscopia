@@ -49,31 +49,38 @@
 
             <x-slot name="content">
                 <div class="w-60">
-                    <x-base.menu.item
-                        as="button"
-                        x-on:click="$dispatch('edit-labels-image', { imageId: {{ $row->id }} })"
-                        class="w-full"
-                    >
-                        @include('icons.tags')
-                        {{ __('Manage labels') }}
-                    </x-base.menu.item>
-                    <x-base.menu.item
-                        as="a"
-                        href="{{ route('image.edit', $row) }}"
-                        class="text-warning"
-                    >
-                        @include('icons.edit')
-                        {{ __('Edit image') }}
-                    </x-base.menu.item>
+                    @can('update', $row)
+                        <x-base.menu.item
+                            as="a"
+                            href="{{ route('image.edit', $row) }}"
+                            class="text-warning"
+                        >
+                            @include('icons.edit')
+                            {{ __('Edit image') }}
+                        </x-base.menu.item>
+                    @endcan
 
-                    <x-base.menu.item
-                        as="button"
-                        class="text-danger w-full"
-                        x-on:click="$dispatch('{{ $filterComponents[uncamelize(__('Images'))] !== 'trashed' ? 'delete-images' : 'restore-images' }}', { imageIds: {{ $row->id }} })"
-                    >
-                        @include('icons.delete')
-                        {{ $filterComponents[uncamelize(__('Images'))] !== 'trashed' ? __('Delete image') : __('Restore image') }}
-                    </x-base.menu.item>
+                    @can('delete', $row)
+                        <x-base.menu.item
+                            as="button"
+                            class="text-danger w-full"
+                            x-on:click="$dispatch('delete-images', { imageIds: {{ $row->id }} })"
+                        >
+                            @include('icons.delete')
+                            {{ __('Delete image') }}
+                        </x-base.menu.item>
+                    @endcan
+
+                    @can('restore', $row)
+                        <x-base.menu.item
+                            as="button"
+                            class="text-danger w-full"
+                            x-on:click="$dispatch('restore-images', { imageIds: {{ $row->id }} })"
+                        >
+                            @include('icons.delete')
+                            {{  __('Restore image') }}
+                        </x-base.menu.item>
+                    @endcan
                 </div>
             </x-slot>
         </x-dropdown>

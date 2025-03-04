@@ -19,7 +19,7 @@ class EditLabelTest extends TestCase
 {
     use RefreshDatabase, WithFaker, CustomMethods;
 
-    protected User $desarrollador;
+    protected User $jefeUnidad;
 
     /**
      * Prepara entorno para realizar el testing
@@ -28,7 +28,7 @@ class EditLabelTest extends TestCase
     {
         parent::setUp();
 
-        $this->desarrollador = $this->getUser(RoleEnum::Desarrollador);
+        $this->jefeUnidad = $this->getUser(RoleEnum::JefeUnidad);
     }
 
     /**
@@ -36,14 +36,14 @@ class EditLabelTest extends TestCase
      */
     public function test_el_usuario_puede_ver_el_boton_para_editar_etiquetas(): void
     {
-        $this->actingAs($this->desarrollador);
+        $this->actingAs($this->jefeUnidad);
 
         $response = $this->get(route('image.index'));
         $response->assertOk()
             ->assertSee(__('Edit label'))
             ->assertSeeLivewire(EditLabel::class);
 
-        $this->revokeRolePermissionTo(RoleEnum::Desarrollador->value, LabelPermission::Update);
+        $this->revokeRolePermissionTo(RoleEnum::JefeUnidad->value, LabelPermission::Update);
 
         // Renderizado sin permisos
         $response = $this->get(route('image.index'));
@@ -57,7 +57,7 @@ class EditLabelTest extends TestCase
      */
     public function test_mecanismo_para_abrir_modal_para_editar_etiqueta()
     {
-        $this->actingAs($this->desarrollador);
+        $this->actingAs($this->jefeUnidad);
 
         $existingLabel = Label::inRandomOrder()->first();
 
@@ -79,8 +79,8 @@ class EditLabelTest extends TestCase
      */
     public function test_permisos_para_editar_una_etiqueta()
     {
-        $this->actingAs($this->desarrollador);
-        $this->revokeRolePermissionTo(RoleEnum::Desarrollador->value, LabelPermission::Update);
+        $this->actingAs($this->jefeUnidad);
+        $this->revokeRolePermissionTo(RoleEnum::JefeUnidad->value, LabelPermission::Update);
 
         $label = Label::inRandomOrder()->first();
         $newContent = Label::factory()->raw();
@@ -96,7 +96,7 @@ class EditLabelTest extends TestCase
      */
     public function test_validaciones_para_editar_una_etiqueta()
     {
-        $this->actingAs($this->desarrollador);
+        $this->actingAs($this->jefeUnidad);
 
         $input = Label::inRandomOrder()->first()->getAttributes();
         $existingLabel = Label::where('id', '!=', $input['id'])->first();
@@ -118,7 +118,7 @@ class EditLabelTest extends TestCase
      */
     public function test_comprueba_funcionamiento_al_editar_etiqueta()
     {
-        $this->actingAs($this->desarrollador);
+        $this->actingAs($this->jefeUnidad);
 
         $existingLabel = Label::inRandomOrder()->first();
         $labelContent = Label::factory()->raw();
@@ -146,7 +146,7 @@ class EditLabelTest extends TestCase
      */
     public function test_el_listado_de_imagenes_se_actualiza_al_editar_etiquetas()
     {
-        $this->actingAs($this->desarrollador);
+        $this->actingAs($this->jefeUnidad);
 
         $existingLabel = Label::inRandomOrder()->first();
         $labelContent = Label::factory()->raw();
@@ -169,7 +169,7 @@ class EditLabelTest extends TestCase
      */
     public function test_el_componente_de_edicion_de_etiquetas_de_imagenes_al_editar_etiqueta(): void
     {
-        $this->actingAs($this->desarrollador);
+        $this->actingAs($this->jefeUnidad);
 
         $existingLabel = Label::inRandomOrder()->first();
         $labelContent = Label::factory()->raw();

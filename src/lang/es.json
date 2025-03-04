@@ -261,6 +261,7 @@
     "Reset Password Notification": "Notificación de restablecimiento de contraseña",
     "Restore": "Restaurar",
     "Restore image": "Restaurar imagen",
+    "Restore images": "Restaurar imágenes",
     "Restore user": "Restaurar usuario",
     "Restored images will be displayed again by default.": "Las imágenes restauradas se mostrarán de nuevo por defecto.",
     "results": "resultados",
@@ -411,5 +412,13 @@
     "You may not leave a team that you created.": "No se puede abandonar un equipo que usted creó.",
     "You must select at least one image.": "Debe seleccionar al menos una imagen.",
     "Your account is not active.": "Su cuenta no está activa.",
-    "Your email address is unverified.": "Su dirección de correo electrónico no está verificada."
+    "Your email address is unverified.": "Su dirección de correo electrónico no está verificada.",
+    "Please bring more info about this image.": "Por favor, brinde más información sobre esta imagen.",
+    "No valid image was found for labeling.": "No se encontró una imagen válida para realizar el etiquetado.",
+    "Invalid image IDs provided.": "IDs de imágenes no válidos.",
+    "You must select a maximum of 12 images to access the labeling wizard.": "Debe seleccionar máximo 12 imágenes para acceder al wizard de etiquetado.",
+    "It is not possible to remove a deleted image.": "No es posible eliminar una imagen eliminada.",
+    "It is not possible to restore a non-deleted image.": "No es posible restaurar una imagen no eliminada.",
+    "It is not possible to edit a deleted image.": "No es posible editar una imagen eliminada.",
+    "It is not possible to manage labels from a deleted image.": "No es posible gestionar etiquetas de una imagen eliminada."
 }

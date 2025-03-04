@@ -1,5 +1,6 @@
 @php
     use App\Enums\Permissions\LabelPermission;
+    use App\Enums\Permissions\ImagePermission;
 @endphp
 
 @extends('../theme/main-layout')
@@ -26,7 +27,7 @@
             {{ __('Image management') }}
         </h2>
 
-        @can(App\Enums\Permissions\ImagePermission::Upload)
+        @can(ImagePermission::Upload)
             <x-base.button
                 class="shadow-md"
                 onclick="dispatchModal('modal-upload-image', 'show')"
@@ -46,14 +47,19 @@
     </div>
 
     <!-- BEGIN: Modals para la gestión de imágenes -->
-    @can(App\Enums\Permissions\ImagePermission::Upload)
-        @include('image.modal.modal-upload')
+    @can(ImagePermission::Upload)
+        <x-base.dialog id="modal-upload-image" size="xl" static-backdrop>
+            <x-base.dialog.panel>
+                <livewire:image.upload-images />
+            </x-base.dialog.panel>
+        </x-base.dialog>
     @endcan
-    @can(App\Enums\Permissions\ImagePermission::Label)
-        @include('image.modal.modal-edit-labels')
-    @endcan
-    @can(App\Enums\Permissions\ImagePermission::Delete)
-        @include('image.modal.modal-manage-deletion')
+    @can(ImagePermission::Delete)
+        <x-base.dialog id="modal-manage-image-deletion" static-backdrop>
+            <x-base.dialog.panel>
+                <livewire:image.manage-image-deletion />
+            </x-base.dialog.panel>
+        </x-base.dialog>
     @endcan
     <!-- END: Modals para la gestión de imágenes -->
 

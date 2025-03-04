@@ -45,9 +45,27 @@ class ImagePolicy
      */
     public function update(User $user, Image $image): Response
     {
+        if (isset($image->deleted_at)) {
+            return Response::deny(__('#IP-UP-'. Auth::id() .':' . __('It is not possible to edit a deleted image.')), 403);
+        }
+
         return $user->hasPermissionTo(ImagePermission::Update)
             ? Response::allow()
             : Response::deny(__('#IP-UP-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     */
+    public function manageLabels(User $user, Image $image): Response
+    {
+        if (isset($image->deleted_at)) {
+            return Response::deny(__('#IP-ML-'. Auth::id() .':' . __('It is not possible to manage labels from a deleted image.')), 403);
+        }
+
+        return $user->hasPermissionTo(ImagePermission::ManageLabels)
+            ? Response::allow()
+            : Response::deny(__('#IP-ML-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
     }
 
     /**
@@ -55,6 +73,10 @@ class ImagePolicy
      */
     public function delete(User $user, Image $image): Response
     {
+        if (isset($image->deleted_at)) {
+            return Response::deny(__('#IP-DE-'. Auth::id() .':' . __('It is not possible to remove a deleted image.')), 403);
+        }
+
         return $user->hasPermissionTo(ImagePermission::Delete)
             ? Response::allow()
             : Response::deny(__('#IP-DE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
@@ -63,9 +85,15 @@ class ImagePolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Image $image): bool
+    public function restore(User $user, Image $image): Response
     {
-        return false;
+        if (is_null($image->deleted_at)) {
+            return Response::deny(__('#IP-RE-'. Auth::id() .':' . __('It is not possible to restore a non-deleted image.')), 403);
+        }
+
+        return $user->hasPermissionTo(ImagePermission::Restore)
+            ? Response::allow()
+            : Response::deny(__('#IP-RE-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
     }
 
     /**

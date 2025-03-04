@@ -19,7 +19,7 @@ class CreateLabelTest extends TestCase
 {
     use RefreshDatabase, WithFaker, CustomMethods;
 
-    protected User $desarrollador;
+    protected User $jefeUnidad;
 
     /**
      * Prepara entorno para realizar el testing
@@ -28,7 +28,7 @@ class CreateLabelTest extends TestCase
     {
         parent::setUp();
 
-        $this->desarrollador = $this->getUser(RoleEnum::Desarrollador);
+        $this->jefeUnidad = $this->getUser(RoleEnum::JefeUnidad);
     }
 
     /**
@@ -36,14 +36,14 @@ class CreateLabelTest extends TestCase
      */
     public function test_el_usuario_puede_ver_el_boton_de_crear_etiqueta(): void
     {
-        $this->actingAs($this->desarrollador);
+        $this->actingAs($this->jefeUnidad);
 
         $response = $this->get(route('image.index'));
         $response->assertOk()
             ->assertSee(__('New label'))
             ->assertSeeLivewire(CreateLabel::class);
 
-        $this->revokeRolePermissionTo(RoleEnum::Desarrollador->value, LabelPermission::Create);
+        $this->revokeRolePermissionTo(RoleEnum::JefeUnidad->value, LabelPermission::Create);
 
         // Renderizado sin permisos
         $response = $this->get(route('image.index'));
@@ -57,8 +57,8 @@ class CreateLabelTest extends TestCase
      */
     public function test_permisos_para_crear_una_etiqueta(): void
     {
-        $this->actingAs($this->desarrollador);
-        $this->revokeRolePermissionTo(RoleEnum::Desarrollador->value, LabelPermission::Create);
+        $this->actingAs($this->jefeUnidad);
+        $this->revokeRolePermissionTo(RoleEnum::JefeUnidad->value, LabelPermission::Create);
 
         $labelContent = Label::factory()->raw();
 
@@ -73,7 +73,7 @@ class CreateLabelTest extends TestCase
      */
     public function test_validaciones_para_crear_etiqueta(): void
     {
-        $this->actingAs($this->desarrollador);
+        $this->actingAs($this->jefeUnidad);
 
         $component = Livewire::test(CreateLabel::class);
 
@@ -102,7 +102,7 @@ class CreateLabelTest extends TestCase
      */
     public function test_comprueba_funcionamiento_al_crear_etiqueta(): void
     {
-        $this->actingAs($this->desarrollador);
+        $this->actingAs($this->jefeUnidad);
 
         $labelContent = Label::factory()->raw();
 
@@ -128,7 +128,7 @@ class CreateLabelTest extends TestCase
      */
     public function test_el_listado_de_imagenes_se_actualiza_al_crear_etiqueta(): void
     {
-        $this->actingAs($this->desarrollador);
+        $this->actingAs($this->jefeUnidad);
 
         $labelContent = Label::factory()->raw();
 
@@ -150,7 +150,7 @@ class CreateLabelTest extends TestCase
      */
     public function test_el_componente_de_edicion_de_etiquetas_de_imagenes_al_crear_etiqueta(): void
     {
-        $this->actingAs($this->desarrollador);
+        $this->actingAs($this->jefeUnidad);
 
         $labelContent = Label::factory()->raw();
 

@@ -75,7 +75,7 @@
                 </div>
             </div>
         </x-base.form-label>
-        <div class="mt-3 w-full flex-1 xl:mt-0">
+        <div class="mt-3 w-full flex-1 xl:mt-0" wire:ignore>
             <x-base.tom-select
                 id="form.labelIds"
                 name="form.labelIds"
@@ -118,9 +118,5 @@
         }
 
         window.initTomSelect('.tom-select', options);
-
-        Livewire.hook('morph.updating', () => {
-            window.initTomSelect('.tom-select', options);
-        });
     </script>
 @endscript

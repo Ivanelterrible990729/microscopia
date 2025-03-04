@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </x-base.form-label>
-            <div class="mt-3 w-full flex-1 xl:mt-0" wire:key="{{ str()->random(50) }}">
+            <div class="mt-3 w-full flex-1 xl:mt-0" wire:ignore>
                 <x-base.tom-select
                     id="form.labelIds"
                     name="form.labelIds"
@@ -76,7 +76,6 @@
     </x-base.dialog.footer>
 </div>
 
-
 @script
     <script>
         options = {
@@ -100,10 +99,5 @@
         }
 
         window.initTomSelect('.tom-select', options);
-
-        Livewire.hook('morph.updating', () => {
-            options.options = $wire.availableLabels,
-            window.initTomSelect('.tom-select', options);
-        });
     </script>
 @endscript

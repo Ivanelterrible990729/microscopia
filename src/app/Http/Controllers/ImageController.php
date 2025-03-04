@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ImageLabelingRequest;
 use App\Models\Image;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Session;
 
 class ImageController extends Controller
 {
@@ -21,21 +22,17 @@ class ImageController extends Controller
     /**
      * Show the form for creating-updating a new resource.
      */
-    public function labeling(Request $request)
+    public function labeling(ImageLabelingRequest $request)
     {
-        $imageIds = explode(',', $request->ids);
-
         $images = Image::with(['media', 'labels'])
-            ->whereIn('id', $imageIds)
+            ->whereIn('id', $request->imageIds())
             ->get()
-            ->sortBy(function($model) use ($imageIds){
-                return array_search($model->getKey(), $imageIds);
-            })->values();
+            ->sortBy(fn($image) => array_search($image->getKey(), $request->imageIds()))
+            ->values();
 
-        // TODO: validar que exista al menos una imagen recibida por medio de un FormRequest.
-
-        foreach ($images as $image) {
-            Gate::authorize('update', $image);
+        if ($images->count() === 1) {
+            Session::reflash();
+            return redirect()->route('image.edit', $images->first()->id);
         }
 
         return view('image.labeling', compact('images'));

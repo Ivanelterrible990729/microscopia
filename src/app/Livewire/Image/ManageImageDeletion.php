@@ -3,6 +3,7 @@
 namespace App\Livewire\Image;
 
 use App\Models\Image;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -79,9 +80,19 @@ class ManageImageDeletion extends Component
     public function performAction()
     {
         $this->validate();
+        $numImages = 0;
 
-        $query = Image::withTrashed()->whereIn('id', $this->imageIds);
-        $numImages = $this->mode == 'images-deleted' ? $query->delete() : $query->restore();
+        if ($this->mode == 'images-deleted') {
+            $images = Image::whereIn('id', $this->imageIds)->get();
+            $numImages = $images->count();
+            $images->each(fn($image) => Gate::authorize('delete', $image));
+            $images->each->delete();
+        } else {
+            $images = Image::onlyTrashed()->whereIn('id', $this->imageIds)->get();
+            $numImages = $images->count();
+            $images->each(fn($image) => Gate::authorize('restore', $image));
+            $images->each->restore();
+        }
 
         $this->dispatch($this->mode, numImages: $numImages);
         $this->modal('modal-manage-image-deletion')->hide();
