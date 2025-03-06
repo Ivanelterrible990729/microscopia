@@ -2,22 +2,22 @@
 
 use App\Http\Controllers\ActivitylogController;
 use App\Http\Controllers\CnnModelController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureUserIsActive;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// WELCOME  ===================================================
+// ============================================================
+
+Route::get('/', [DashboardController::class, 'welcome']);
 
 // INACTIVE PAGE  =============================================
 // ============================================================
 
-Route::get('inactive-page', function () {
-    return view('errors.inactive');
-})->name('inactive-page');
+Route::get('inactive-page', [DashboardController::class, 'inactivePage'])->name('inactive-page');
 
 Route::middleware([
     'auth:sanctum',
@@ -26,10 +26,10 @@ Route::middleware([
     EnsureUserIsActive::class,
 ])->group(function () {
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    // DASHBOARD  =================================================
+    // ============================================================
 
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
     Route::prefix('admin')->group(function () {
 

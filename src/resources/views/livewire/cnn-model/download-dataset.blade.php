@@ -2,10 +2,10 @@
     <x-base.dialog.title>
         <h2 class="mr-auto flex flex-1 items-center text-base font-medium">
             <x-base.lucide
-                icon="brain-cog"
+                icon="image-down"
                 class="mr-2"
             />
-            {{ __('Train model') }}
+            {{ __('Download dataset') }}
         </h2>
     </x-base.dialog.title>
 

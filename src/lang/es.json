@@ -438,5 +438,8 @@
     "Click in any log ID in the listing to see more details.": "Haga clic en el ID de cualquier registro para ver más detalles.",
     "CNN Model created.": "Modelo CNN creado.",
     "CNN Model updated.": "Modelo CNN actualizado.",
-    "CNN Model deleted.": "Modelo CNN eliminado."
+    "CNN Model deleted.": "Modelo CNN eliminado.",
+    "Delete model": "Eliminar modelo",
+    "Update CNN Model": "Actualizar modelo CNN",
+    "Download dataset": "Descargar dataset"
 }
