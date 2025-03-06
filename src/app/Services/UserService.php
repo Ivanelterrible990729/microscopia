@@ -89,7 +89,7 @@ class UserService
     {
         // Verifica si el usuario tiene una foto de perfil
         if (!$user->profile_photo_path || !Storage::disk(config('jetstream.profile_photo_disk'))->exists($user->profile_photo_path)) {
-            abort(404, 'La fotografía de perfil no existe.');
+            abort(404, __('The profile photo does not exists.'));
         }
 
         return Storage::download($user->profile_photo_path, 'profile_photo_' . $user->id . '.jpg');

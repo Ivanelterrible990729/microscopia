@@ -73,7 +73,7 @@ class Image extends Model implements HasMedia
     }
 
     /**
-     * log the created & updated events.
+     * log the created updated, deleted & restored events.
      */
     public function getActivitylogOptions(): LogOptions
     {
@@ -87,6 +87,7 @@ class Image extends Model implements HasMedia
                 'deleted_at',
             ])
             ->dontSubmitEmptyLogs()
+            ->dontLogIfAttributesChangedOnly(['updated_at', 'deleted_at'])
             ->useLogName(__('Images'))
             ->setDescriptionForEvent(fn(string $eventName) => __("Image {$eventName}."));
     }

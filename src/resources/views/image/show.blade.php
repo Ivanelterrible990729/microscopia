@@ -140,7 +140,8 @@
                         </div>
 
                         <x-base.button
-                            size="sm"
+                            as="a"
+                            href="{{ route('image.download', $image) }}"
                             variant="dark"
                             class="ml-auto"
                         >
@@ -175,14 +176,14 @@
     @can('delete', $image)
         <x-base.dialog id="modal-manage-image-deletion" static-backdrop>
             <x-base.dialog.panel>
-                <livewire:image.manage-image-deletion />
+                <livewire:image.manage-image-deletion redirectToShow />
             </x-base.dialog.panel>
         </x-base.dialog>
     @endcan
     @can('restore', $image)
         <x-base.dialog id="modal-manage-image-deletion" static-backdrop>
             <x-base.dialog.panel>
-                <livewire:image.manage-image-deletion />
+                <livewire:image.manage-image-deletion redirectToShow />
             </x-base.dialog.panel>
         </x-base.dialog>
     @endcan

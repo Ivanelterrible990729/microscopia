@@ -4,7 +4,9 @@ namespace App\Livewire\Image;
 
 use App\Livewire\Forms\ImageForm;
 use App\Models\Label;
+use App\Services\ImageService;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 class ImagesWizard extends Component
@@ -99,14 +101,17 @@ class ImagesWizard extends Component
      * Actualiza cada una de las imágenes revisadas.
      * Redirige a image.index.
      */
-    public function confirmWizard()
+    public function confirmWizard(ImageService $imageService)
     {
+        $this->images->each(fn ($image) => Gate::authorize('update', $image));
         $this->validate();
 
         foreach ($this->imageForms as $index => $imageForm) {
             $this->form->fill($imageForm);
-            $this->form->update($this->images[$index], validate: false);
-            $this->images[$index]->refresh();
+            $this->form->validate();
+
+            $image = $imageService->updateImage($this->images[$index], $this->form->except('labelIds'));
+            $imageService->updateLabels($image, $this->form->labelIds);
         }
 
         return redirect()->route('image.index')->with([

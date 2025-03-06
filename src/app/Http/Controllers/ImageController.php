@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ImageLabelingRequest;
 use App\Models\Image;
+use App\Repositories\ImageRepository;
+use App\Services\ImageService;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ImageController extends Controller
 {
@@ -22,7 +25,7 @@ class ImageController extends Controller
     /**
      * Show the form for creating-updating a new resource.
      */
-    public function labeling(ImageLabelingRequest $request)
+    public function labeling(ImageLabelingRequest $request, ImageRepository $imageRepository)
     {
         $images = Image::with(['media', 'labels'])
             ->whereIn('id', $request->imageIds())
@@ -51,6 +54,14 @@ class ImageController extends Controller
             'labels'
         ]);
 
+        if (isset($image->deleted_at)) {
+            Session::now('alert', [
+                'variant' => 'warning',
+                'icon' => 'alert-triangle',
+                'message' => __('This image is trashed. Please restore the image to make effective any action of this image.')
+            ]);
+        }
+
         return view('image.show', compact('image'));
     }
 
@@ -68,5 +79,13 @@ class ImageController extends Controller
         ]);
 
         return view('image.edit', compact('image'));
+    }
+
+    /**
+     * Descarga la imagen.
+     */
+    public function downloadImage(ImageService $imageService, Image $image): StreamedResponse
+    {
+        return $imageService->downloadImage($image);
     }
 }

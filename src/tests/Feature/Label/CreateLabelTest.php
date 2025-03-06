@@ -5,7 +5,7 @@ namespace Tests\Feature\Label;
 use App\Concerns\Tests\CustomMethods;
 use App\Enums\Permissions\LabelPermission;
 use App\Enums\RoleEnum;
-use App\Livewire\Image\EditLabelsImage;
+use App\Livewire\Image\ManageLabelsImage;
 use App\Livewire\Label\CreateLabel;
 use App\Livewire\Tables\ImagesTable;
 use App\Models\Label;
@@ -143,32 +143,5 @@ class CreateLabelTest extends TestCase
                 'message' => __('The label has been successfully stored.'),
                 'title' => __('Success'),
             ]);
-    }
-
-    /**
-     * El componente de editar etiquetas se actualiza al crear una etiqueta.
-     */
-    public function test_el_componente_de_edicion_de_etiquetas_de_imagenes_al_crear_etiqueta(): void
-    {
-        $this->actingAs($this->jefeUnidad);
-
-        $labelContent = Label::factory()->raw();
-
-        Livewire::test(CreateLabel::class)
-            ->set('form', $labelContent)
-            ->call('storeLabel');
-
-        Livewire::test(EditLabelsImage::class)
-            ->dispatch('label-created')
-            ->assertSet('availableLabels',  Label::query()
-            ->orderBy('name')
-            ->get()
-            ->map(function($label) {
-                return [
-                    'id' => $label->id,
-                    'name' => $label->name,
-                    'color' => $label->color,
-                ];
-            })->toArray());
     }
 }

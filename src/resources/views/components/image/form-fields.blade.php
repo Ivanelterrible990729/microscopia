@@ -13,7 +13,7 @@
                     <div class="font-medium">{{ __('Name') }}</div>
                 </div>
                 <div class="mt-3 text-xs leading-relaxed text-slate-500">
-                    {{ __('Escriba aquí el nombre de la imagen.') }}
+                    {{ __('Type here the name of the image.') }}
                 </div>
             </div>
         </x-base.form-label>
@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="mt-3 text-xs leading-relaxed text-slate-500">
-                    {{ __('En caso de requerirlo, usted puede dar una descripción de la imágen.') }}
+                    {{ __('If required, you can give a description of the image.') }}
                 </div>
             </div>
         </x-base.form-label>
@@ -71,7 +71,7 @@
                     </div>
                 </div>
                 <div class="mt-3 text-xs leading-relaxed text-slate-500">
-                    {{ __('Se enlistan aquí las etiquetas asignadas a la imagen.') }}
+                    {{ __('Listed here are the tags assigned to the image.') }}
                 </div>
             </div>
         </x-base.form-label>
@@ -79,13 +79,13 @@
             <x-base.tom-select
                 id="form.labelIds"
                 name="form.labelIds"
-                wire:model='form.labelIds'
+                wire:model.live='form.labelIds'
                 class="tom-select w-full"
                 :data-placeholder="__('Select one or more labels.')"
                 multiple
             >
                 @foreach ($availableLabels as $label)
-                    <option value="{{ $label['id'] }}" @selected(in_array($label['id'], $form->labelIds))>
+                    <option value="{{ $label['id'] }}" @selected(in_array($label['id'], $form['labelIds']))>
                         {{ $label['name'] }}
                     </option>
                 @endforeach

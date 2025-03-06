@@ -420,5 +420,14 @@
     "It is not possible to remove a deleted image.": "No es posible eliminar una imagen eliminada.",
     "It is not possible to restore a non-deleted image.": "No es posible restaurar una imagen no eliminada.",
     "It is not possible to edit a deleted image.": "No es posible editar una imagen eliminada.",
-    "It is not possible to manage labels from a deleted image.": "No es posible gestionar etiquetas de una imagen eliminada."
+    "It is not possible to manage labels from a deleted image.": "No es posible gestionar etiquetas de una imagen eliminada.",
+    "Type here the name of the image.": "Escriba aquí el nombre de la imagen",
+    "If required, you can give a description of the image.": "En caso de requerirlo, usted puede dar una descripción de la imagen.",
+    "Listed here are the tags assigned to the image.": "Se enlistan aquí las etiquetas asignadas a la imagen.",
+    "Analyze": "Analizar",
+    "The process was successfully completed.": "El proceso se realizó de manera exitosa.",
+    "This image is trashed. Please restore the image to make effective any action of this image.": "Esta imagen fue eliminada. Por favor, restaure la imagen para hacer efectiva cualquier acción.",
+    "The image does not exists.": "La imagen no existe.",
+    "The profile photo does not exists.": "La fotografía de perfil no existe.",
+    "Labels updated.": "Etiquetas actualizadas."
 }

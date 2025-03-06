@@ -52,7 +52,7 @@ class Label extends Model
     }
 
     /**
-     * log the created & updated events.
+     * log the created, updated & deleted events.
      */
     public function getActivitylogOptions(): LogOptions
     {

@@ -5,6 +5,7 @@ namespace App\Livewire\Image;
 use App\Livewire\Forms\ImageForm;
 use App\Models\Image;
 use App\Models\Label;
+use App\Services\ImageService;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -61,11 +62,14 @@ class ManageLabelsImage extends Component
     /**
      * Realiza la edición de etiquetas.
      */
-    public function editLabels()
+    public function editLabels(ImageService $imageService)
     {
         Gate::authorize('manageLabels', $this->image);
 
-        $this->form->updateLabels($this->image, validate: true);
+        $this->validateOnly('labelIds');
+        $this->validateOnly('labelIds.*');
+        $imageService->updateLabels($this->image, $this->form->labelIds);
+
         $this->modal('modal-manage-labels-image')->hide();
 
         return redirect()->route('image.show', $this->image)->with([

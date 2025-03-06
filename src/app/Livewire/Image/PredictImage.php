@@ -24,11 +24,11 @@ class PredictImage extends Component
     /**
      * Almacena la predicción realizada por el modelo a la imagen en cuestión.
      */
-    public null|array $prediction = null;
+    public null|array $predictions = [];
 
     public function render()
     {
-        $models = CnnModel::query()->paginate(1);
+        $models = CnnModel::whereHas('media')->paginate(1);
 
         return view('livewire.image.predict-image', compact('models'));
     }
@@ -62,20 +62,11 @@ class PredictImage extends Component
         $label = Label::find($labelId);
 
         if ($label) {
-            $this->prediction = [
+            $this->predictions[$model->id] = [
                 'percentage' => number_format($percentage, 2),
                 'name' => $label->name,
                 'color' => $label->color,
             ];
         }
-    }
-
-    /**
-     * Utiliza el hook de cambio de página para mandar un evento
-     * que se escucha en el blade y así llamar a la función predict después del render.
-     */
-    public function updatedPage($page)
-    {
-        $this->dispatch('updated-page');
     }
 }

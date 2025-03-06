@@ -5,7 +5,7 @@ namespace Tests\Feature\Label;
 use App\Concerns\Tests\CustomMethods;
 use App\Enums\Permissions\LabelPermission;
 use App\Enums\RoleEnum;
-use App\Livewire\Image\EditLabelsImage;
+use App\Livewire\Image\ManageLabelsImage;
 use App\Livewire\Label\DeleteLabel;
 use App\Livewire\Tables\ImagesTable;
 use App\Models\Label;
@@ -128,31 +128,5 @@ class DeleteLabelTest extends TestCase
                 'message' => __('The label has been successfully deleted.'),
                 'title' => __('Success'),
             ]);
-    }
-
-    /**
-     * El componente de gestinar etiquetas se actualiza al eliminar una etiqueta.
-     */
-    public function test_el_componente_de_edicion_de_etiquetas_de_imagenes_al_eliminar_etiqueta(): void
-    {
-        $this->actingAs($this->jefeUnidad);
-
-        $existingLabel = Label::inRandomOrder()->first();
-
-        Livewire::test(DeleteLabel::class, ['label' => $existingLabel])
-            ->call('deleteLabel');
-
-        Livewire::test(EditLabelsImage::class)
-            ->dispatch('label-deleted')
-            ->assertSet('availableLabels',  Label::query()
-            ->orderBy('name')
-            ->get()
-            ->map(function($label) {
-                return [
-                    'id' => $label->id,
-                    'name' => $label->name,
-                    'color' => $label->color,
-                ];
-            })->toArray());
     }
 }

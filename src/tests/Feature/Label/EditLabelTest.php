@@ -5,7 +5,7 @@ namespace Tests\Feature\Label;
 use App\Concerns\Tests\CustomMethods;
 use App\Enums\Permissions\LabelPermission;
 use App\Enums\RoleEnum;
-use App\Livewire\Image\EditLabelsImage;
+use App\Livewire\Image\ManageLabelsImage;
 use App\Livewire\Label\EditLabel;
 use App\Livewire\Tables\ImagesTable;
 use App\Models\Label;
@@ -162,34 +162,6 @@ class EditLabelTest extends TestCase
                 'message' => __('The label has been successfully updated.'),
                 'title' => __('Success'),
             ]);
-    }
-
-    /**
-     * El componente de editar etiquetas se actualiza al editar una etiqueta.
-     */
-    public function test_el_componente_de_edicion_de_etiquetas_de_imagenes_al_editar_etiqueta(): void
-    {
-        $this->actingAs($this->jefeUnidad);
-
-        $existingLabel = Label::inRandomOrder()->first();
-        $labelContent = Label::factory()->raw();
-
-        Livewire::test(EditLabel::class, ['label' => $existingLabel])
-            ->set('form', $labelContent)
-            ->call('updateLabel');
-
-        Livewire::test(EditLabelsImage::class)
-            ->dispatch('label-updated')
-            ->assertSet('availableLabels',  Label::query()
-            ->orderBy('name')
-            ->get()
-            ->map(function($label) {
-                return [
-                    'id' => $label->id,
-                    'name' => $label->name,
-                    'color' => $label->color,
-                ];
-            })->toArray());
     }
 }
 

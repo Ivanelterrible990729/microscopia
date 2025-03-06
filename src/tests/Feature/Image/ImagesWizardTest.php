@@ -5,10 +5,12 @@ namespace Tests\Feature\Image;
 use App\Concerns\Tests\CustomMethods;
 use App\Enums\Permissions\ImagePermission;
 use App\Enums\RoleEnum;
+use App\Livewire\Image\ImagesWizard;
 use App\Models\Image;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class ImagesWizardTest extends TestCase
@@ -147,15 +149,76 @@ class ImagesWizardTest extends TestCase
      */
     public function test_permite_avanzar_el_wizard_cuando_no_hay_errores()
     {
+        $this->actingAs($this->tecnicoUnidad);
+        $images = Image::with(['media', 'labels'])
+            ->whereIn('id', ['1', '2', '3'])
+            ->get()
+            ->sortBy(fn($image) => array_search($image->getKey(), ['1', '2', '3']))
+            ->values();
 
+        // Con errores
+        Livewire::test(ImagesWizard::class, ['images' => $images])
+            ->assertSet('form.id', '1')
+            ->assertSet('activeIndex', 0)
+            ->set('form.name', '')
+            ->call('next')
+            ->assertHasErrors([
+                'form.name' => 'required',
+            ]);
+
+        // Sin errores
+        Livewire::test(ImagesWizard::class, ['images' => $images])
+            ->call('next')
+            ->assertSet('form.id', '2')
+            ->assertSet('activeIndex', 1)
+            ->assertHasNoErrors();
     }
 
     /**
-     *
+     * Test navegación del wizard
      */
+    public function test_permite_retroceder_el_wizard_cuando_no_hay_errores()
+    {
+        $this->actingAs($this->tecnicoUnidad);
+        $images = Image::with(['media', 'labels'])
+            ->whereIn('id', ['1', '2', '3'])
+            ->get()
+            ->sortBy(fn($image) => array_search($image->getKey(), ['1', '2', '3']))
+            ->values();
+
+        // Con errores
+        Livewire::test(ImagesWizard::class, ['images' => $images])
+            ->call('next')
+            ->set('form.name', '')
+            ->call('previous')
+            ->assertHasErrors([
+                'form.name' => 'required',
+            ]);
+
+        // Sin errores
+        Livewire::test(ImagesWizard::class, ['images' => $images])
+            ->call('next')
+            ->call('previous')
+            ->assertHasNoErrors();
+    }
+
     public function test_comprueba_permisos_para_almacenar_los_cambios()
     {
+        $this->actingAs($this->tecnicoUnidad);
+        $this->revokeRolePermissionTo(RoleEnum::TecnicoUnidad->value, ImagePermission::Update);
 
+        $images = Image::with(['media', 'labels'])
+            ->whereIn('id', ['1', '2', '3'])
+            ->get()
+            ->sortBy(fn($image) => array_search($image->getKey(), ['1', '2', '3']))
+            ->values();
+
+        Livewire::test(ImagesWizard::class, ['images' => $images])
+            ->call('next') // 1 to 2
+            ->call('next') // 2 to 3
+            ->call('next') // 3 to confirm wizard
+            ->call('confirmWizard')
+            ->assertForbidden();
     }
 
     /**
@@ -163,6 +226,35 @@ class ImagesWizardTest extends TestCase
      */
     public function test_comprueba_funcionamiento_para_almacenar_los_cambios()
     {
+        $this->actingAs($this->tecnicoUnidad);
+        $response = $this->get(route('image.labeling', ['ids' => '1,2,3']));
+        $images = Image::with(['media', 'labels'])
+            ->whereIn('id', ['1', '2', '3'])
+            ->get()
+            ->sortBy(fn($image) => array_search($image->getKey(), ['1', '2', '3']))
+            ->values();
 
+        $component = Livewire::test(ImagesWizard::class, ['images' => $images])
+            ->set('form.name', 'new name')
+            ->call('next') // 1 to 2
+            ->call('next') // 2 to 3
+            ->call('next') // 3 to confirm wizard
+            ->call('confirmWizard');
+
+        $component->assertHasNoErrors()
+            ->assertRedirectToRoute('image.index');
+
+        $response->assertSessionHas([
+            'alert' => [
+                'variant' => 'soft-primary',
+                'icon' => 'check-circle',
+                'message' => __('Wizard successfully completed')
+            ]
+        ]);
+
+        $this->assertDatabaseHas('images', [
+            'id' => 1,
+            'name' => 'new name',
+        ]);
     }
 }

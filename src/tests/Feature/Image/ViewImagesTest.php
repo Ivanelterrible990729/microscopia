@@ -104,8 +104,13 @@ class ViewImagesTest extends TestCase
     public function test_comprueba_filtrado_por_papelera(): void
     {
         $this->actingAs($this->tecnico);
-        // Eliminar una imagen random
-        // Aplicar filtrado por papelera
-        // AssertSee.
+
+        $image = Image::inRandomOrder()->first();
+        $image->delete();
+
+        $component = Livewire::test(ImagesTable::class)
+            ->call("setFilterImages", 'trashed');
+
+        $component->assertSee($image->name);
     }
 }
