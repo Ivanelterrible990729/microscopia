@@ -13,7 +13,9 @@
         <x-base.dialog.description>
             <x-validation-errors class="mb-5" />
 
-            @include('livewire.label.form-fields')
+            <div x-init="$wire.form.color = $randomHexColor()">
+                @include('livewire.label.form-fields')
+            </div>
         </x-base.dialog.description>
 
         <x-base.dialog.footer>
@@ -42,3 +44,14 @@
         </x-base.dialog.footer>
     </form>
 </div>
+
+@push('scripts')
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.magic('randomHexColor', () => () => {
+                const random = Math.floor(Math.random() * 0xFFFFFF);
+                return `#${random.toString(16).padStart(6, '0').toUpperCase()}`;
+            });
+        });
+    </script>
+@endpush

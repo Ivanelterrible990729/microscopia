@@ -76,9 +76,5 @@ formInline
             type="color"
             required
         />
-
-        <label for="form.color" class="bg-secondary/70 border-secondary/70 text-slate-500 dark:border-darkmode-400 dark:bg-darkmode-400 dark:text-slate-300 cursor-pointer rounded px-2 py-1">
-            {{ __('Choose color') }}
-        </label>
     </div>
 </x-base.form-inline>

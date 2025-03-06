@@ -5,6 +5,7 @@ namespace App\Livewire\CnnModel;
 use App\Enums\Media\MediaEnum;
 use App\Models\CnnModel;
 use App\Services\TrainModelService;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -15,27 +16,9 @@ class InfoCnnModel extends Component
      */
     public CnnModel $cnnModel;
 
-    /**
-     * Determina si el usuario tiene permisos para eliminar el modelo.
-     */
-    public bool $canDeleteModel;
-
-    /**
-     * Determina si el usuario tiene permisos para editar el modelo.
-     */
-    public bool $canUpdateModel;
-
-        /**
-     * Determina si el usuario tiene permisos para descargar el modelo.
-     */
-    public bool $canDownloadModel;
-
-    public function mount(CnnModel $cnnModel, bool $canDownloadModel, bool $canUpdateModel, bool $canDeleteModel)
+    public function mount(CnnModel $cnnModel)
     {
         $this->cnnModel = $cnnModel;
-        $this->canDownloadModel = $canDownloadModel;
-        $this->canUpdateModel = $canUpdateModel;
-        $this->canDeleteModel = $canDeleteModel;
     }
 
     public function render()
@@ -46,14 +29,11 @@ class InfoCnnModel extends Component
     /**
      * Realiza la descarga del modelo por medio de TrainModelService.
      */
-    public function downloadModel()
+    public function downloadModel(TrainModelService $trainModelService)
     {
-        if (!$this->canDeleteModel) {
-            $this->toast(title: __('Error'), message:  __('You do not have permissions to perform this action.'))->danger();
-            return;
-        }
+        Gate::authorize('delete', $this->cnnModel);
 
-        return TrainModelService::downloadModel($this->cnnModel->getFirstMedia(MediaEnum::CNN_Model->value));
+        return $trainModelService->downloadModel($this->cnnModel->getFirstMedia(MediaEnum::CNN_Model->value));
     }
 
     /**

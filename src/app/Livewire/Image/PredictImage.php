@@ -67,6 +67,8 @@ class PredictImage extends Component
                 'name' => $label->name,
                 'color' => $label->color,
             ];
+        } else {
+            $this->predictions[$model->id] = null;
         }
     }
 }

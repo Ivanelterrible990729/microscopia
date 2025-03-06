@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Activity;
 
-use App\Enums\Permissions\ActivitylogPermission;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;

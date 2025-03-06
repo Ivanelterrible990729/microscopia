@@ -5,6 +5,7 @@ namespace App\Livewire\CnnModel;
 use App\Livewire\Forms\CnnModelForm;
 use App\Models\CnnModel;
 use App\Models\Label;
+use App\Services\CnnModelService;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -58,11 +59,19 @@ class CreateCnnModel extends Component
         Storage::disk(config('filesystems.default'))->deleteDirectory('livewire/tmp');
     }
 
-    public function createModel()
+    public function createModel(CnnModelService $cnnModelService)
     {
         Gate::authorize('create', CnnModel::class);
+        $this->validate();
 
-        return redirect()->route('cnn-model.show', ['cnnModel' => $this->form->storeModel()])->with([
+        $cnnModel = $cnnModelService->createCnnModel($this->form->except(['labelIds', 'file']));
+        $cnnModel = $cnnModelService->updateLabels($cnnModel, $this->form->labelIds);
+
+        if (isset($this->form->file)) {
+            $cnnModelService->addModelMedia($cnnModel, $this->form->file);
+        }
+
+        return redirect()->route('cnn-model.show', ['cnnModel' => $cnnModel])->with([
             'alert' => [
                 'variant' => 'soft-primary',
                 'icon' => 'check-circle',

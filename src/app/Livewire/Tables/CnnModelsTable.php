@@ -5,8 +5,10 @@ namespace App\Livewire\Tables;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\CnnModel;
+use App\Models\Label;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
+use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
 
 class CnnModelsTable extends DataTableComponent
 {
@@ -65,6 +67,26 @@ class CnnModelsTable extends DataTableComponent
                 'created_at',
                 'updated_at'
             ]);
+    }
+
+    public function filters(): array
+    {
+        return [
+            MultiSelectFilter::make(__('Labels'))
+                ->options(
+                Label::query()
+                    ->orderBy('name')
+                    ->get()
+                    ->keyBy('id')
+                    ->map(fn($label) => $label->name)
+                    ->toArray()
+                )
+                ->filter(function(Builder $builder, array $values) {
+                    $builder->whereHas('labels', function ($query) use ($values) {
+                        return $query->whereIn('labels.id', $values);
+                    });
+                }),
+        ];
     }
 
     private function getMediaStatus(CnnModel $cnnModel): string

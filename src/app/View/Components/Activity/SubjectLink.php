@@ -41,7 +41,7 @@ class SubjectLink extends Component
 
                 case 'App\Models\CnnModel':
                     $route = route('cnn-model.show', $this->subjectId);
-                    $value = _('CNN Model');
+                    $value = __('CNN Model');
                     break;
 
                 case 'App\Models\Image':

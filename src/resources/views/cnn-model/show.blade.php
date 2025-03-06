@@ -1,3 +1,8 @@
+@php
+    use App\Models\CnnModel;
+@endphp
+
+
 @extends('../theme/main-layout')
 
 @section('subhead')
@@ -28,7 +33,7 @@
 
     <x-base.tab.group>
         <div class="intro-y box mt-5 px-5 pt-5">
-            <livewire:cnn-model.info-cnn-model :cnn-model="$cnnModel" :can-download-model="$canDownloadModel" :can-update-model="$canUpdateModel" :can-delete-model="$canDeleteModel" />
+            <livewire:cnn-model.info-cnn-model :cnn-model="$cnnModel" />
 
             <x-base.tab.list
                 class="flex-col justify-center text-center sm:flex-row lg:justify-start"
@@ -87,11 +92,11 @@
         </x-base.tab.panels>
     </x-base.tab.group>
 
-    @if ($canDeleteModel)
+    @can('delete', $cnnModel)
         @include('cnn-model.modal.modal-delete')
-    @endif
+    @endcan
 
-    @if ($canUpdateModel)
+    @can('update', $cnnModel)
         @include('cnn-model.modal.modal-edit')
-    @endif
+    @endcan
 @endsection

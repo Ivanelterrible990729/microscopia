@@ -31,11 +31,11 @@
             </x-base.button>
         </div>
 
-        @if (isset($predictions[$model->id]))
+        @if (isset($predictions[$model->id]) && $predictions[$model->id] != null)
             <div class="mt-2 rounded font-medium text-center px-3 py-2" style="border-width: 3px; border-color: {{ $predictions[$model->id]['color'] }}; color: {{ $predictions[$model->id]['color'] }};" wire:loading.remove>
                 {{ $predictions[$model->id]['percentage'] }}% {{ $predictions[$model->id]['name'] }}
             </div>
-        @else
+        @elseif (isset($predictions[$model->id]) && is_null($predictions[$model->id]))
             <div class="mt-2 rounded font-medium text-center px-3 py-2 text-slate-400 dark:text-slate-300 border border-slate-400 dark:border-slate-300"  style="border-width: 3px;" wire:loading.remove>
                 {{ __('No prediction') }}
             </div>

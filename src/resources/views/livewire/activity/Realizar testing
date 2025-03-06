@@ -1,0 +1,14 @@
+- [x] Realizar testing
+- [x] Agregar comando de activitylog:clear.
+- [x] Filtrados listado de acciones [Usuario, Fecha].
+- [x] Verificar acciones para cada metodo de RoleService.
+
+- [ ] Contemplar hacer un service logging para producción. ($this->log, $this->info)
+- [ ] Contemplar logs en producción para 403 y demás.
+
+- [ ] Verificar el resto de módulos.
+- [ ] Prueba en físico y visual de código para todos los módulos (AGREGAR AYUDAS).
+
+---
+
+- [ ] Implementar SOLID en módulo de modelos para completar los últimos 2 puntos.
