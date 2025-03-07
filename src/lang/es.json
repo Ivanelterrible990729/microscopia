@@ -441,5 +441,13 @@
     "CNN Model deleted.": "Modelo CNN eliminado.",
     "Delete model": "Eliminar modelo",
     "Update CNN Model": "Actualizar modelo CNN",
-    "Download dataset": "Descargar dataset"
+    "Download dataset": "Descargar dataset",
+    "Welcome to the ITRANS Microscopy System. 🔬": "Bienvenid@ al sistema de Microscopia ITRANS. 🔬",
+    "Images count": "Conteo de imágenes",
+    "Images to be classified": "Imágenes por etiquetar",
+    "Classified images": "Imágenes etiquetadas",
+    "Total images": "Imágenes activas",
+    "Deleted images": "Imágenes eliminadas",
+    "of all the images": "en razón al total de imágenes activas",
+    "Images distribution": "Distribución de imágenes"
 }
