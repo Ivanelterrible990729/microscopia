@@ -17,6 +17,14 @@
                 months: true,
                 years: true,
             },
+            buttonText: {
+                apply: 'Aplicar',
+                cancel: 'Cancelar',
+            },
+            tooltipText: {
+                one: 'día',
+                other: 'días',
+            },
         };
 
         if ($(this).data("single-mode")) {
