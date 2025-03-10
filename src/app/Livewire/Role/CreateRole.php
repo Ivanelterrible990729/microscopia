@@ -3,6 +3,7 @@
 namespace App\Livewire\Role;
 
 use App\Livewire\Forms\RoleForm;
+use App\Services\RoleService;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
@@ -12,19 +13,7 @@ class CreateRole extends Component
     /**
      * Form para la creación del rol.
      */
-    public RoleForm $roleForm;
-
-        /**
-     * Asigna datos del rol.
-     *
-     */
-    public function mount()
-    {
-        $this->roleForm->role = [
-            'name' => null,
-            'guard_name' => 'web',
-        ];
-    }
+    public RoleForm $form;
 
     public function render()
     {
@@ -34,11 +23,12 @@ class CreateRole extends Component
     /**
      * Asigna datos del rol.
      */
-    public function storeRole()
+    public function storeRole(RoleService $roleService)
     {
         Gate::authorize('create', Role::class);
+        $this->validate();
 
-        return redirect()->route('role.show', $this->roleForm->store())->with([
+        return redirect()->route('role.show', $roleService->createRole($this->form->all()))->with([
             'alert' => [
                 'variant' => 'soft-primary',
                 'icon' => 'check-circle',

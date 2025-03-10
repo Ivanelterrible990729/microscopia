@@ -15,27 +15,27 @@
             class="mt-5 flex-col items-start pt-5 px-2 first:mt-0 first:pt-0 xl:flex-row"
             formInline
         >
-            <x-base.form-label for="state.roles" class="xl:!mr-10 xl:w-64">
+            <x-base.form-label for="roles" class="xl:!mr-10 xl:w-64">
                 <div class="text-left">
                     <div class="flex items-center">
                         <div class="font-medium">{{ __('Roles') }}</div>
                     </div>
                     <div class="mt-3 text-xs leading-relaxed text-slate-500">
-                        {{ __('You can assign different roles to the specified user.') }}
+                        {{ __('You can assign different roles to a user.') }}
                     </div>
                 </div>
             </x-base.form-label>
             <div class="mt-3 w-full flex-1 xl:mt-0" wire:ignore>
                 <x-base.tom-select
-                    id="state.roles"
-                    name="state.roles"
-                    wire:model='state.roles'
+                    id="roles"
+                    name="roles"
+                    wire:model='roles'
                     class="tom-select w-full"
                     :data-placeholder="__('Select one or more roles.')"
                     multiple
                 >
                     @foreach ($availableRoles as $role)
-                        <option value="{{ $role['id'] }}" @selected(in_array($role['id'], $state['roles']))>
+                        <option value="{{ $role['name'] }}" @selected(in_array($role['name'], $roles))>
                             {{ $role['name'] }}
                         </option>
                     @endforeach
@@ -62,10 +62,6 @@
 @script
     <script>
         window.initTomSelect('.tom-select');
-
-        Livewire.hook('morph.updating', () => {
-            window.initTomSelect('.tom-select');
-        });
     </script>
 @endscript
 

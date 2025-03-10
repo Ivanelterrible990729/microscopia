@@ -3,6 +3,7 @@
 namespace App\Livewire\Label;
 
 use App\Models\Label;
+use App\Services\LabelService;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -39,15 +40,14 @@ class DeleteLabel extends Component
         $this->modal('modal-delete-label')->show();
     }
 
-    public function deleteLabel()
+    public function deleteLabel(LabelService $labelService)
     {
         Gate::authorize('delete', $this->label);
 
-        $this->label->delete();
+        $labelService->deleteLabel($this->label);
         $this->label = null;
-        $message = __('The label has been successfully deleted.');
 
-        $this->dispatch('label-deleted', message: $message);
+        $this->dispatch('label-deleted', message: __('The label has been successfully deleted.'));
         $this->modal('modal-delete-label')->hide();
     }
 }

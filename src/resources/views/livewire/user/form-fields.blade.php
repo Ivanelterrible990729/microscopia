@@ -113,7 +113,7 @@
 
     <div class="col-span-8 mb-3">
         <x-base.form-label
-            for="password"
+            for="password_confirmation"
         >
             {{ __('Confirm Password') }}
         </x-base.form-label>

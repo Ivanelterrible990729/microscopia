@@ -4,6 +4,7 @@
     // Litepicker
     $(".datepicker").each(function () {
         let options = {
+            lang: 'es-ES',
             autoApply: false,
             singleMode: false,
             numberOfColumns: 2,
@@ -15,6 +16,14 @@
                 maxYear: null,
                 months: true,
                 years: true,
+            },
+            buttonText: {
+                apply: 'Aplicar',
+                cancel: 'Cancelar',
+            },
+            tooltipText: {
+                one: 'día',
+                other: 'días',
             },
         };
 

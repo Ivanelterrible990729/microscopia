@@ -20,7 +20,7 @@
             <div class="block grid-cols-2 gap-x-4 xl:grid">
                 <!-- BEGIN: Login Info -->
                 <div class="hidden min-h-screen flex-col xl:flex xl:-mb-10">
-                    <a class="-intro-x flex items-center pt-5" href="">
+                    <a class="-intro-x flex items-center pt-5" href="/">
                         <div class="flex items-end">
                             <img
                                 src="{{ Vite::asset('resources/images/ITRANS.png') }}"
@@ -38,9 +38,9 @@
                             alt="Microscopía ITRANS"
                             class="-intro-x -mt-16 w-1/4"
                         />
-                        <div class="-intro-x mt-10 text-4xl font-medium leading-tight text-white">
+                        <a href="/" class="-intro-x mt-10 text-4xl font-medium leading-tight text-white">
                             <b>{{ config('app.name') }}</b>
-                        </div>
+                        </a>
                     </div>
                 </div>
                 <!-- END: Login Info -->
@@ -62,9 +62,9 @@
                                         class="copy-code mr-2 h-16 w-16"
                                         icon="Microscope"
                                     />
-                                    <div class="text-center text-slate-400 mt-2">
+                                    <a href="/" class="text-center text-slate-400 mt-2">
                                         {{ config('app.name') }}
-                                    </div>
+                                    </a>
                                 </div>
                             </div>
 

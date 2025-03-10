@@ -1,3 +1,7 @@
+@php
+    use App\Enums\Permissions\ImagePermission;
+@endphp
+
 @extends('../theme/main-layout')
 
 @section('subhead')
@@ -28,28 +32,43 @@
                 </h2>
             </div>
             <div class="text-black mt-2">
-                {{ __('Uploaded by') }}: {{ $image->user->prefijo . ' ' . $image->user->name }}
+                {{ __('Uploaded by') }}: {{ $image->user->full_name }}
             </div>
         </div>
 
         <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 space-x-3" x-data="{}">
-            <x-base.button
-                as="a"
-                href="{{ route('image.edit', $image) }}"
-                variant="warning"
-            >
-                @include('icons.edit')
-                {{__('Edit')}}
-            </x-base.button>
+            @can('update', $image)
+                <x-base.button
+                    as="a"
+                    href="{{ route('image.edit', $image) }}"
+                    variant="warning"
+                >
+                    @include('icons.edit')
+                    {{__('Edit')}}
+                </x-base.button>
+            @endcan
 
-            <x-base.button
-                as="button"
-                variant="danger"
-                x-on:click="$dispatch('{{ is_null($image->deleted_at) !== 'trashed' ? 'delete-images' : 'restore-images' }}', { imageIds: {{ $image->id }} })"
-            >
-                @include('icons.delete')
-                {{ is_null($image->deleted_at) ? __('Delete') : __('Restore') }}
-            </x-base.button>
+            @can('delete', $image)
+                <x-base.button
+                    as="button"
+                    variant="danger"
+                    x-on:click="$dispatch('delete-images', { imageIds: {{ $image->id }} })"
+                >
+                    @include('icons.delete')
+                    {{ __('Delete') }}
+                </x-base.button>
+            @endcan
+
+            @can('restore', $image)
+                <x-base.button
+                    as="button"
+                    variant="danger"
+                    x-on:click="$dispatch('restore-images', { imageIds: {{ $image->id }} })"
+                >
+                    @include('icons.delete')
+                    {{ __('Restore') }}
+                </x-base.button>
+            @endcan
         </div>
     </div>
 
@@ -88,10 +107,10 @@
                         </div>
 
                         <x-label.show-labels :label-ids="$image->labels->pluck('id')->toArray()" class="pl-3">
-                            @can(App\Enums\Permissions\ImagePermission::Label)
+                            @can('manageLabels', $image)
                                 <button
                                     class="mt-2 flex items-center rounded-md px-3 py-1 hover:bg-slate-200 dark:hover:bg-slate-700 w-max"
-                                    onclick="dispatchModal('modal-edit-labels', 'show')"
+                                    onclick="dispatchModal('modal-manage-labels-image', 'show')"
                                     variant="primary"
                                     size="sm"
                                 >
@@ -99,7 +118,7 @@
                                         icon="tags"
                                         class="mr-2"
                                     />
-                                    {{ __('Edit labels') }}
+                                    {{ __('Manage labels') }}
                                 </button>
                             @endcan
                         </x-label.show-labels>
@@ -121,7 +140,8 @@
                         </div>
 
                         <x-base.button
-                            size="sm"
+                            as="a"
+                            href="{{ route('image.download', $image) }}"
                             variant="dark"
                             class="ml-auto"
                         >
@@ -140,39 +160,31 @@
                             alt="{{ $image->name }}"
                         />
                     </div>
-
-                    <div class="mt-5">
-                        Filtros
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row items-center space-x-2 space-y-2">
-                        <div class="border rounded px-2 py-1">
-                            Sin filtros
-                        </div>
-
-                        <div class="border rounded px-2 py-1">
-                            Detección de bordes
-                        </div>
-
-                        <div class="border rounded px-2 py-1">
-                            Detección de esquinas
-                        </div>
-
-                        <div class="border rounded px-2 py-1">
-                            MSRE
-                        </div>
-                    </div>
-
                 </x-base.dialog.description>
             </div>
         </div>
     </div>
 
     <!-- BEGIN: Modals para la gestión de imágenes y etiquetas -->
-    @can(App\Enums\Permissions\ImagePermission::Label)
-        @include('image.modal.modal-edit-labels')
+    @can('manageLabels', $image)
+        <x-base.dialog id="modal-manage-labels-image" size="xl" static-backdrop>
+            <x-base.dialog.panel>
+                <livewire:image.manage-labels-image :image='$image' />
+            </x-base.dialog.panel>
+        </x-base.dialog>
     @endcan
-    @can(App\Enums\Permissions\ImagePermission::Delete)
-        @include('image.modal.modal-manage-deletion')
+    @can('delete', $image)
+        <x-base.dialog id="modal-manage-image-deletion" static-backdrop>
+            <x-base.dialog.panel>
+                <livewire:image.manage-image-deletion redirectToShow />
+            </x-base.dialog.panel>
+        </x-base.dialog>
+    @endcan
+    @can('restore', $image)
+        <x-base.dialog id="modal-manage-image-deletion" static-backdrop>
+            <x-base.dialog.panel>
+                <livewire:image.manage-image-deletion redirectToShow />
+            </x-base.dialog.panel>
+        </x-base.dialog>
     @endcan
 @endsection

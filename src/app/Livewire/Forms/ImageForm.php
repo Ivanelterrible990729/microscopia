@@ -59,37 +59,4 @@ class ImageForm extends Form
             'labelIds.*' => __('Label'),
         ];
     }
-
-    /**
-     * Actualiza todos los campos de la imágen.
-     */
-    public function update(Image $image, bool $validate = true): Image
-    {
-        if ($validate) {
-            $this->validate();
-        }
-
-        $image->update($this->except(['labelIds']));
-
-        return $this->updateLabels($image, validate: false);
-    }
-
-    /**
-     * Actualiza únicamente las etiquetas de la imágen.
-     */
-    public function updateLabels(Image $image, bool $validate = true): Image
-    {
-        if ($validate) {
-            $this->validateOnly('labelIds');
-            $this->validateOnly('labelIds.*');
-        }
-
-        $image->labels()->sync($this->labelIds);
-        $image->refresh();
-
-        $mediaImageService = new MediaImageService();
-        $mediaImageService->syncMedia($image);
-
-        return $image;
-    }
 }

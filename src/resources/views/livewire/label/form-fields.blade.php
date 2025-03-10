@@ -8,7 +8,7 @@ formInline
                 <div class="font-medium">{{ __('Name') }}</div>
             </div>
             <div class="mt-3 text-xs leading-relaxed text-slate-500">
-                {{ __('Escriba aquí el nombre de la imagen.') }}
+                {{ __('Write here the name of the label.') }}
             </div>
         </div>
     </x-base.form-label>
@@ -38,7 +38,7 @@ formInline
                 </div>
             </div>
             <div class="mt-3 text-xs leading-relaxed text-slate-500">
-                {{ __('En caso de requerirlo, usted puede dar una descripción de la imágen.') }}
+                {{ __('If necessary, you can provide a description for this label.') }}
             </div>
         </div>
     </x-base.form-label>
@@ -63,7 +63,7 @@ formInline
                 <div class="font-medium">{{ __('Color') }}</div>
             </div>
             <div class="mt-3 text-xs leading-relaxed text-slate-500">
-                {{ __('En caso de requerirlo, usted puede dar una descripción de la imágen.') }}
+                {{ __('Please select a color for this label') }}
             </div>
         </div>
     </x-base.form-label>
@@ -72,7 +72,7 @@ formInline
             id="form.color"
             name="form.color"
             wire:model="form.color"
-            class="w-full cursor-pointer"
+            class="w-full cursor-pointer mb-3"
             type="color"
             required
         />

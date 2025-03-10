@@ -16,7 +16,7 @@
     ];
     $success = [
         'bg-success border-success text-slate-900', // Default
-        'dark:border-success dark:text-slate-900', // Dark mode
+        'dark:border-success dark:text-success', // Dark mode
     ];
     $warning = [
         'bg-warning border-warning text-slate-900', // Default

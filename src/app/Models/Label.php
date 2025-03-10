@@ -3,11 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Label extends Model
 {
+    use HasFactory;
+    use LogsActivity;
+
     /**
      * The table associated with the model.
      *
@@ -43,6 +49,24 @@ class Label extends Model
         return Attribute::make(
             get: fn () => sanitizeFileName(strtolower($this->name))
         );
+    }
+
+    /**
+     * log the created, updated & deleted events.
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly([
+                'name',
+                'description',
+                'color',
+                'created_at',
+                'updated_at',
+            ])
+            ->dontSubmitEmptyLogs()
+            ->useLogName(__('Labels'))
+            ->setDescriptionForEvent(fn(string $eventName) => __("Label {$eventName}."));
     }
 
     /**

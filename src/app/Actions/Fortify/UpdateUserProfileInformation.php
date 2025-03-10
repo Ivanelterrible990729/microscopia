@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Contracts\Services\ActivityInterface;
 use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Validator;
@@ -10,6 +11,8 @@ use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 {
+    public function __construct(protected ActivityInterface $activityService) {}
+
     /**
      * Validate and update the given user's profile information.
      *
@@ -24,6 +27,18 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'cargo' => ['nullable', 'string', 'max:255'],
             'prefijo' => ['nullable', 'string', 'max:255'],
         ])->validateWithBag('updateProfileInformation');
+
+        $this->activityService->setOldProperties([
+            'id' => $user->id,
+            'prefijo' => $user->prefijo,
+            'name' => $user->name,
+            'cargo' => $user->cargo,
+            'email' => $user->email,
+            'profile_photo_path' => $user->profile_photo_path,
+            'created_at' => $user->created_at,
+            'updated_at' => $user->updated_at,
+            'deleted_at' => $user->deleted_at,
+        ]);
 
         if (isset($input['photo'])) {
             $user->updateProfilePhoto($input['photo']);
@@ -40,6 +55,23 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'prefijo' => $input['prefijo'],
             ])->save();
         }
+
+        $this->activityService->logActivity(
+            logName: __('Users'),
+            performedOn: $user,
+            properties: [
+                'id' => $user->id,
+                'prefijo' => $user->prefijo,
+                'name' => $user->name,
+                'cargo' => $user->cargo,
+                'email' => $user->email,
+                'profile_photo_path' => $user->profile_photo_path,
+                'created_at' => $user->created_at,
+                'updated_at' => $user->updated_at,
+                'deleted_at' => $user->deleted_at,
+            ],
+            description: __('User updated.')
+        );
     }
 
     /**

@@ -35,24 +35,22 @@
                 {{ __('Actions') }}
             </div>
 
-            @if ($canDownloadModel)
-                <div class="mt-2 flex items-center justify-center lg:justify-start">
-                    <x-base.button
-                        as="button"
-                        class="align-top w-32"
-                        variant="dark"
-                        wire:click='downloadModel'
-                    >
-                        <x-base.lucide
-                            icon="download"
-                            class="mr-2"
-                        />
-                        {{ __('Download') }}
-                    </x-base.button>
-                </div>
-            @endif
+            <div class="mt-2 flex items-center justify-center lg:justify-start">
+                <x-base.button
+                    as="button"
+                    class="align-top w-32"
+                    variant="dark"
+                    wire:click='downloadModel'
+                >
+                    <x-base.lucide
+                        icon="download"
+                        class="mr-2"
+                    />
+                    {{ __('Download') }}
+                </x-base.button>
+            </div>
 
-            @if ($canUpdateModel)
+            @can('update', $cnnModel)
                 <div class="mt-2 flex items-center justify-center lg:justify-start">
                     <x-base.button
                         as="button"
@@ -67,9 +65,9 @@
                         {{ __('Edit') }}
                     </x-base.button>
                 </div>
-            @endif
+            @endcan
 
-            @if ($canDeleteModel)
+            @can('delete', $cnnModel)
                 <div class="mt-2 flex items-center justify-center lg:justify-start">
                     <x-base.button
                         as="button"
@@ -84,7 +82,7 @@
                         {{ __('Delete') }}
                     </x-base.button>
                 </div>
-            @endif
+            @endcan
         </div>
     </div>
 </div>

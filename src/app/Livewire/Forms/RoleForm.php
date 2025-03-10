@@ -3,49 +3,37 @@
 namespace App\Livewire\Forms;
 
 use Livewire\Form;
-use Spatie\Permission\Models\Role;
 
 class RoleForm extends Form
 {
     /**
-     * Formulario a utilizar para los formularios de roles.
+     * ID del rol, sólamente para la edición de roles.
      */
-    public array $role;
+    public null|int $id;
 
     /**
-     * Modelo de referencia del rol a editar.
+     * Nombre del rol
      */
-    public ?Role $roleModel;
+    public null|string $name = null;
+
+    /**
+     * Guard name del rol
+     */
+    public string $guard_name = 'web';
 
     protected function rules()
     {
         return [
-            'role.name' => 'required|string|max:255|unique:roles,name,'. (isset($this->role['id']) ? $this->role['id'] : ''),
-            'role.guard_name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:roles,name,'. (isset($this->id) ? $this->id : ''),
+            'guard_name' => 'required|string|max:255',
         ];
     }
 
     protected function validationAttributes()
     {
         return [
-            'role.name' => __('Role name'),
-            'role.guard_name' => __('Guard name')
+            'name' => __('Role name'),
+            'guard_name' => __('Guard name')
         ];
-    }
-
-    public function store()
-    {
-        $this->validate();
-        $this->roleModel = Role::create($this->role);
-
-        return $this->roleModel;
-    }
-
-    public function update()
-    {
-        $this->validate();
-        $this->roleModel->update($this->role);
-
-        return $this->roleModel->refresh();
     }
 }

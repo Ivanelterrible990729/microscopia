@@ -33,7 +33,7 @@ class TrainModelService
     /**
      * Descarga el modelo enlazado al modelo.
      */
-    public static function downloadModel(Media $modelMedia): BinaryFileResponse
+    public function downloadModel(Media $modelMedia): BinaryFileResponse
     {
         return response()->download($modelMedia->getPath(), $modelMedia->file_name);
     }

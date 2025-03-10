@@ -58,7 +58,8 @@
         <div class="text-center font-medium lg:mt-3 lg:text-left">
             {{ __('Actions') }}
         </div>
-        @can(App\Enums\Permissions\RolePermission::Update)
+
+        @can('update', $role)
             <div class="mt-2 flex items-center justify-center lg:justify-start">
                 <x-base.button
                     x-on:click="modoEdicion = true"
@@ -73,7 +74,8 @@
                 </x-base.button>
             </div>
         @endcan
-        @can(App\Enums\Permissions\RolePermission::Delete)
+
+        @can('delete', $role)
             <div class="mt-2 flex items-center justify-center lg:justify-start">
                 <x-base.button
                     onclick="dispatchModal('modal-delete-role', 'show')"
@@ -86,8 +88,6 @@
                     />
                     {{ __('Delete') }}
                 </x-base.button>
-
-                @include('role.modal.modal-delete')
             </div>
         @endcan
     </div>

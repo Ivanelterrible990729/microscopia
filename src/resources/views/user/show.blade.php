@@ -55,6 +55,29 @@
                     <div class="intro-y box col-span-12 lg:col-span-9">
                         <livewire:user.configure-user :user="$user" />
                     </div>
+
+                    <div class="intro-y hidden lg:block col-span-3">
+                        <x-base.alert
+                            class="intro-y relative mb-5"
+                            variant="soft-warning"
+                            dismissible
+                        >
+                            <x-base.alert.dismiss-button class="absolute right-0 top-0 text-slate-500 font-bold -mr-0.5">
+                                &times;
+                            </x-base.alert.dismiss-button>
+
+                            <x-base.lucide
+                                class="absolute left-0 top-0 mt-5 h-12 w-12 text-warning/80"
+                                icon="Lightbulb"
+                            />
+
+                            <div class="text-slate-600 dark:text-slate-500 ml-8 mt-2">
+                                <span>
+                                    {{ __('Configure the user for each of the fields set.') }}
+                                </span>
+                            </div>
+                        </x-base.alert>
+                    </div>
                 </div>
             </x-base.tab.panel>
         </x-base.tab.panels>

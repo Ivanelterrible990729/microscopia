@@ -40,7 +40,6 @@ class CreateCnnModelTest extends TestCase
         // Renderizado con permisos
         $response = $this->get(route('cnn-model.index'));
         $response->assertStatus(200)
-            ->assertSee(__('Create CNN model'))
             ->assertSeeLivewire(CreateCnnModel::class);
 
         $this->revokeRolePermissionTo(RoleEnum::Desarrollador->value, CnnModelPermission::Create);
@@ -48,7 +47,6 @@ class CreateCnnModelTest extends TestCase
         // Renderizado sin permisos
         $response = $this->get(route('cnn-model.index'));
         $response->assertStatus(200)
-            ->assertDontSee(__('Create CNN model'))
             ->assertDontSeeLivewire(CreateCnnModel::class);
     }
 

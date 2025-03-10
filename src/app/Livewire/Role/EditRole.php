@@ -3,6 +3,7 @@
 namespace App\Livewire\Role;
 
 use App\Livewire\Forms\RoleForm;
+use App\Services\RoleService;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
@@ -12,7 +13,12 @@ class EditRole extends Component
     /**
      * Form para la edición del rol.
      */
-    public RoleForm $roleForm;
+    public RoleForm $form;
+
+    /**
+     * Modelo del rol a actualizar.
+     */
+    public Role $role;
 
     /**
      * Asigna datos del rol.
@@ -20,8 +26,8 @@ class EditRole extends Component
      */
     public function mount(Role $role)
     {
-        $this->roleForm->roleModel = $role;
-        $this->roleForm->role = $role->getAttributes();
+        $this->role = $role;
+        $this->form->fill($role->getAttributes());
     }
 
     public function render()
@@ -32,11 +38,12 @@ class EditRole extends Component
     /**
      * Asigna datos del rol.
      */
-    public function updateRole()
+    public function updateRole(RoleService $roleService)
     {
-        Gate::authorize('update', $this->roleForm->roleModel);
+        Gate::authorize('update', $this->role);
+        $this->validate();
 
-        return redirect()->route('role.show', $this->roleForm->update())->with([
+        return redirect()->route('role.show', $roleService->updateRole($this->role, $this->form->except('id')))->with([
             'alert' => [
                 'variant' => 'soft-primary',
                 'icon' => 'check-circle',

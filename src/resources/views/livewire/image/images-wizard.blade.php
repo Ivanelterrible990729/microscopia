@@ -26,9 +26,12 @@
             </button>
         </div>
 
-        <div x-show="$wire.activeIndex <= $wire.lastIndex">
-            @include('livewire.image.images-wizard.active-form')
-        </div>
+        @foreach ($imageForms as $index => $form)
+            <div wire:key='{{ $index }}'>
+                @include('livewire.image.images-wizard.active-form')
+            </div>
+        @endforeach
+
         <div x-show="$wire.activeIndex > $wire.lastIndex">
             @include('livewire.image.images-wizard.confirm-wizard')
         </div>

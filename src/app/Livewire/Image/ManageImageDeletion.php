@@ -3,6 +3,8 @@
 namespace App\Livewire\Image;
 
 use App\Models\Image;
+use App\Services\ImageService;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -18,6 +20,11 @@ class ManageImageDeletion extends Component
      * IDs de las imagenes a eliminar.
      */
     public array $imageIds = [];
+
+    /**
+     * Bandera para redireccionar a la ruta e especifico.
+     */
+    public bool $redirectToShow = false;
 
     /**
      * Catálogo de los permisos existentes en el sistema agroupados por su prefijo.
@@ -76,14 +83,33 @@ class ManageImageDeletion extends Component
     /**
      * Realiza la acción indicada.
      */
-    public function performAction()
+    public function performAction(ImageService $imageService)
     {
         $this->validate();
+        $numImages = 0;
 
-        $query = Image::withTrashed()->whereIn('id', $this->imageIds);
-        $numImages = $this->mode == 'images-deleted' ? $query->delete() : $query->restore();
+        $images = Image::withTrashed()->whereIn('id', $this->imageIds)->get();
+        $numImages = $images->count();
+
+        if ($this->mode == 'images-deleted') {
+            $images->each(fn($image) => Gate::authorize('delete', $image));
+            $images->each(fn($image) => $imageService->deleteImage($image));
+        } else {
+            $images->each(fn($image) => Gate::authorize('restore', $image));
+            $images->each(fn($image) => $imageService->restoreImage($image));
+        }
 
         $this->dispatch($this->mode, numImages: $numImages);
         $this->modal('modal-manage-image-deletion')->hide();
+
+        if ($this->redirectToShow) {
+            return redirect()->route('image.show', $images->first())->with([
+                'alert' => [
+                    'variant' => 'soft-primary',
+                    'icon' => 'check-circle',
+                    'message' => __('The process was successfully completed.')
+                ]
+            ]);
+        }
     }
 }

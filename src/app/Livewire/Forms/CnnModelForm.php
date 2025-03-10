@@ -71,41 +71,4 @@ class CnnModelForm extends Form
             'file' => __('File'),
         ];
     }
-
-    public function storeModel(): CnnModel
-    {
-        $this->validate();
-
-        $cnnModel = CnnModel::create($this->except(['labelIds', 'file']));
-        $cnnModel->labels()->sync($this->labelIds);
-
-        if (isset($this->file)) {
-            $cnnModel->addMedia($this->file)
-                ->usingFileName(sanitizeFileName($this->file->getClientOriginalName()))
-                ->usingName(sanitizeFileName($this->file->getClientOriginalName()))
-                ->preservingOriginal(false)
-                ->toMediaCollection(MediaEnum::CNN_Model->value);
-        }
-
-        return $cnnModel;
-    }
-
-    public function updateModel(CnnModel $cnnModel): CnnModel
-    {
-        $this->validate();
-
-        $cnnModel->update($this->except(['labelIds', 'file']));
-        $cnnModel->labels()->sync($this->labelIds);
-
-        if (isset($this->file)) {
-            $cnnModel->media()->get()->each->delete();
-            $cnnModel->addMedia($this->file)
-                ->usingFileName(sanitizeFileName($this->file->getClientOriginalName()))
-                ->usingName(sanitizeFileName($this->file->getClientOriginalName()))
-                ->preservingOriginal(false)
-                ->toMediaCollection(MediaEnum::CNN_Model->value);
-        }
-
-        return $cnnModel;
-    }
 }

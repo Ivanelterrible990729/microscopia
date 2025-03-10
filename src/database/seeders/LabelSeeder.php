@@ -20,19 +20,19 @@ class LabelSeeder extends Seeder
 
         Label::create([
             'name' => 'BACILOS',
-            'description' => 'Bacteria que tiene forma de bastoncillo o filamento, que puede ser recto o encorvado, y de más o menos largo.' . 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga reiciendis deserunt exercitationem a possimus veniam dolorum dolorem numquam? Fugit minus impedit minima ullam consequatur earum non dolorem quo sapiente recusandae!',
+            'description' => 'Bacteria que tiene forma de bastoncillo o filamento, que puede ser recto o encorvado, y de más o menos largo.',
             'color' => '#064E3B',
         ]);
 
         Label::create([
             'name' => 'COCOS',
-            'description' => 'Microorganismos unicelulares con forma esférica u ovalada. Se pueden encontrar en el ambiente o en los cocoteros.' . 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga reiciendis deserunt exercitationem a possimus veniam dolorum dolorem numquam? Fugit minus impedit minima ullam consequatur earum non dolorem quo sapiente recusandae!',
+            'description' => 'Microorganismos unicelulares con forma esférica u ovalada. Se pueden encontrar en el ambiente o en los cocoteros.',
             'color' => "#FACC15",
         ]);
 
         Label::create([
             'name' => 'FIBRAS MUSCULARES',
-            'description' => 'Fibras musculares captadas para la detección de miositis.' . 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga reiciendis deserunt exercitationem a possimus veniam dolorum dolorem numquam? Fugit minus impedit minima ullam consequatur earum non dolorem quo sapiente recusandae!',
+            'description' => 'Fibras musculares captadas para la detección de miositis.',
             'color' => '#F59E0B',
         ]);
     }

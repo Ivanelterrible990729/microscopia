@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Permissions\CnnModelPermission;
 use App\Models\CnnModel;
-use Illuminate\Http\Request;
+use App\Services\CnnModelService;
 use Illuminate\Support\Facades\Gate;
 
 class CnnModelController extends Controller
@@ -16,9 +15,7 @@ class CnnModelController extends Controller
     {
         Gate::authorize('viewAny', CnnModel::class);
 
-        $canCreateModel = request()->user()->can(CnnModelPermission::Create);
-
-        return view('cnn-model.index', compact('canCreateModel'));
+        return view('cnn-model.index');
     }
 
     /**
@@ -29,21 +26,18 @@ class CnnModelController extends Controller
         Gate::authorize('view', $cnnModel);
 
         $cnnModel->load(['labels', 'media']);
-        $canDownloadModel = $cnnModel->hasMedia('*');
-        $canUpdateModel = request()->user()->can(CnnModelPermission::Update);
-        $canDeleteModel = request()->user()->can(CnnModelPermission::Delete);
 
-        return view('cnn-model.show', compact('cnnModel', 'canDeleteModel', 'canUpdateModel', 'canDownloadModel'));
+        return view('cnn-model.show', compact('cnnModel'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CnnModel $cnnModel)
+    public function destroy(CnnModelService $cnnModelService, CnnModel $cnnModel)
     {
         Gate::authorize('delete', $cnnModel);
 
-        $cnnModel->delete();
+        $cnnModelService->deleteCnnModel($cnnModel);
 
         return redirect(route('cnn-model.index'))->with([
             'alert' => [

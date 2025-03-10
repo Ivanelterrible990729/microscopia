@@ -1,11 +1,11 @@
 @php
-    $image = $images[$activeIndex] ?? $images[0]
+    $image = $images[$index];
 @endphp
 
-<div wire:key='{{ $this->activeIndex }}'>
+<div x-show="$wire.activeIndex == {{ $index }}">
     <div class="mt-10 px-5">
         <div class="text-center text-lg font-medium">
-            {{ __('Image') }} #{{ $form->id }}
+            {{ __('Image') }} #{{ $form['id'] }}
         </div>
         <div class="mt-2 text-base text-center text-slate-500">
             {{ __('Please fill in the required fields and click on') }}
@@ -47,4 +47,3 @@
         </x-base.button>
     </x-base.dialog.footer>
 </div>
-

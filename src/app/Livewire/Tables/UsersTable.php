@@ -43,10 +43,10 @@ class UsersTable extends DataTableComponent
                     'alt' => $row->name . ' Avatar',
                 ]),
             LinkColumn::make(__('Name'))
-                ->title(fn($row) => $row->prefijo . ' ' . $row->name)
+                ->title(fn($row) => $row->full_name)
                 ->location(fn($row) => route('user.show', $row->id))
                 ->attributes(fn($row) => [
-                    'class' => 'text-blue-700 hover:text-blue-500 underline',
+                    'class' => 'text-blue-700 hover:text-blue-500 dark:text-blue-500 dark:hover:text-blue-700 underline',
                 ])
                 ->sortable(
                     fn(Builder $query, string $direction) => $query->orderBy('name', $direction)

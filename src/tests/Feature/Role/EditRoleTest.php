@@ -56,14 +56,14 @@ class EditRoleTest extends TestCase
 
         // Valida nombres únicos
         $componente = Livewire::test(EditRole::class, ['role' => $this->role])
-            ->set('roleForm.role.name', Role::where('name', '!=', $this->role->name)->first()->name)
+            ->set('form.name', Role::where('name', '!=', $this->role->name)->first()->name)
             ->call('updateRole')
             ->assertHasErrors([
-                'roleForm.role.name' => 'unique'
+                'form.name' => 'unique'
             ]);
 
         // Valida nombres unicos exceptuando el que se está editando
-        $componente->set('roleForm.role.name', $this->role->name)
+        $componente->set('form.name', $this->role->name)
             ->call('updateRole')
             ->assertHasNoErrors();
     }
@@ -76,7 +76,7 @@ class EditRoleTest extends TestCase
         $roleName =  $this->faker->word();
 
         Livewire::test(EditRole::class, ['role' => $this->role])
-            ->set('roleForm.role.name', $roleName)
+            ->set('form.name', $roleName)
             ->call('updateRole')
             ->assertForbidden();
     }
@@ -89,7 +89,7 @@ class EditRoleTest extends TestCase
 
         // Valida que no haya errores y redireccionamiento.
         Livewire::test(EditRole::class, ['role' => $this->role])
-            ->set('roleForm.role.name', $roleName)
+            ->set('form.name', $roleName)
             ->call('updateRole')
             ->assertHasNoErrors()
             ->assertRedirect(route('role.show', Role::findByName($roleName, 'web')));

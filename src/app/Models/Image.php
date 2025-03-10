@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -19,6 +21,7 @@ class Image extends Model implements HasMedia
     use HasFactory;
     use SoftDeletes;
     use InteractsWithMedia;
+    use LogsActivity;
 
     /**
      * The table associated with the model.
@@ -67,6 +70,26 @@ class Image extends Model implements HasMedia
             ? implode(', ', $this->labels->pluck('name')->toArray())
             : 'Sin etiqueta'
         );
+    }
+
+    /**
+     * log the created updated, deleted & restored events.
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly([
+                'user_id',
+                'name',
+                'description',
+                'created_at',
+                'updated_at',
+                'deleted_at',
+            ])
+            ->dontSubmitEmptyLogs()
+            ->dontLogIfAttributesChangedOnly(['updated_at', 'deleted_at'])
+            ->useLogName(__('Images'))
+            ->setDescriptionForEvent(fn(string $eventName) => __("Image {$eventName}."));
     }
 
     /**

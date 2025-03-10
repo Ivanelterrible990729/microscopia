@@ -5,6 +5,7 @@ namespace App\Livewire\Image;
 use App\Livewire\Forms\ImageForm;
 use App\Models\Image;
 use App\Models\Label;
+use App\Services\ImageService;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
@@ -53,11 +54,13 @@ class EditImage extends Component
         return view('livewire.image.edit-image');
     }
 
-    public function updateImage()
+    public function updateImage(ImageService $imageService)
     {
         Gate::authorize('update', $this->image);
+        $this->validate();
 
-        $this->form->update($this->image);
+        $imageService->updateImage($this->image, $this->form->except('labelsId'));
+        $imageService->updateLabels($this->image, $this->form->labelIds);
 
         return redirect()->route('image.show', $this->image)->with([
             'alert' => [

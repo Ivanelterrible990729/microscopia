@@ -4,6 +4,7 @@ namespace App\Livewire\Label;
 
 use App\Livewire\Forms\LabelForm;
 use App\Models\Label;
+use App\Services\LabelService;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -39,15 +40,16 @@ class EditLabel extends Component
         $this->modal('modal-edit-label')->show();
     }
 
-    public function updateLabel()
+    public function updateLabel(LabelService $labelService)
     {
         Gate::authorize('update', $this->label);
+        $this->validate();
 
-        $this->form->update($this->label);
+        $labelService->updateLabel($this->label, $this->form->except('id'));
+        $this->form->reset();
         $this->label = null;
-        $message = __('The label has been successfully updated.');
 
-        $this->dispatch('label-updated', message: $message);
+        $this->dispatch('label-updated', message: __('The label has been successfully updated.'));
         $this->modal('modal-edit-label')->hide();
     }
 }

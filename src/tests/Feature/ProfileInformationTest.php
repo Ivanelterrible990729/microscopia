@@ -18,8 +18,10 @@ class ProfileInformationTest extends TestCase
 
         $component = Livewire::test(UpdateProfileInformationForm::class);
 
+        $this->assertEquals($user->prefijo, $component->state['prefijo']);
         $this->assertEquals($user->name, $component->state['name']);
         $this->assertEquals($user->email, $component->state['email']);
+        $this->assertEquals($user->cargo, $component->state['cargo']);
     }
 
     public function test_profile_information_can_be_updated(): void
@@ -27,7 +29,7 @@ class ProfileInformationTest extends TestCase
         $this->actingAs($user = User::factory()->create());
 
         Livewire::test(UpdateProfileInformationForm::class)
-            ->set('state', ['name' => 'Test Name', 'email' => 'test@example.com'])
+            ->set('state', ['name' => 'Test Name', 'email' => 'test@example.com', 'cargo' =>'new cargo', 'prefijo' => 'Mtro.'])
             ->call('updateProfileInformation');
 
         $this->assertEquals('Test Name', $user->fresh()->name);

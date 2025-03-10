@@ -15,7 +15,7 @@ class EnsureUserIsActive
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (isset($request->user->deleted_at)) {
+        if (isset($request->user()->deleted_at)) {
             return redirect(route('inactive-page'));
         }
 

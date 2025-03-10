@@ -58,20 +58,28 @@ class ImagesTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Id", "id")
-                ->sortable(),
+            Column::make(__('ID'), "id")
+                ->sortable()
+                ->searchable(),
+            Column::make(__('Name'), "name")
+                ->sortable()
+                ->searchable(),
+            Column::make(__('User'), "user.name")
+                ->sortable()
+                ->searchable(),
         ];
     }
 
     public function builder(): Builder
     {
         return Image::with(['labels', 'user', 'media'])
-            ->orderBy('created_at', 'desc')
+            ->orderBy('images.created_at', 'desc')
             ->select([
-                'id',
-                'user_id',
-                'name',
-                'created_at'
+                'images.id',
+                'images.user_id',
+                'images.name',
+                'images.created_at',
+                'images.deleted_at',
             ]);
     }
 
@@ -87,17 +95,11 @@ class ImagesTable extends DataTableComponent
                 }),
 
             MultiSelectFilter::make(__('Labels'))
-                ->options(
-                    [
+                ->options([
                         'unlabeled' => 'Sin etiquetar',
-                    ] +
-            $this->labels
-                        ->keyBy('id')
-                        ->map(fn($label) => $label->name)
-                        ->toArray()
+                    ] + $this->labels->keyBy('id')->map(fn($label) => $label->name)->toArray()
                 )
                 ->filter(function(Builder $builder, array $values) {
-
                     $builder = $builder->whereHas('labels', function ($query) use ($values) {
                         return $query->whereIn('image_label.label_id', $values);
                     });
@@ -143,12 +145,6 @@ class ImagesTable extends DataTableComponent
     public function imageLabeling()
     {
         return redirect()->route('image.labeling', ['ids' => implode(',', $this->selectedImages)]);
-    }
-
-    #[On('image-labels-updated')]
-    public function imageLabelsUpdated()
-    {
-        $this->toast(title: __('Success'), message: __('The image labels were successfully updated.'))->success();
     }
 
     #[On('images-deleted')]
