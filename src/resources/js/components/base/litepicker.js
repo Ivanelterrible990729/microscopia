@@ -4,6 +4,7 @@
     // Litepicker
     $(".datepicker").each(function () {
         let options = {
+            lang: 'es-ES',
             autoApply: false,
             singleMode: false,
             numberOfColumns: 2,

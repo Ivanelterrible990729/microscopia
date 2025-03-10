@@ -449,5 +449,10 @@
     "Total images": "Imágenes activas",
     "Deleted images": "Imágenes eliminadas",
     "of all the images": "en razón al total de imágenes activas",
-    "Images distribution": "Distribución de imágenes"
+    "Images distribution per label": "Distribución de imágenes por etiqueta",
+    "Monthly increase in images": "Incremento mensual de imágenes",
+    "This month": "Este mes",
+    "Last month": "Mes pasado",
+    "Filter by label": "Filtrar por etiqueta",
+    "images": "imágenes"
 }

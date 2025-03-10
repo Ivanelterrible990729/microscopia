@@ -1,5 +1,5 @@
 <div>
-    <div class="intro-y flex h-10 items-center">
+    <div class="intro-y flex h-10 items-center mt-8">
         <h2 class="mr-5 truncate text-lg font-medium">{{ __('Images count') }}</h2>
         <button
             wire:click='countImages'

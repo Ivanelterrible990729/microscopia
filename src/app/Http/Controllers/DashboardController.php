@@ -19,12 +19,6 @@ class DashboardController extends Controller
 
     public function dashboard()
     {
-        Session::now('alert', [
-            'variant' => 'success',
-            'icon' => 'home',
-            'message' => __('Welcome to the ITRANS Microscopy System. 🔬')
-        ]);
-
         return view('dashboard');
     }
 }
