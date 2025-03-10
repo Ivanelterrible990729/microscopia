@@ -13,21 +13,31 @@
 @endsection
 
 @section('subcontent')
+    <div class="intro-y mt-8 flex items-center mb-5">
+        <x-base.lucide
+            icon="microscope"
+            class="h-6 w-6 mr-2"
+        />
+        <h2 class="mr-auto text-xl font-medium">
+            {{ config('app.name') }}
+        </h2>
+    </div>
 
     <livewire:dashboard.images-count />
 
-<div class="mt-5 grid grid-cols-12 gap-6">
-    <div class="col-span-12 mt-8 sm:col-span-6 lg:col-span-8">
-        <livewire:dashboard.image-increase />
-    </div>
+    <div class="mt-5 grid grid-cols-12 gap-6">
+        <div class="col-span-12 mt-8 sm:col-span-6 lg:col-span-8">
+            <livewire:dashboard.image-increase />
+        </div>
 
-    <div class="col-span-12 mt-8 sm:col-span-6 lg:col-span-4">
-        <livewire:dashboard.labels-distribution />
+        <div class="col-span-12 mt-8 sm:col-span-6 lg:col-span-4">
+            <livewire:dashboard.labels-distribution />
+        </div>
     </div>
-</div>
 @endsection
 
 @pushOnce('scripts')
     @vite('resources/js/utils/colors.js')
+    @vite('resources/js/components/donut-chart.js')
     @vite('resources/js/components/line-chart.js')
 @endPushOnce
