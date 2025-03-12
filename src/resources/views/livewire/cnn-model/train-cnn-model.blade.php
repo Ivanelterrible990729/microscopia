@@ -17,9 +17,26 @@
 </div>
 
 @script
-<script>
-    $wire.on('next-step', ({ method }) => {
-        $wire.call(method);
-    })
-</script>
+    <script>
+        let trainingInterval = null;
+
+        $wire.on('next-step', ({ method }) => {
+            $wire.call(method);
+            console.log(method);
+        });
+
+        $wire.on('check-process', ({ method, milliseconds }) => {
+            if (!trainingInterval) {
+                trainingInterval = setInterval(() => {
+                    console.log('check ', method);
+                    $wire.call('checkStatusProcess', method).then(status => {
+                        if (status === 'error' || status === 'successfull') {
+                            clearInterval(trainingInterval);
+                            trainingInterval = null;
+                        }
+                    });
+                }, milliseconds);
+            }
+        });
+    </script>
 @endscript

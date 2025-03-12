@@ -4,9 +4,17 @@ namespace App\Livewire\CnnModel;
 
 use App\Enums\CnnModel\AvailableModelsEnum;
 use App\Enums\Media\MediaEnum;
+use App\Jobs\AugmentImages;
+use App\Jobs\CreateDataEnvironment;
+use App\Jobs\CropImages;
+use App\Jobs\RemoveDataEnvironment;
+use App\Jobs\TrainModel;
+use App\Livewire\Forms\TrainCnnModelForm;
 use App\Models\CnnModel;
 use App\Models\Label;
 use App\Services\TrainModelService;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 class TrainCnnModel extends Component
@@ -19,7 +27,7 @@ class TrainCnnModel extends Component
     /**
      * Form para realizar el entrenamiento
      */
-    public array $form;
+    public TrainCnnModelForm $form;
 
     /**
      * Catálogo de modelos disponibles
@@ -50,7 +58,133 @@ class TrainCnnModel extends Component
     {
         $this->cnnModel = $cnnModel;
 
-        $this->availableModels = AvailableModelsEnum::arrayResource();
+        $this->defineSteps();
+        $this->availableModels = $this->getAvailableModels();
+        $this->availableLabels = $this->getAvailableLabels();
+
+        $this->form->modelPath = $cnnModel->hasMedia('*') ? $cnnModel->getFirstMedia('*')?->getPath() : array_key_first($this->availableModels);
+        $this->form->selectedLabels = $cnnModel->labels->pluck('id')->toArray();
+        $this->form->validationPortion = '0.2';
+        $this->form->imagesLimit = $this->uploadMinImages();
+    }
+
+    /**
+     * Pasos requeridos para llevar a cabo el entrenamiento.
+     */
+    private function defineSteps()
+    {
+        $this->steps = [
+            [
+                'method' => 'modelBackup',
+                'milliseconds' => 1500,
+                'next_method' => 'createEnvironment',
+                'title' => __('Model backup'),
+                'description' => __("This backup is to recover the last model in case the training didn't performs well."),
+                'status' => null,
+                'result' => null,
+            ],
+            [
+                'method' => 'createEnvironment',
+                'milliseconds' => 3000,
+                'next_method' => 'imageCrop',
+                'title' => __('Training environment'),
+                'description' => __("Creating a new directory to allocate the training set. Getting the required images to perform the training."),
+                'status' => null,
+                'result' => null,
+            ],
+            [
+                'method' => 'imageCrop',
+                'milliseconds' => 3000,
+                'next_method' => 'imageAugmentation',
+                'title' => __('Image cropping'),
+                'description' => __("This process is necessary to avoid noise during training."),
+                'status' => null,
+                'result' => null,
+            ],
+            [
+                'method' => 'imageAugmentation',
+                'milliseconds' => 3000,
+                'next_method' => 'cnnModelTraining',
+                'title' => __('Image augmentation'),
+                'description' => __("Generating new images to enrich the dataset."),
+                'status' => null,
+                'result' => null,
+            ],
+            [
+                'method' => 'cnnModelTraining',
+                'milliseconds' => 60000,
+                'next_method' => 'removeEnvironment',
+                'title' => __('CNN Model training'),
+                'description' => __("Performing the training process. This may take a while."),
+                'status' => null,
+                'result' => null,
+            ],
+            [
+                'method' => 'removeEnvironment',
+                'milliseconds' => 3000,
+                'next_method' => 'finish',
+                'title' => __('Removing training environment'),
+                'description' => __("Once the training process it's done, we need to clear the training environment as this will not be used again."),
+                'status' => null,
+                'result' => null,
+            ],
+        ];
+
+        if (! Cache::has('on-model-training')) {
+            return;
+        }
+
+        $this->onTraining = true;
+
+        if ($this->cnnModel->hasMedia('*')) {
+            $this->steps[$this->activeStep]['status'] = 'successfull';
+            $this->steps[$this->activeStep]['result'] = __('Model downloaded.');
+        } else {
+            unset($this->steps[$this->activeStep]);
+            $this->activeStep++;
+        }
+
+        $index = 0;
+        for ($index = 1; $index < count($this->steps); $index++) { // Ignoramos modelBackup porque ese método no necesita de caché.
+            $method = $this->steps[$index]['method'];
+
+            if (Cache::has($method)) {
+                $this->activeStep = $index;
+                $this->steps[$index]['status'] = Cache::get($method);
+
+                if (Cache::has($method . 'Finished')) {
+                    $this->steps[$index]['result'] = Cache::get($method . 'Finished');
+                }
+            } else {
+                $status = $this->steps[$this->activeStep]['status'];
+
+                if ($status === 'error') {
+                    break;
+                }
+
+                if ($status == 'processing') {
+                    $this->dispatch('check-process', method: $this->steps[$this->activeStep]['method'], milliseconds: $this->steps[$this->activeStep]['milliseconds'])->self();
+                }
+
+                if ($status == 'successfull') {
+                    $this->goToNextStep(result: $this->steps[$this->activeStep]['method'], method: $this->steps[$this->activeStep]['next_method']);
+                }
+
+                break;
+            }
+        }
+
+        if ($index == count($this->steps)) {
+            $this->finish(result: __('Environment removed.'));
+        }
+    }
+
+    /**
+     * Obtiene los modelos de los cuales partir el entrenamiento.
+     */
+    private function getAvailableModels(): array
+    {
+        $availableModels = AvailableModelsEnum::arrayResource();
         $modelsMedia = CnnModel::whereHas('media')
             ->with('media')
             ->get()
@@ -60,11 +194,19 @@ class TrainCnnModel extends Component
                 ];
             })->toArray();
 
-        $this->availableModels += array_reduce($modelsMedia, function (null|array $carry, array $item) {
+        $availableModels += array_reduce($modelsMedia, function (null|array $carry, array $item) {
             return is_null($carry) ? $item : $carry += $item;
         });
 
-        $this->availableLabels = Label::withCount(['images' => function ($query) {
+        return $availableModels;
+    }
+
+    /**
+     * Obtiene las etiquetas disponibles para realizar el entrenamiento.
+     */
+    private function getAvailableLabels(): array
+    {
+        return Label::withCount(['images' => function ($query) {
                 $query->whereNull('deleted_at');
             }])
             ->orderBy('name')
@@ -78,76 +220,24 @@ class TrainCnnModel extends Component
                     'images_count' => $label->images_count,
                 ];
         })->toArray();
-
-        $this->form = [
-            'selected_model' => $cnnModel->hasMedia('*') ? $cnnModel->getFirstMedia('*')?->getPath() : array_key_first($this->availableModels),
-            'selected_labels' => $cnnModel->labels->pluck('id')->toArray(),
-            'validation_portion' => '0.2',
-            'images_limit' => 0,
-        ];
-
-        $this->uploadMinImages();
-        $this->defineSteps();
-    }
-
-    private function defineSteps()
-    {
-        $this->steps = [
-            [
-                'status' => null,
-                'title' => __('Model backup'),
-                'description' => __("This backup is to recover the last model in case the training didn't performs well."),
-                'result' => null,
-            ],
-            [
-                'status' => null,
-                'title' => __('Training environment'),
-                'description' => __("Creating a new directory to allocate the training set. Getting the required images to perform the training."),
-                'result' => null,
-            ],
-            [
-                'status' => null,
-                'title' => __('Image cropping'),
-                'description' => __("This process is necessary to avoid noise during training"),
-                'result' => null,
-            ],
-            [
-                'status' => null,
-                'title' => __('Image augmentation'),
-                'description' => __("Generating new images to enrich the dataset"),
-                'result' => null,
-            ],
-            [
-                'status' => null,
-                'title' => __('CNN Model training'),
-                'description' => __("Performing the training process. This may take a while."),
-                'result' => null,
-            ],
-            [
-                'status' => null,
-                'title' => __('Removing training environment'),
-                'description' => __("Once the training process it's done, we need to clear the training environment as this will not be used again."),
-                'result' => null,
-            ],
-        ];
     }
 
     /**
      * Esta función se utiliza para recalcular el numero mínimo de imágenes
      * que se utilizará por cada etiqueta en el entrenamiento.
-     * Se utiliza en el front con fines informativos y actualiza $this->form['images-limit'].
+     * Se utiliza en el front con fines informativos y actualiza $this->form->imagesLimit
      */
     public function uploadMinImages(): int
     {
         $selectedImagesCounts = array_map(
             fn($id) => $this->availableLabels[array_search($id, array_column($this->availableLabels, 'id'))]['images_count'] ?? PHP_INT_MAX,
-            $this->form['selected_labels']
+            $this->form->selectedLabels
         );
 
         $minImagesCount = !empty($selectedImagesCounts) ? min($selectedImagesCounts) : null;
-        $this->form['images_limit'] = ($minImagesCount ?? 0);
+        $this->form->imagesLimit = ($minImagesCount ?? 0);
 
-        return $this->form['images_limit'];
+        return $this->form->imagesLimit;
     }
 
     public function render()
@@ -160,58 +250,61 @@ class TrainCnnModel extends Component
      */
     public function trainModel(): void
     {
+        Gate::authorize('train', $this->cnnModel);
+        $this->validate();
+
         $this->onTraining = true;
-        $this->steps[$this->activeStep]['status'] = 'processing';
+        Cache::put('on-model-training', true);
 
         if ($this->cnnModel->hasMedia('*')) {
             $this->dispatch('next-step', method: 'modelBackup')->self();
-        } else {
-            unset($this->steps[$this->activeStep]);
-            $this->steps[++$this->activeStep]['status'] = 'processing';
-            $this->dispatch('next-step', method: 'trainingEnvironment')->self();
+            return;
         }
+
+        unset($this->steps[$this->activeStep]);
+        $this->steps[++$this->activeStep]['status'] = 'processing';
+        $this->dispatch('next-step', method: 'createEnvironment')->self();
     }
 
     /**
-     * Realiza la descarga del modelo (Si es que existía alguno)
+     * Realiza la descarga del modelo (Si es que existía alguno).
+     * - NOTA: Este método no necesita estar en cache dado que el respaldo es instantaneo.
      */
-    public function modelBackup()
+    public function modelBackup(TrainModelService $trainMoodelService)
     {
-        $this->goToNextStep(result: __('Model downloaded.'), method: 'trainingEnvironment');
+        $this->goToNextStep(result: __('Model downloaded.'), method: 'createEnvironment');
 
-        return TrainModelService::downloadModel(
+        return $trainMoodelService->downloadModel(
             modelMedia: $this->cnnModel->getFirstMedia(MediaEnum::CNN_Model->value)
         );
     }
 
     /**
-     * Crea el ambiente de entrenamiento generando los directorios correspondentes
+     * Crea el ambiente de entrenamiento generando los directorios correspondientes
      * y moviendo las imagenes correspondientes
      */
-    public function trainingEnvironment(): void
+    public function createEnvironment(): void
     {
-        $numLabels = TrainModelService::createEnvironment(
-            availableLabels: $this->availableLabels,
-            selectedLabels: $this->form['selected_labels'],
-            maxNumImages: $this->form['images_limit']
-        );
+        Cache::put($this->steps[$this->activeStep]['method'], $this->steps[$this->activeStep]['status']); // Processing
+        $this->dispatch('check-process', method: $this->steps[$this->activeStep]['method'], milliseconds: $this->steps[$this->activeStep]['milliseconds'])->self();
 
-        $this->goToNextStep(result: __('Environment created.') . ' (' . $numLabels . ' ' . __('labels') . ').', method: 'imageCropping');
+        CreateDataEnvironment::dispatch(
+            method: $this->steps[$this->activeStep]['method'],
+            availableLabels: $this->availableLabels,
+            selectedLabels: $this->form->selectedLabels,
+            maxNumImages: $this->form->imagesLimit
+        );
     }
 
     /**
      * Realiza el recorte de imagenes para evitar ruido por las métricas de la muestra tomada.
      */
-    public function imageCropping(): void
+    public function imageCrop(): void
     {
-        $numImages = TrainModelService::cropImages();
+        Cache::put($this->steps[$this->activeStep]['method'], $this->steps[$this->activeStep]['status']); // Processing
+        $this->dispatch('check-process', method: $this->steps[$this->activeStep]['method'], milliseconds: $this->steps[$this->activeStep]['milliseconds'])->self();
 
-        if ($numImages == 0) {
-            $this->stopTraining(__('Cropping process failed.'));
-            return;
-        }
-
-        $this->goToNextStep(result: $numImages . ' images were cropped successfully.', method: 'imageAugmentation');
+        CropImages::dispatch(method: $this->steps[$this->activeStep]['method']);
     }
 
     /**
@@ -219,14 +312,10 @@ class TrainCnnModel extends Component
      */
     public function imageAugmentation(): void
     {
-        $numImages = TrainModelService::augmentImages();
+        Cache::put($this->steps[$this->activeStep]['method'], $this->steps[$this->activeStep]['status']); // Processing
+        $this->dispatch('check-process', method: $this->steps[$this->activeStep]['method'], milliseconds: $this->steps[$this->activeStep]['milliseconds'])->self();
 
-        if ($numImages == 0) {
-            $this->stopTraining(__('Augmentation process failed.'));
-            return;
-        }
-
-        $this->goToNextStep(result: $numImages . ' new images were created successfully.', method: 'cnnModelTraining');
+        AugmentImages::dispatch(method: $this->steps[$this->activeStep]['method']);
     }
 
     /**
@@ -234,48 +323,50 @@ class TrainCnnModel extends Component
      */
     public function cnnModelTraining(): void
     {
-        $metrics = TrainModelService::trainModel(
+        Cache::put($this->steps[$this->activeStep]['method'], $this->steps[$this->activeStep]['status']); // Processing
+        $this->dispatch('check-process', method: $this->steps[$this->activeStep]['method'], milliseconds: $this->steps[$this->activeStep]['milliseconds'])->self();
+
+        TrainModel::dispatch(
+            method: $this->steps[$this->activeStep]['method'],
+            cnnModel: $this->cnnModel,
             availableLabels: $this->availableLabels,
-            selectedLabels: $this->form['selected_labels'],
-            modelDirectory: $this->form['selected_model'],
-            validationPortion: $this->form['validation_portion']
+            selectedLabels: $this->form->selectedLabels,
+            modelDirectory: $this->form->modelPath,
+            validationPortion: $this->form->validationPortion
         );
-
-        if (empty($metrics)) {
-            $this->stopTraining(__('Training process failed.'));
-            return;
-        }
-
-        // Save new model
-        $this->cnnModel->media()->get()->each->delete();
-        $this->cnnModel->addMedia($metrics['model_path'])
-            ->preservingOriginal(false)
-            ->toMediaCollection(MediaEnum::CNN_Model->value);
-
-        // TODO: save metrics to model.
-        unset($metrics['model_path']);
-        if (in_array($this->form['selected_model'], array_keys(AvailableModelsEnum::arrayResource()))) {
-            $metrics['base_model'] = str_replace(resource_path(''), '', $this->form['selected_model']);
-        }
-
-        $this->cnnModel->update($metrics);
-        $this->goToNextStep(result: 'Model trained: ' . json_encode($metrics), method: 'removingTrainingEnvironment');
     }
 
-    public function removingTrainingEnvironment(): void
+    public function removeEnvironment(): void
     {
-        TrainModelService::removeEnvironment();
+        Cache::put($this->steps[$this->activeStep]['method'], $this->steps[$this->activeStep]['status']); // Processing
+        $this->dispatch('check-process', method: $this->steps[$this->activeStep]['method'], milliseconds: $this->steps[$this->activeStep]['milliseconds'])->self();
 
-        $this->finish(result: __('Environment removed.'));
+        RemoveDataEnvironment::dispatch(method: $this->steps[$this->activeStep]['method']);
     }
 
     /**
-     * Regresa al formulario de entrenamiento
+     * Esta función se encarga de evaluar contantemente el proceso que se esté ejecutando por medio de un job.
      */
-    public function backToForm(): void
+    public function checkStatusProcess(string $method)
     {
-        $this->reset(['activeStep', 'onTraining']);
-        $this->defineSteps();
+        if (Cache::has($method . 'Finished')) {
+
+            if (Cache::get($method) == 'error') {
+                $this->stopTraining(result: Cache::get($method . 'Finished'));
+                return 'error';
+            }
+
+            $nextMethod = $this->steps[$this->activeStep]['next_method'];
+            if ($nextMethod == 'finish') {
+                $this->finish(result: Cache::get($method . 'Finished'));
+            } else {
+                $this->goToNextStep(result: Cache::get($method . 'Finished'), method: $nextMethod);
+            }
+
+            return 'successfull';
+        }
+
+        return $this->steps[$this->activeStep]['status'];
     }
 
     /**
@@ -287,7 +378,7 @@ class TrainCnnModel extends Component
         $this->steps[$this->activeStep]['result'] = $result;
 
         $this->steps[++$this->activeStep]['status'] = 'processing';
-        $this->dispatch('next-step', method: $method);
+        $this->dispatch('next-step', method: $method)->self();
     }
 
     /**
@@ -314,8 +405,20 @@ class TrainCnnModel extends Component
         $this->steps[$this->activeStep]['status'] = 'error';
         $this->steps[$this->activeStep]['result'] = $result . ' Training environment removed.';
 
-        TrainModelService::removeEnvironment();
+        (new TrainModelService)->removeEnvironment();
 
         $this->toast(title: __('Error'), message: $result)->danger();
+    }
+
+    /**
+     * Regresa al formulario de entrenamiento.
+     * - Limpia la caché empleada para el entrenamiento.
+     * - Reinicia las etiquetas de entrenamiento y los pasos para realizar el entrenamiento.
+     */
+    public function backToForm(): void
+    {
+        Cache::clear();
+        $this->reset(['activeStep', 'onTraining']);
+        $this->defineSteps();
     }
 }

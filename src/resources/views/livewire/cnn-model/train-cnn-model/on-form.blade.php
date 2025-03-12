@@ -29,10 +29,9 @@
 
     <x-validation-errors class="mb-5"/>
 
-
     <div x-data="{
-        validationPortion: $wire.entangle('form.validation_portion'),
-        selectedLabels: $wire.entangle('form.selected_labels'),
+        validationPortion: $wire.entangle('form.validationPortion'),
+        selectedLabels: $wire.entangle('form.selectedLabels'),
         count: 0,
     }"
     x-init="count = $wire.uploadMinImages();">
@@ -40,7 +39,7 @@
             class="my-5 flex-col items-start pt-5 px-2 first:mt-0 first:pt-0 xl:flex-row"
             formInline
         >
-            <x-base.form-label for="form.selected_model" class="xl:!mr-10 xl:w-64">
+            <x-base.form-label for="form.modelPath" class="xl:!mr-10 xl:w-64">
                 <div class="text-left">
                     <div class="flex items-center">
                         <div class="font-medium">{{ __('Available models') }}</div>
@@ -52,9 +51,9 @@
             </x-base.form-label>
             <div class="mt-3 w-full flex-1 xl:mt-0">
                 <x-base.form-select
-                    id="form.selected_model"
-                    name="form.selected_model"
-                    wire:model='form.selected_model'
+                    id="form.modelPath"
+                    name="form.modelPath"
+                    wire:model='form.modelPath'
                 >
                     @foreach ($availableModels as $value => $modelName)
                         <option value="{{ $value }}">
@@ -69,7 +68,7 @@
             class="my-5 flex-col items-start pt-5 px-2 first:mt-0 first:pt-0 xl:flex-row"
             formInline
         >
-            <x-base.form-label for="form.selected_labels" class="xl:!mr-10 xl:w-64">
+            <x-base.form-label for="form.selectedLabels" class="xl:!mr-10 xl:w-64">
                 <div class="text-left">
                     <div class="flex items-center">
                         <div class="font-medium">{{ __('Training labels') }}</div>
@@ -85,13 +84,13 @@
                         @forelse ($availableLabels as $key => $label)
                             <x-base.form-check>
                                 <x-base.form-check.input
-                                    id="form.selected_labels.{{ $key }}"
+                                    id="form.selectedLabels.{{ $key }}"
                                     type="checkbox"
                                     value="{{ $label['id'] }}"
                                     x-model="selectedLabels"
                                     x-on:change="count = $wire.uploadMinImages();"
                                 />
-                                <x-base.form-check.label for="form.selected_labels.{{ $key }}">
+                                <x-base.form-check.label for="form.selectedLabels.{{ $key }}">
                                     <span class="flex items-center">
                                         <div class="mr-3 h-2 w-2 p-1 rounded-full text-xs" style="background-color: {{ $label['color'] }};"></div>
                                         <span>{{ $label['name'] . ' (' . $label['images_count'] . ')' }}</span>
@@ -118,7 +117,7 @@
             class="my-5 flex-col items-start pt-5 px-2 first:mt-0 first:pt-0 xl:flex-row"
             formInline
         >
-            <x-base.form-label for="form.validation_portion.*" class="xl:!mr-10 xl:w-64">
+            <x-base.form-label for="form.validationPortion.*" class="xl:!mr-10 xl:w-64">
                 <div class="text-left">
                     <div class="flex items-center">
                         <div class="font-medium">{{ __('Validation portion') }}</div>
@@ -130,8 +129,8 @@
             </x-base.form-label>
             <div class="mt-3 w-full flex-1 xl:mt-0">
                 <x-base.form-input
-                    id="form.validation_portion"
-                    name="form.validation_portion"
+                    id="form.validationPortion"
+                    name="form.validationPortion"
                     x-model='validationPortion'
                     value="0.2"
                     type="number"
@@ -149,10 +148,12 @@
 </x-base.dialog.description>
 
 <x-base.dialog.footer>
-    <x-base.button
-        variant="primary"
-        wire:click='trainModel'
-    >
-        {{ __('Start training') }}
-    </x-base.button>
+    @can('train', $cnnModel)
+        <x-base.button
+            variant="primary"
+            wire:click='trainModel'
+        >
+            {{ __('Start training') }}
+        </x-base.button>
+    @endcan
 </x-base.dialog.footer>
