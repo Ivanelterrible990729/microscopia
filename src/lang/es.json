@@ -239,6 +239,7 @@
     "Model downloaded.": "Modelo descargado.",
     "Model loaded": "Modelo cargado",
     "Model trained": "Modelo entrenado",
+    "Model training executed.": "Entrenamiento del modelo ejecutado",
     "Model training successfully completed. The trained Model is now in use.": "El entrenamiento se completó de manera exitosa. El modelo entrenado ahora está en uso.",
     "Module": "Modulo",
     "Monthly increase in images": "Incremento mensual de imágenes",

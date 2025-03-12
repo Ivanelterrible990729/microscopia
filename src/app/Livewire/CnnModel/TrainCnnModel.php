@@ -2,6 +2,7 @@
 
 namespace App\Livewire\CnnModel;
 
+use App\Contracts\Services\ActivityInterface;
 use App\Enums\CnnModel\AvailableModelsEnum;
 use App\Enums\Media\MediaEnum;
 use App\Jobs\AugmentImages;
@@ -12,6 +13,7 @@ use App\Jobs\TrainModel;
 use App\Livewire\Forms\TrainCnnModelForm;
 use App\Models\CnnModel;
 use App\Models\Label;
+use App\Services\ActivitylogService;
 use App\Services\TrainModelService;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
@@ -248,10 +250,17 @@ class TrainCnnModel extends Component
     /**
      * Comienza el proceso de entrenamiento.
      */
-    public function trainModel(): void
+    public function trainModel(ActivityInterface $activityService): void
     {
         Gate::authorize('train', $this->cnnModel);
         $this->validate();
+
+        $activityService->logActivity(
+            logName: __('CNN Models'),
+            performedOn: $this->cnnModel,
+            properties: [],
+            description: __('Model training executed.'),
+        );
 
         $this->onTraining = true;
         Cache::put('on-model-training', true);
