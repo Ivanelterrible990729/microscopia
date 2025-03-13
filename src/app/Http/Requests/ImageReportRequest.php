@@ -3,13 +3,13 @@
 namespace App\Http\Requests;
 
 use App\Models\Image;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 
-class ImageLabelingRequest extends FormRequest
+class ImageReportRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,26 +27,28 @@ class ImageLabelingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'ids' => ['required', 'string', 'regex:/^[0-9,]+$/'],
+            'imageIds' => ['required', 'array', 'min:1'],
+            'imageIds.*' => ['numeric', 'exists:images,id'],
+            'predictions' => ['required', 'array', 'min:1'],
+            'predictions.*' => ['regex:/^\d+\s*\|\s*\d{2}\.\d{2}$/'],
+            'modelId' => ['required', 'numeric', 'exists:cnn_models,id']
         ];
-    }
-
-    /**
-     * Prepara la información antes de la validación
-     */
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-            'imageIds' => array_filter(explode(',', $this->ids)),
-        ]);
     }
 
     /**
      * Obtiene los ids de las imagenes en formato esperado.
      */
-    public function imageIds(): array
+    public function getImageIds(): array
     {
         return $this->imageIds ?? [];
+    }
+
+    /**
+     * Obtiene los ids de las imagenes en formato esperado.
+     */
+    public function getPredictions(): array
+    {
+        return $this->predictions ?? [];
     }
 
     /**
@@ -54,17 +56,12 @@ class ImageLabelingRequest extends FormRequest
      */
     protected function passedValidation(): void
     {
-        $images = Image::whereIn('id', $this->imageIds())->get();
-
-        if ($images->isEmpty()) {
-            $this->redirectBack(__('No valid image was found for labeling.'));
+        if (count($this->getImageIds()) != count($this->getPredictions())) {
+            $this->redirectBack(__('There must be same quantity for image ids and predictions to perform the inform.'));
         }
 
-        if ($images->count() > 12) {
-            $this->redirectBack(__('You must select a maximum of 12 images to access the labeling wizard.'));
-        }
-
-        $images->each(fn($image) => Gate::authorize('update', $image));
+        $images = Image::whereIn('id', $this->getImageIds())->get();
+        $images->each(fn($image) => Gate::authorize('report', $image));
     }
 
     /**
@@ -87,7 +84,7 @@ class ImageLabelingRequest extends FormRequest
         ]);
 
         throw ValidationException::withMessages([
-            'ids' => $message,
+            'imageIds' => $message,
         ])->redirectTo(route('image.index'));
     }
 }

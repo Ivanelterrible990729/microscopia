@@ -3,7 +3,7 @@
 namespace App\Livewire\CnnModel;
 
 use App\Contracts\Services\ActivityInterface;
-use App\Enums\CnnModel\AvailableModelsEnum;
+use App\Enums\CnnModel\AvailableBaseModelsEnum;
 use App\Enums\Media\MediaEnum;
 use App\Jobs\AugmentImages;
 use App\Jobs\CreateDataEnvironment;
@@ -13,7 +13,6 @@ use App\Jobs\TrainModel;
 use App\Livewire\Forms\TrainCnnModelForm;
 use App\Models\CnnModel;
 use App\Models\Label;
-use App\Services\ActivitylogService;
 use App\Services\TrainModelService;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
@@ -186,7 +185,7 @@ class TrainCnnModel extends Component
      */
     private function getAvailableModels(): array
     {
-        $availableModels = AvailableModelsEnum::arrayResource();
+        $availableModels = AvailableBaseModelsEnum::arrayResource();
         $modelsMedia = CnnModel::whereHas('media')
             ->with('media')
             ->get()

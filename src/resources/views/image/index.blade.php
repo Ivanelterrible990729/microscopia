@@ -54,6 +54,15 @@
             </x-base.dialog.panel>
         </x-base.dialog>
     @endcan
+
+    @can(ImagePermission::Report)
+        <x-base.dialog id="modal-report-images" size="xl" static-backdrop>
+            <x-base.dialog.panel>
+                <livewire:image.manage-image-report />
+            </x-base.dialog.panel>
+        </x-base.dialog>
+    @endcan
+
     @can(ImagePermission::Delete)
         <x-base.dialog id="modal-manage-image-deletion" static-backdrop>
             <x-base.dialog.panel>
@@ -71,6 +80,7 @@
             </x-base.dialog.panel>
         </x-base.dialog>
     @endcan
+
     @can(LabelPermission::Update)
         <x-base.dialog id="modal-edit-label" size="xl" static-backdrop>
             <x-base.dialog.panel>
@@ -78,6 +88,7 @@
             </x-base.dialog.panel>
         </x-base.dialog>
     @endcan
+
     @can(LabelPermission::Delete)
         <x-base.dialog id="modal-delete-label" static-backdrop>
             <x-base.dialog.panel>

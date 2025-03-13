@@ -16,7 +16,7 @@ class PythonService
         $str = '';
 
         foreach ($args as $nombre => $valor) {
-            $str .= ("$nombre \"$valor\" ");
+            $str .= ("$nombre $valor "); // ("$nombre \"$valor\" "); En caso de que hagan falta las comillas (Se quitaron para ejecutar ManageImageReport.php).
         }
 
         return $str;

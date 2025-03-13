@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Enums\CnnModel\AvailableModelsEnum;
+use App\Enums\CnnModel\AvailableBaseModelsEnum;
 use App\Models\Image;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -150,7 +150,7 @@ class TrainModelService
             '--model_directory' => $modelDirectory,
             '--data_directory' => Storage::disk(config('filesystems.default', 'public'))->path(self::AUGMENTED_DIRECTORY),
             '--validation_portion' => $validationPortion,
-            '--is_base_model' => in_array($modelDirectory, array_keys(AvailableModelsEnum::arrayResource())) ? "1" : "0",
+            '--is_base_model' => in_array($modelDirectory, array_keys(AvailableBaseModelsEnum::arrayResource())) ? "1" : "0",
             '--output_dir' => Storage::disk(config('filesystems.default', 'public'))->path(self::TRAINING_WORKSPACE),
         ];
 

@@ -485,5 +485,16 @@
     "You must select a maximum of 12 images to access the labeling wizard.": "Debe seleccionar máximo 12 imágenes para acceder al wizard de etiquetado.",
     "You must select at least one image.": "Debe seleccionar al menos una imagen.",
     "Your account is not active.": "Su cuenta no está activa.",
-    "Your email address is unverified.": "Su dirección de correo electrónico no está verificada."
+    "Your email address is unverified.": "Su dirección de correo electrónico no está verificada.",
+    "No valid image was found for the report.": "No se encontraron imágenes válidas para el reporte.",
+    "Analysis report": "Informe de análisis",
+    "Create report": "Crear informe",
+    "You have to select a valid model.": "Tiene que seleccionar un modelo válido",
+    "Choose the model to use in the image report.": "Seleccione el modelo a utilizar en el informe de análisis.",
+    "images where selected to perform this action.": "imágenes fueron seleccionadas para realizar esta acción.",
+    "It is not possible to report a deleted image.": "No es posible realizar un reporte de una imagen eliminada.",
+    "The images where analyzed successfully.": "Las imágenes fueron analizadas de manera exitosa.",
+    "Creating report": "Creando reporte",
+    "Generate PDF": "Generar PDF",
+    "There must be same quantity for image ids and predictions to perform the inform.": "Debe haber la misma cantidad de IDs de imágenes y predicciones para realizar el informe."
 }

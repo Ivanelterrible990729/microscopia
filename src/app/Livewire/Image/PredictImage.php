@@ -40,7 +40,7 @@ class PredictImage extends Component
 
         $args = [
             '--model_path' => $modelMedia->getPath(),
-            '--image_path' => $imageMedia->getPath(),
+            '--image_paths' => $imageMedia->getPath(),
             '--class_labels' => json_encode($model->labels->pluck('id')->toArray()),
         ];
 
@@ -50,14 +50,16 @@ class PredictImage extends Component
             args: $args
         );
 
-        $output = array_values(array_slice($output, -2, 2, true));
+        $patron = '/^\d+\s*\|\s*\d{2}\.\d{2}$/'; // Estructura definida para las predicciones.
+        $predictions = array_values(preg_grep($patron, $output));
 
-        if (count($output) != 2) {
+        if (count($predictions) != 1) {
             return;
         }
 
-        $labelId = $output[0];
-        $percentage = $output[1];
+        list($labelId, $percentage) = explode("|", $predictions[0]);
+        $labelId = trim($labelId);
+        $percentage = trim($percentage);
 
         $label = Label::find($labelId);
 

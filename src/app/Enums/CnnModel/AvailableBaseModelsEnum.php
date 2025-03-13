@@ -7,7 +7,7 @@ use App\Concerns\Enums\EnumToArray;
 /**
  * Enum de roles en el sistema.
  */
-enum AvailableModelsEnum: string
+enum AvailableBaseModelsEnum: string
 {
     use EnumToArray;
 

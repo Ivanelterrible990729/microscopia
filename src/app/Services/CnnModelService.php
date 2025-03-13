@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\Services\ActivityInterface;
-use App\Enums\CnnModel\AvailableModelsEnum;
+use App\Enums\CnnModel\AvailableBaseModelsEnum;
 use App\Enums\Media\MediaEnum;
 use App\Models\CnnModel;
 use App\Repositories\CnnModelRepository;
@@ -109,7 +109,7 @@ class CnnModelService
 
         // Save metrics to model.
         unset($metrics['model_path']);
-        if (in_array($modelPath, array_keys(AvailableModelsEnum::arrayResource()))) {
+        if (in_array($modelPath, array_keys(AvailableBaseModelsEnum::arrayResource()))) {
             $metrics['base_model'] = str_replace(resource_path(''), '', $modelPath);
         }
 

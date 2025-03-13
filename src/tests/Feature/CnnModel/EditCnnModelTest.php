@@ -3,7 +3,7 @@
 namespace Tests\Feature\CnnModel;
 
 use App\Concerns\Tests\CustomMethods;
-use App\Enums\CnnModel\AvailableModelsEnum;
+use App\Enums\CnnModel\AvailableBaseModelsEnum;
 use App\Enums\Permissions\CnnModelPermission;
 use App\Enums\RoleEnum;
 use App\Livewire\CnnModel\EditCnnModel;
@@ -65,7 +65,7 @@ class EditCnnModelTest extends TestCase
             ]);
 
         // // Valida etiquetas existentes en BD y mime de archivo
-        $componente->set('form.name', pathinfo(AvailableModelsEnum::MobileNetV2->value, PATHINFO_FILENAME))
+        $componente->set('form.name', pathinfo(AvailableBaseModelsEnum::MobileNetV2->value, PATHINFO_FILENAME))
             ->set('form.labelIds', [51, 52, 53]) // Etiquetas inexistentes
             ->set('form.file', UploadedFile::fake()->create('model.asd', 1024 * 5))
             ->call('updateModel')
