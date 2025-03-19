@@ -52,6 +52,14 @@ class ImageReportRequest extends FormRequest
     }
 
     /**
+     * Obtiene el ID del modelo utilizado para las predicciones.
+     */
+    public function getModelId(): string
+    {
+        return $this->modelId ?? '';
+    }
+
+    /**
      * Autoriza automáticamente cada imagen antes de pasar al controlador.
      */
     protected function passedValidation(): void

@@ -48,6 +48,17 @@
                 </x-base.button>
             @endcan
 
+            @can('report', $image)
+                <x-base.button
+                    as="button"
+                    variant="dark"
+                    x-on:click="$dispatch('report-images', { imageIds: {{ $image->id }} })"
+                >
+                    @include('icons.file-box')
+                    {{ __('Analysis report') }}
+                </x-base.button>
+            @endcan
+
             @can('delete', $image)
                 <x-base.button
                     as="button"
@@ -136,13 +147,14 @@
                 <x-base.dialog.description>
                     <div class="flex flex-row items-center">
                         <div class="text-center font-medium lg:mt-3 lg:text-left">
-                            {{ __('Image') }}
+                            {{ __('Illustration') }}
                         </div>
 
                         <x-base.button
                             as="a"
                             href="{{ route('image.download', $image) }}"
-                            variant="dark"
+                            variant="secondary"
+                            size="sm"
                             class="ml-auto"
                         >
                             <x-base.lucide
@@ -170,6 +182,13 @@
         <x-base.dialog id="modal-manage-labels-image" size="xl" static-backdrop>
             <x-base.dialog.panel>
                 <livewire:image.manage-labels-image :image='$image' />
+            </x-base.dialog.panel>
+        </x-base.dialog>
+    @endcan
+    @can('report', $image)
+        <x-base.dialog id="modal-report-images" size="xl" static-backdrop>
+            <x-base.dialog.panel>
+                <livewire:image.manage-image-report />
             </x-base.dialog.panel>
         </x-base.dialog>
     @endcan

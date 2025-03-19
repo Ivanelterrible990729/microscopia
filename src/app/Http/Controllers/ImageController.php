@@ -69,16 +69,14 @@ class ImageController extends Controller
      */
     public function pdfReport(ImageReportRequest $request, ImageService $imageService)
     {
-        $data = $request->validated();
-
-        $cnnModel = CnnModel::find($data['modelId']);
+        $cnnModel = CnnModel::find($request->getModelId());
         $images = Image::with('media')
-            ->whereIn('id', $data['imageIds'])
+            ->whereIn('id', $request->getImageIds())
             ->get()
-            ->sortBy(fn($image) => array_search($image->getKey(), $data['imageIds']))
+            ->sortBy(fn($image) => array_search($image->getKey(), $request->getImageIds()))
             ->values();
 
-        $report = $imageService->generateReport($cnnModel, $images, $data['predictions']);
+        $report = $imageService->generateReport($cnnModel, $images, $request->getPredictions());
 
         return Pdf::view('pdf.image-report', [
             'report' => $report,

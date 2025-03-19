@@ -42,7 +42,7 @@
                         "
                     >
                         @include('icons.file-box')
-                        {{ __('Analysis report')}}
+                        {{ __('Analysis report') }}
                     </x-base.button>
                 @endcan
 

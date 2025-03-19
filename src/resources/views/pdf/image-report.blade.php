@@ -120,6 +120,7 @@
                 </div>
 
                 <footer class="absolute bottom-10 left-0 right-0 w-full text-center">
+                    {{ __('Page') }}
                     <b>
                         {{ $loop->iteration }}
                     </b>

@@ -104,7 +104,9 @@
     <script>
         $wire.on('images-reported', () => {
             var redirectButton = document.getElementById('generatePDF');
-            redirectButton.click();
+            setTimeout(() => {
+                redirectButton.click();
+            }, 1000);
         });
     </script>
 @endscript

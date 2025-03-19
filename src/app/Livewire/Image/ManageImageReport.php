@@ -131,7 +131,7 @@ class ManageImageReport extends Component
         $this->modelId = $model->id;
 
         $this->modal('modal-report-images')->hide();
-        $this->toast(title: __('Success'), message: __('The images where analyzed successfully.'))->success();
+        $this->toast(title: __('Success'), message: __('The analysis where performed successfully.'))->success();
         $this->dispatch('images-reported');
     }
 }
