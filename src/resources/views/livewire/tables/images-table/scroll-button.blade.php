@@ -2,7 +2,7 @@
     x-show="showButton && selectedImages.length > 0"
     @scroll.window="showButton = (window.pageYOffset > 200)"
     @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
-    class="fixed bottom-4 right-4 z-50 p-4 bg-pending border-pending text-white dark:border-pending rounded-full shadow-lg hover:bg-orange-500 focus:ring focus:ring-orange-300 flex flex-row animate-bounce"
+    class="fixed bottom-4 right-4 z-50 p-2 bg-pending border-pending text-white dark:border-pending rounded-full shadow-lg hover:bg-orange-500 focus:ring focus:ring-orange-300 flex flex-row animate-bounce"
     style="display: none;"
     >
     <x-base.lucide

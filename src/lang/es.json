@@ -61,8 +61,8 @@
     "Click in any model name in the listing to configure it.": "Haga clic en cualquier nombre de los modelos enlistados para configurarlos.",
     "Click in any user name in the listing to configure a user.": "Haga clic en cualquier nombre de usuario para configurarlo.",
     "Click on “Trash” to filter images that were deleted.": "Haga clic en \"Papelera\" para filtrar imagenes que fueron eliminadas.",
-    "Click on any tag to filter images according to their tags.": "Haga clic en cualquier etiqueta para filtrar imágenes según sus etiquetas.",
-    "Click on the image boxes to select multiple images.": "Haga clic en las casillas de las imágenes para seleccionar múltiples imágenes.",
+    "Click on any tag to filter images according to their tags.": "Haga clic en cualquier etiqueta para filtrar imágenes según las etiquetas seleccionadas.",
+    "Click on the image boxes to select multiple images.": "Usted puede seleccionar múltiples imágenes haciendo clic en las casillas ubicadas en la parte superior izquierda.",
     "Click to upload": "Haga clic para cargar",
     "Close": "Cerrar",
     "CNN Model": "Modelo CNN",
@@ -506,5 +506,7 @@
     "You must select a maximum of 12 images to access the labeling wizard.": "Debe seleccionar máximo 12 imágenes para acceder al wizard de etiquetado.",
     "You must select at least one image.": "Debe seleccionar al menos una imagen.",
     "Your account is not active.": "Su cuenta no está activa.",
-    "Your email address is unverified.": "Su dirección de correo electrónico no está verificada."
+    "Your email address is unverified.": "Su dirección de correo electrónico no está verificada.",
+    "Click in any image to see more details.": "Haga clic en cualquier imagen para ver más detalles.",
+    "Here you can create, edit, delete and restore images of this repository.": "Usted puede subir, editar, eliminar y restaurar imagenes en este repositorio."
 }
