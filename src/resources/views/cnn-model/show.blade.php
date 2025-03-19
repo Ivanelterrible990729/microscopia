@@ -77,6 +77,9 @@
                     <div class="intro-y box col-span-12 lg:col-span-9">
                         <livewire:cnn-model.train-cnn-model :cnn-model="$cnnModel" />
                     </div>
+                    <div class="col-span-12 lg:col-span-3">
+                        @include('cnn-model.show.training-notes')
+                    </div>
                 </div>
             </x-base.tab.panel>
 

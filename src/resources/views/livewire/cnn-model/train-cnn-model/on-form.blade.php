@@ -15,6 +15,10 @@
                     </span>
                     <span>
                         {{ __('Since this model has been already trained, a model backup will be downloaded at the start of the training process.') }}
+                        <br>
+                        <span class="font-bold">
+                            {{ __("It's recommended to create a new model and start the training on this model instead of re-training this model.") }}
+                        </span>
                     </span>
                     <x-base.alert.dismiss-button class="text-white">
                         <x-base.lucide

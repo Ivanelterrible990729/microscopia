@@ -508,5 +508,11 @@
     "Your account is not active.": "Su cuenta no está activa.",
     "Your email address is unverified.": "Su dirección de correo electrónico no está verificada.",
     "Click in any image to see more details.": "Haga clic en cualquier imagen para ver más detalles.",
-    "Here you can create, edit, delete and restore images of this repository.": "Usted puede subir, editar, eliminar y restaurar imagenes en este repositorio."
+    "Here you can create, edit, delete and restore images of this repository.": "Usted puede subir, editar, eliminar y restaurar imagenes en este repositorio.",
+    "It's recommended to create a new model and start the training on this model instead of re-training this model.": "Se recomienda crear un nuevo modelo y comenzar el entrenamiento a partir de este modelo en lugar de re-entrenar este mismo modelo.",
+    "Model metrics": "Métricas del modelo",
+    "Before training": "Antes de entrenar",
+    "Be sure you have good connection.": "Asegúrese de tener una buena conexión a internet.",
+    "Be conscious this process can take some time.": "Tenga en cuenta que este proceso puede tomar más tiempo de lo esperado.",
+    "Do not close this page during training process.": "No cierre esta página durante el proceso de entrenamiento."
 }
