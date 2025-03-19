@@ -6,7 +6,6 @@ use App\Http\Requests\ImageLabelingRequest;
 use App\Http\Requests\ImageReportRequest;
 use App\Models\CnnModel;
 use App\Models\Image;
-use App\Models\Label;
 use App\Services\ImageService;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
@@ -68,44 +67,23 @@ class ImageController extends Controller
     /**
      * Show the PDF report for an analysis of one or more Images
      */
-    public function pdfReport(ImageReportRequest $request)
+    public function pdfReport(ImageReportRequest $request, ImageService $imageService)
     {
         $data = $request->validated();
 
+        $cnnModel = CnnModel::find($data['modelId']);
         $images = Image::with('media')
             ->whereIn('id', $data['imageIds'])
             ->get()
             ->sortBy(fn($image) => array_search($image->getKey(), $data['imageIds']))
             ->values();
 
-        $labels = Label::all()
-            ->pluck('name', 'id')
-            ->toArray();
-
-        $cnnModel = CnnModel::find($data['modelId']);
-
-        $report = [];
-        foreach ($images as $index => $image) {
-
-            $imageData = base64_encode(file_get_contents($image->getFirstMedia('*')->getPath('preview')));
-            $base64Image = 'data:image/jpeg;base64,' . $imageData;
-
-            list($labelId, $percentage) = explode("|", $data['predictions'][$index]);
-            $labelId = trim($labelId);
-            $percentage = trim($percentage);
-
-            $report[] = [
-                'image_name' => $image->name,
-                'image_description' => $image->description,
-                'illustration' => $base64Image,
-                'prediction' => $labels[$labelId],
-                'precision' => $percentage,
-            ];
-        }
+        $report = $imageService->generateReport($cnnModel, $images, $data['predictions']);
 
         return Pdf::view('pdf.image-report', [
             'report' => $report,
-        ])->format('letter')->name(__('Analysis report - ') . time() . '.pdf');
+            'cnnModel' => $cnnModel,
+        ])->format('letter')->name(__('ANALYSIS REPORT') . '-' . time() . '.pdf');
     }
 
     /**

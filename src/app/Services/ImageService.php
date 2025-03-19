@@ -3,8 +3,11 @@
 namespace App\Services;
 
 use App\Contracts\Services\ActivityInterface;
+use App\Models\CnnModel;
 use App\Models\Image;
+use App\Models\Label;
 use App\Repositories\ImageRepository;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -97,11 +100,39 @@ class ImageService
     {
         $media = $image->getFirstMedia('*');
 
-        // Verifica si el usuario tiene una foto de perfil
         if (!Storage::disk(config('jetstream.profile_photo_disk'))->exists($media->getPathRelativeToRoot())) {
             abort(404, __('The image does not exists.'));
         }
 
         return Storage::download($media->getPathRelativeToRoot(), $media->name);
+    }
+
+    /**
+     * Crea el reporte a generar en formato PDF.
+     */
+    public function generateReport(CnnModel $cnnModel, Collection $images, array $predictions): array
+    {
+        $report = [];
+        $labels = Label::all()->pluck('name', 'id')->toArray();
+
+        foreach ($images as $index => $image) {
+            $imageData = base64_encode(file_get_contents($image->getFirstMedia('*')->getPath('preview')));
+            $base64Image = 'data:image/jpeg;base64,' . $imageData;
+
+            list($labelId, $percentage) = explode("|", $predictions[$index]);
+            $labelId = trim($labelId);
+            $percentage = trim($percentage);
+
+            $report[] = [
+                'image_name' => $image->name,
+                'image_description' => $image->description,
+                'illustration' => $base64Image,
+                'prediction' => $labels[$labelId],
+                'precision' => $percentage,
+                'accuracy' => $cnnModel->accuracy,
+            ];
+        }
+
+        return $report;
     }
 }
