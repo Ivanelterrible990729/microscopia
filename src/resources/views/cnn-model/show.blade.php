@@ -52,19 +52,6 @@
                         {{ __('Train model') }}
                     </x-base.tab.button>
                 </x-base.tab>
-
-                <x-base.tab
-                    id="dataset-tab"
-                    :fullWidth="false"
-                >
-                    <x-base.tab.button class="flex items-center cursor-pointer py-4">
-                        <x-base.lucide
-                            icon="image-down"
-                            class="mr-2"
-                        />
-                        {{ __('Download dataset') }}
-                    </x-base.tab.button>
-                </x-base.tab>
             </x-base.tab.list>
         </div>
 
@@ -75,20 +62,10 @@
             >
                 <div class="grid grid-cols-12 gap-6">
                     <div class="intro-y box col-span-12 lg:col-span-9">
-                        <livewire:cnn-model.train-cnn-model :cnn-model="$cnnModel" />
+                        <livewire:cnn-model.train-cnn-model :cnn-model="$cnnModel" :key="'train' . $cnnModel->id" />
                     </div>
                     <div class="col-span-12 lg:col-span-3">
                         @include('cnn-model.show.training-notes')
-                    </div>
-                </div>
-            </x-base.tab.panel>
-
-            <x-base.tab.panel
-                id="dataset"
-            >
-                <div class="grid grid-cols-12 gap-6">
-                    <div class="intro-y box col-span-12 lg:col-span-9">
-                        <livewire:cnn-model.download-dataset :cnn-model="$cnnModel" />
                     </div>
                 </div>
             </x-base.tab.panel>

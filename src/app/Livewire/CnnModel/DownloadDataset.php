@@ -2,9 +2,9 @@
 
 namespace App\Livewire\CnnModel;
 
+use App\Livewire\Forms\DownloadDatasetForm;
 use App\Models\CnnModel;
 use App\Models\Label;
-use Livewire\Attributes\On;
 use Livewire\Component;
 
 class DownloadDataset extends Component
@@ -17,61 +17,98 @@ class DownloadDataset extends Component
     /**
      * Form para realizar el entrenamiento
      */
-    public array $form;
+    public DownloadDatasetForm $form;
 
     /**
      * Catálogo de modelos disponibles
      */
     public array $availableLabels = [];
 
-    protected function rules()
-    {
-        return [
-            'form.selected_labels' => 'required|array|min:1',
-            'form.all_images' => 'required|boolean',
-            'form.crop_images' => 'required|boolean',
-            'form.data_augmentation' => 'required|boolean',
-            'form.images_limit' => 'required_if:form.all_images|numeric|min:1',
-        ];
-    }
+    /**
+     * Pasos a realizar durante la descarga de imágenes.
+     */
+    public array $steps = [];
 
-    protected function validationAttributes()
-    {
-        return [
-            'form.selected_labels' => __('Training labels'),
-            'form.all_images' => __('Download all images'),
-            'form.crop_images' => __('Crop images'),
-            'form.data_augmentation' => __('Data augmentation'),
-            'form.images_limit' => __('Maximum number of images'),
-        ];
-    }
+    /**
+     * Verifica que el componente esté en fase de descarga.
+     */
+    public bool $onDownload = false;
 
     public function mount(CnnModel $cnnModel)
     {
-        $this->availableLabels = Label::withCount('images')
-        ->orderBy('name')
-        ->get()
-        ->map(function($label) {
-            return [
-                'id' => $label->id,
-                'name' => $label->name,
-                'color' => $label->color,
-                'images_count' => $label->images_count,
-            ];
-        })->toArray();
+        $this->cnnModel = $cnnModel;
 
-        $this->form = [
-            'selected_labels' => $cnnModel->labels->pluck('id')->toArray(),
-            'all_images' => false,
-            'crop_images' => false,
-            'data_augmentation' => false,
-            'images_limit' => 0,
+        $this->defineSteps();
+        $this->availableLabels = $this->getAvailableLabels();
+
+        $this->form->selectedLabels = $cnnModel->labels->pluck('id')->toArray();
+        $this->form->allImages = false;
+        $this->form->dataAugmentation = false;
+        $this->form->imagesLimit = $this->uploadMinImages();
+    }
+
+    /**
+     * Pasos requeridos para llevar a cabo la descarga.
+     */
+    private function defineSteps()
+    {
+        $this->steps = [
+            [
+                'method' => 'createEnvironment',
+                'milliseconds' => 3000,
+                'next_method' => 'imageCrop',
+                'title' => __('Training environment'),
+                'description' => __("Creating a new directory to allocate the dataset."),
+                'status' => null,
+                'result' => null,
+            ],
+            [
+                'method' => 'imageCrop',
+                'milliseconds' => 3000,
+                'next_method' => 'imageAugmentation',
+                'title' => __('Image cropping'),
+                'description' => __("This process is necessary to perform the image augmentation."),
+                'status' => null,
+                'result' => null,
+            ],
+            [
+                'method' => 'imageAugmentation',
+                'milliseconds' => 3000,
+                'next_method' => 'cnnModelTraining',
+                'title' => __('Image augmentation'),
+                'description' => __("Generating new images to enrich the dataset."),
+                'status' => null,
+                'result' => null,
+            ],
+            [
+                'method' => 'createZipFiles',
+                'milliseconds' => 3000,
+                'next_method' => 'finish',
+                'title' => __('Create zip files'),
+                'description' => __('Generating zip files for downloading the dataset.'),
+                'status' => null,
+                'result' => null,
+            ]
         ];
     }
 
-    public function render()
+    /**
+     * Obtiene las etiquetas disponibles para realizar la descarga.
+     */
+    private function getAvailableLabels(): array
     {
-        return view('livewire.cnn-model.download-dataset');
+        return Label::withCount('images')
+            ->orderBy('name')
+            ->get()
+            ->map(function($label) {
+                return [
+                    'id' => $label->id,
+                    'name' => $label->name,
+                    'folder_name' => $label->folder_name,
+                    'color' => $label->color,
+                    'images_count' => $label->images_count,
+                ];
+        })->toArray();
     }
 
     /**
@@ -83,13 +120,18 @@ class DownloadDataset extends Component
     {
         $selectedImagesCounts = array_map(
             fn($id) => $this->availableLabels[array_search($id, array_column($this->availableLabels, 'id'))]['images_count'] ?? PHP_INT_MAX,
-            $this->form['selected_labels']
+            $this->form->selectedLabels
         );
 
         $minImagesCount = !empty($selectedImagesCounts) ? min($selectedImagesCounts) : null;
-        $this->form['images_limit'] = ($minImagesCount ?? 0);
+        $this->form->imagesLimit = ($minImagesCount ?? 0);
 
-        return $this->form['images_limit'];
+        return $this->form->imagesLimit;
+    }
+
+    public function render()
+    {
+        return view('livewire.cnn-model.download-dataset');
     }
 
     /**
@@ -98,14 +140,5 @@ class DownloadDataset extends Component
     public function downloadDataset()
     {
         $this->validate();
-    }
-
-    /**
-     * Refrezca el contenido del modelo para actualizarlo en la vista.
-     */
-    #[On('refresh-model')]
-    public function refreshModel()
-    {
-        $this->cnnModel->refresh();
     }
 }
