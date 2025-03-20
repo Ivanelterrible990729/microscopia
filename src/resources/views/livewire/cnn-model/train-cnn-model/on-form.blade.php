@@ -157,7 +157,7 @@
             variant="primary"
             wire:click='trainModel'
         >
-            {{ __('Start training') }}
+            {{ __('Start') }}
         </x-base.button>
     @endcan
 </x-base.dialog.footer>

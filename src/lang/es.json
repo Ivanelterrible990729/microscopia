@@ -365,7 +365,7 @@
     "Showing": "Mostrando",
     "Since this model has been already trained, a model backup will be downloaded at the start of the training process.": "Como este modelo ya fue entrenado, un respaldo del modelo será descargado previo al proceso de entrenamiento.",
     "Specify the portion of the validation set for the training": "Especifique la porción para el conjunto de validación para el entrenamiento",
-    "Start training": "Comenzar entrenamiento",
+    "Start": "Comenzar",
     "Started personification.": "Inició personificación.",
     "Stop personification": "Detener personificación",
     "Stopped personification.": "Finalizó personificación.",
@@ -514,5 +514,7 @@
     "Before training": "Antes de entrenar",
     "Be sure you have good connection.": "Asegúrese de tener una buena conexión a internet.",
     "Be conscious this process can take some time.": "Tenga en cuenta que este proceso puede tomar más tiempo de lo esperado.",
-    "Do not close this page during training process.": "No cierre esta página durante el proceso de entrenamiento."
+    "Do not close this page during training process.": "No cierre esta página durante el proceso de entrenamiento.",
+    "Indicate here the metrics of the model.": "Indique aquí las métricas del modelo.",
+    "More details": "Más detalles"
 }

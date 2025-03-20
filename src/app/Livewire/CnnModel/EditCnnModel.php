@@ -54,6 +54,10 @@ class EditCnnModel extends Component
             'id' => $this->cnnModel->id,
             'name' => $this->cnnModel->name,
             'labelIds' => $this->cnnModel->labels->pluck('id')->toArray(),
+            'accuracy' => $this->cnnModel->accuracy,
+            'loss' => $this->cnnModel->loss,
+            'val_accuracy' => $this->cnnModel->val_accuracy,
+            'val_loss' => $this->cnnModel->val_loss
         ]);
 
         if ($this->cnnModel->hasMedia('*')) {

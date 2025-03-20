@@ -48,8 +48,7 @@ class DownloadDataset extends Component
 
     public function mount(CnnModel $cnnModel)
     {
-        $this->availableLabels = Label::whereHas('images')
-        ->withCount('images')
+        $this->availableLabels = Label::withCount('images')
         ->orderBy('name')
         ->get()
         ->map(function($label) {

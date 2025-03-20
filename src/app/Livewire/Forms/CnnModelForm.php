@@ -2,8 +2,6 @@
 
 namespace App\Livewire\Forms;
 
-use App\Enums\Media\MediaEnum;
-use App\Models\CnnModel;
 use App\Rules\OnlyKerasFiles;
 use Illuminate\Http\UploadedFile;
 use Livewire\Attributes\Validate;
@@ -38,6 +36,14 @@ class CnnModelForm extends Form
      */
     public null|string $filename = null;
 
+    /**
+     * parámetros utilizados para las métricas del modelo.
+     */
+    public null|string $accuracy = null;
+    public null|string $loss = null;
+    public null|string $val_accuracy = null;
+    public null|string $val_loss = null;
+
     protected function rules()
     {
         return [
@@ -50,6 +56,10 @@ class CnnModelForm extends Form
                 'max:' . config('max-file-size.models'),
                 new OnlyKerasFiles
             ],
+            'accuracy' => 'nullable|decimal:1,4',
+            'val_accuracy' => 'nullable|decimal:1,4',
+            'loss' => 'nullable|decimal:1,4',
+            'val_loss' => 'nullable|decimal:1,4',
         ];
     }
 

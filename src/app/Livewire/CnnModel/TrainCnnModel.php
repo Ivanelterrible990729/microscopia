@@ -207,9 +207,7 @@ class TrainCnnModel extends Component
      */
     private function getAvailableLabels(): array
     {
-        return Label::withCount(['images' => function ($query) {
-                $query->whereNull('deleted_at');
-            }])
+        return Label::withCount('images')
             ->orderBy('name')
             ->get()
             ->map(function($label) {
