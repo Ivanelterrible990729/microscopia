@@ -13,7 +13,7 @@
         <x-validation-errors class="mb-5"/>
 
         <div x-data="{
-            selectedLabels: $wire.entangle('form.selected_labels'),
+            selectedLabels: $wire.entangle('form.selectedLabels'),
             count: 0,
         }"
         x-init="count = $wire.uploadMinImages();"
@@ -22,7 +22,7 @@
                 class="my-5 flex-col items-start pt-5 px-2 first:mt-0 first:pt-0 xl:flex-row"
                 formInline
             >
-                <x-base.form-label for="form.selected_labels" class="xl:!mr-10 xl:w-64">
+                <x-base.form-label for="form.selectedLabels" class="xl:!mr-10 xl:w-64">
                     <div class="text-left">
                         <div class="flex items-center">
                             <div class="font-medium">{{ __('Training labels') }}</div>
@@ -38,13 +38,13 @@
                             @forelse ($availableLabels as $key => $label)
                                 <x-base.form-check>
                                     <x-base.form-check.input
-                                        id="form.selected_labels.{{ $key }}"
+                                        id="form.selectedLabels.{{ $key }}.download"
                                         type="checkbox"
                                         value="{{ $label['id'] }}"
                                         x-model="selectedLabels"
                                         x-on:change="count = $wire.uploadMinImages();"
                                     />
-                                    <x-base.form-check.label for="form.selected_labels.{{ $key }}">
+                                    <x-base.form-check.label for="form.selectedLabels.{{ $key }}">
                                         <span class="flex items-center">
                                             <div class="mr-3 h-2 w-2 p-1 rounded-full text-xs" style="background-color: {{ $label['color'] }};"></div>
                                             <span>{{ $label['name'] . ' (' . $label['images_count'] . ')' }}</span>
@@ -71,7 +71,7 @@
                 class="my-5 flex-col items-start pt-5 px-2 first:mt-0 first:pt-0 xl:flex-row"
                 formInline
             >
-                <x-base.form-label for="form.all_images" class="xl:!mr-10 xl:w-64">
+                <x-base.form-label for="form.allImages" class="xl:!mr-10 xl:w-64">
                     <div class="text-left">
                         <div class="flex items-center">
                             <div class="font-medium">{{ __('Download all images') }}</div>
@@ -85,12 +85,12 @@
                     <div class="">
                         <x-base.form-check>
                             <x-base.form-check.input
-                                id='form.all_images'
-                                name='form.all_images'
+                                id='form.allImages.download'
+                                name='form.allImages'
                                 type="checkbox"
-                                wire:model='form.all_images'
+                                wire:model='form.allImages'
                             />
-                            <x-base.form-check.label for="form.all_images">
+                            <x-base.form-check.label for="form.allImages">
                                 <span>
                                     {{ __('Download all images') }}
                                 </span>
@@ -104,7 +104,7 @@
                 class="my-5 flex-col items-start pt-5 px-2 first:mt-0 first:pt-0 xl:flex-row"
                 formInline
             >
-                <x-base.form-label for="form.data_augmentation" class="xl:!mr-10 xl:w-64">
+                <x-base.form-label for="form.dataAugmentation" class="xl:!mr-10 xl:w-64">
                     <div class="text-left">
                         <div class="flex items-center">
                             <div class="font-medium">{{ __('Data augmentation') }}</div>
@@ -118,12 +118,12 @@
                     <div class="">
                         <x-base.form-check>
                             <x-base.form-check.input
-                                id='form.data_augmentation'
-                                name='form.data_augmentation'
+                                id='form.dataAugmentation.download'
+                                name='form.dataAugmentation'
                                 type="checkbox"
-                                wire:model='form.data_augmentation'
+                                wire:model='form.dataAugmentation'
                             />
-                            <x-base.form-check.label for="form.data_augmentation">
+                            <x-base.form-check.label for="form.dataAugmentation">
                                 <span>
                                     {{ __('Enable data augmentation') }}
                                 </span>

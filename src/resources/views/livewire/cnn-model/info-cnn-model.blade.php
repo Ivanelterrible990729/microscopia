@@ -28,6 +28,33 @@
                     <x-label.show-labels :label-ids="$cnnModel->labels->pluck('id')->toArray()" class="pl-3"/>
                 </div>
             </div>
+
+            <div class="mt-2 flex flex-col items-center justify-center lg:items-start">
+                <div class="mb-3">
+                    <div class="mb-2 text-xs leading-relaxed text-slate-500">
+                        {{ __('Model metrics') }}:
+                    </div>
+
+                    <ul class="list-disc pl-6">
+                        <li>
+                            <b>Accuracy:</b>
+                            <span>{{ $cnnModel->accuracy ?? '0.9930' }}</span>
+                        </li>
+                        <li>
+                            <b>Loss:</b>
+                            <span>{{ $cnnModel->loss ?? '0.0992' }}</span>
+                        </li>
+                        <li>
+                            <b>Val. accuracy:</b>
+                            <span>{{ $cnnModel->val_accuracy ?? '1.0000' }}</span>
+                        </li>
+                        <li>
+                            <b>Val. loss:</b>
+                            <span>{{ $cnnModel->val_loss ?? '0.0716' }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div
             class="mt-6 flex-1 border-t border-slate-200/60 px-5 pt-5 dark:border-darkmode-400 lg:mt-0 lg:border-0 lg:pt-0">
@@ -39,7 +66,7 @@
                 <x-base.button
                     as="button"
                     class="align-top w-32"
-                    variant="dark"
+                    variant="secondary"
                     wire:click='downloadModel'
                 >
                     <x-base.lucide

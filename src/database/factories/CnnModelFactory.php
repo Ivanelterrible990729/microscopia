@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Enums\CnnModel\AvailableModelsEnum;
+use App\Enums\CnnModel\AvailableBaseModelsEnum;
 use App\Enums\Media\MediaEnum;
 use App\Models\CnnModel;
 use App\Models\Label;
@@ -22,7 +22,7 @@ class CnnModelFactory extends Factory
     {
         return [
             'name' => 'modelname',
-            'base_model' => fake()->randomElement(AvailableModelsEnum::values()),
+            'base_model' => fake()->randomElement(AvailableBaseModelsEnum::values()),
             'accuracy' => (double)('0.9' . fake()->randomNumber(nbDigits: 3)),
             'loss' => (double)('0.01' . fake()->randomNumber(nbDigits: 2)),
             'val_accuracy' => (double)('0.9' . fake()->randomNumber(nbDigits: 3)),

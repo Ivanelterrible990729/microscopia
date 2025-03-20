@@ -63,6 +63,7 @@ Route::middleware([
     // IMAGES =====================================================
     // ============================================================
 
+    Route::get('/image/pdf-report', [ImageController::class, 'pdfReport'])->name('image.pdf-report');
     Route::get('/image/labeling', [ImageController::class, 'labeling'])->name('image.labeling');
     Route::get('/image/{image}/download', [ImageController::class, 'downloadImage'])->name('image.download');
     Route::resource('image', ImageController::class)->except('create', 'update', 'delete')->withTrashed(['show']);

@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Enums\CnnModel\AvailableModelsEnum;
+use App\Enums\CnnModel\AvailableBaseModelsEnum;
 use App\Models\Image;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -43,7 +43,7 @@ class TrainModelService
      * - Crea los directorios para el entrenamiento
      * - Mueve las imagenes que serán entrenadas.
      */
-    public static function createEnvironment(array $availableLabels, array $selectedLabels, int $maxNumImages): int
+    public function createEnvironment(array $availableLabels, array $selectedLabels, int $maxNumImages): int
     {
         Storage::disk(config('filesystems.default', 'public'))->makeDirectory(self::ORIGINAL_DIRECTORY);
         Storage::disk(config('filesystems.default', 'public'))->makeDirectory(self::CROPPED_DIRECTORY);
@@ -87,7 +87,7 @@ class TrainModelService
      * Realiza el recorte de las imagenes para evitar el ruido que puderan ocasionar
      * las métricas de las muestras.
      */
-    public static function cropImages(): int
+    public function cropImages(): int
     {
         $args = [
             '--input_dir' => Storage::disk(config('filesystems.default', 'public'))->path(self::ORIGINAL_DIRECTORY),
@@ -113,7 +113,7 @@ class TrainModelService
     /**
      * Realiza la augmentación de los datos
      */
-    public static function augmentImages(): int
+    public function augmentImages(): int
     {
         $args = [
             '--input_dir' => Storage::disk(config('filesystems.default', 'public'))->path(self::CROPPED_DIRECTORY),
@@ -138,7 +138,7 @@ class TrainModelService
     /**
      * Realiza el entrenamiento del modelo
      */
-    public static function trainModel(array $availableLabels, array $selectedLabels, $modelDirectory, string $validationPortion)
+    public function trainModel(array $availableLabels, array $selectedLabels, $modelDirectory, string $validationPortion)
     {
         $classNames = array_map(
             fn($id) => $availableLabels[array_search($id, array_column($availableLabels, 'id'))]['folder_name'],
@@ -150,7 +150,7 @@ class TrainModelService
             '--model_directory' => $modelDirectory,
             '--data_directory' => Storage::disk(config('filesystems.default', 'public'))->path(self::AUGMENTED_DIRECTORY),
             '--validation_portion' => $validationPortion,
-            '--is_base_model' => in_array($modelDirectory, array_keys(AvailableModelsEnum::arrayResource())) ? "1" : "0",
+            '--is_base_model' => in_array($modelDirectory, array_keys(AvailableBaseModelsEnum::arrayResource())) ? "1" : "0",
             '--output_dir' => Storage::disk(config('filesystems.default', 'public'))->path(self::TRAINING_WORKSPACE),
         ];
 
@@ -180,7 +180,7 @@ class TrainModelService
      * - Mueve las imagenes a su ubicación original.
      * - Elimina los directorios creados con anterioridad.
      */
-    public static function removeEnvironment(): void
+    public function removeEnvironment(): void
     {
         // Este fragmento se utiliza SÍ O SOLO SÍ al momento de crear el ambiente, en lugar de copiar los archivos, se mueven.
         // Este código comentado devuelve las imagenes a su directorio original.

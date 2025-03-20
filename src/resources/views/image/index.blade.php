@@ -42,6 +42,35 @@
         @endcan
     </div>
 
+    <x-base.alert
+        class="intro-y relative mt-5 p-5"
+        variant="secondary"
+        dismissible
+    >
+        <x-base.alert.dismiss-button class="absolute right-0 top-0 text-slate-500 font-bold -mr-0.5">
+            &times;
+        </x-base.alert.dismiss-button>
+        <span class="flex flex-row items-start gap-x-2 mb-3">
+            <x-base.lucide
+                class="h-5 w-5 text-warning"
+                icon="info"
+            />
+            <h2 class="text-base font-medium">{{ __('Instructions') }}</h2>
+        </span>
+
+        <ul class="mt-2 list-disc pl-5 text-sm leading-relaxed text-justify text-slate-600 dark:text-slate-500">
+            <li>
+                {{ __("Here you can create, edit, delete and restore images of this repository.") }}
+            </li>
+            <li>
+                {{ __('Click in any image to see more details.') }}
+            </li>
+            <li>
+                {{ __("For more information, see the documentation.") }}
+            </li>
+        </ul>
+    </x-base.alert>
+
     <div x-data="{showGrid: true}">
         <livewire:tables.images-table />
     </div>
@@ -54,6 +83,15 @@
             </x-base.dialog.panel>
         </x-base.dialog>
     @endcan
+
+    @can(ImagePermission::Report)
+        <x-base.dialog id="modal-report-images" size="xl" static-backdrop>
+            <x-base.dialog.panel>
+                <livewire:image.manage-image-report />
+            </x-base.dialog.panel>
+        </x-base.dialog>
+    @endcan
+
     @can(ImagePermission::Delete)
         <x-base.dialog id="modal-manage-image-deletion" static-backdrop>
             <x-base.dialog.panel>
@@ -71,6 +109,7 @@
             </x-base.dialog.panel>
         </x-base.dialog>
     @endcan
+
     @can(LabelPermission::Update)
         <x-base.dialog id="modal-edit-label" size="xl" static-backdrop>
             <x-base.dialog.panel>
@@ -78,6 +117,7 @@
             </x-base.dialog.panel>
         </x-base.dialog>
     @endcan
+
     @can(LabelPermission::Delete)
         <x-base.dialog id="modal-delete-label" static-backdrop>
             <x-base.dialog.panel>

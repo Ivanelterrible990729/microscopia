@@ -69,6 +69,20 @@ class ImagePolicy
     }
 
     /**
+     * Determine whether the user can update the model.
+     */
+    public function report(User $user, Image $image): Response
+    {
+        if (isset($image->deleted_at)) {
+            return Response::deny(__('#IP-RPT-'. Auth::id() .':' . __('It is not possible to report a deleted image.')), 403);
+        }
+
+        return $user->hasPermissionTo(ImagePermission::Report)
+            ? Response::allow()
+            : Response::deny(__('#IP-RPT-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
+    }
+
+    /**
      * Determine whether the user can delete the model.
      */
     public function delete(User $user, Image $image): Response

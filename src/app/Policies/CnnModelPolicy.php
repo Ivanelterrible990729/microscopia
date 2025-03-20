@@ -61,6 +61,16 @@ class CnnModelPolicy
     }
 
     /**
+     * Determina si el usuario puede realizar el entrenamiento.
+     */
+    public function train(User $user, CnnModel $cnn_model): Response
+    {
+        return $user->hasPermissionTo(CnnModelPermission::Train)
+            ? Response::allow()
+            : Response::deny(__('#CMP-TR-'. Auth::id() .':' . __('You do not have permissions to perform this action.')), 403);
+    }
+
+    /**
      * Determine whether the user can restore the model.
      */
     public function restore(User $user, CnnModel $cnnModel): bool

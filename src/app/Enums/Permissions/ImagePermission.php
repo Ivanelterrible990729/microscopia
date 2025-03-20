@@ -16,6 +16,7 @@ enum ImagePermission: string
     case ManageLabels = 'image.Gestionar etiquetas';
     case Delete = 'image.Eliminar';
     case Restore = 'image.Restablecer';
+    case Report = 'image.Generar informe PDF';
 
     public static function map(): array
     {
@@ -27,6 +28,7 @@ enum ImagePermission: string
             self::ManageLabels->value => [RoleEnum::Desarrollador, RoleEnum::JefeUnidad, RoleEnum::TecnicoUnidad],
             self::Delete->value => [RoleEnum::Desarrollador, RoleEnum::JefeUnidad, RoleEnum::TecnicoUnidad],
             self::Restore->value => [RoleEnum::Desarrollador, RoleEnum::JefeUnidad, RoleEnum::TecnicoUnidad],
+            self::Report->value => [RoleEnum::Desarrollador, RoleEnum::JefeUnidad, RoleEnum::TecnicoUnidad],
         ];
     }
 }

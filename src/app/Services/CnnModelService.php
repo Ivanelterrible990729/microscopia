@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Contracts\Services\ActivityInterface;
+use App\Enums\CnnModel\AvailableBaseModelsEnum;
+use App\Enums\Media\MediaEnum;
 use App\Models\CnnModel;
 use App\Repositories\CnnModelRepository;
 use Illuminate\Http\UploadedFile;
@@ -92,5 +94,35 @@ class CnnModelService
             properties: $media->getAttributes(),
             description: __('File replaced.')
         );
+    }
+
+    /**
+     * Actualiza los datos del modelo recién actualizado.
+     */
+    public function updateModelTrained(CnnModel $cnnModel, array $metrics, array $labelIds, string $modelPath): array
+    {
+        // Save new model file
+        $cnnModel->media()->get()->each->delete();
+        $cnnModel->addMedia($metrics['model_path'])
+            ->preservingOriginal(false)
+            ->toMediaCollection(MediaEnum::CNN_Model->value);
+
+        // Save metrics to model.
+        unset($metrics['model_path']);
+        if (in_array($modelPath, array_keys(AvailableBaseModelsEnum::arrayResource()))) {
+            $metrics['base_model'] = str_replace(resource_path(''), '', $modelPath);
+        }
+
+        $this->cnnModelRepository->syncLabels($cnnModel, $labelIds);
+        $this->cnnModelRepository->update($cnnModel, $metrics);
+
+        $this->activityService->logActivity(
+            logName: __('CNN Models'),
+            performedOn: $cnnModel,
+            properties: $cnnModel->getAttributes(),
+            description: __('CNN Model trained.'),
+        );
+
+        return $metrics;
     }
 }

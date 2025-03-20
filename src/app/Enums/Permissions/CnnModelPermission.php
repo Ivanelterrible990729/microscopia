@@ -14,6 +14,7 @@ enum CnnModelPermission: string
     case Create = 'cnn-model.Crear';
     case Update = 'cnn-model.Editar';
     case Delete = 'cnn-model.Eliminar';
+    case Train = 'cnn-model.Entrenar modelos';
 
     public static function map(): array
     {
@@ -23,6 +24,7 @@ enum CnnModelPermission: string
             self::Create->value => [RoleEnum::Desarrollador, RoleEnum::Administrador],
             self::Update->value => [RoleEnum::Desarrollador, RoleEnum::Administrador],
             self::Delete->value => [RoleEnum::Desarrollador, RoleEnum::Administrador],
+            self::Train->value => [RoleEnum::Desarrollador, RoleEnum::Administrador],
         ];
     }
 }

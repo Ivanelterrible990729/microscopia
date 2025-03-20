@@ -8,9 +8,9 @@ def parse_args():
     Función para interpretar los argumentos recibidos.
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument('-mp', '--model_path', type=str, nargs='+', help='Path del modelo que realizará la predicción.')
-    parser.add_argument('-ip', '--image_path', type=str, nargs='+', help='Path de la imagen que será predecida.')
-    parser.add_argument('-cl', '--class_labels', type=str, nargs='+', help='Etiquetas a utilizar en la predicción')
+    parser.add_argument('-mp', '--model_path', type=str, help='Path del modelo que realizará la predicción.')
+    parser.add_argument('-ip', '--image_paths', type=str, nargs='+', help='Paths de las imágenes a predecir.')
+    parser.add_argument('-cl', '--class_labels', type=str, help='Etiquetas a utilizar en la predicción')
 
     return vars(parser.parse_args())
 
@@ -45,16 +45,15 @@ def predict_image(model, img_path, class_labels):
 
 def main():
     args = parse_args()
-    model_path = args['model_path'][0]
-    image_path = args['image_path'][0]
-    class_labels = args['class_labels'][0]
-    class_labels = class_labels.strip("[]").split(",")
+    model_path = args['model_path']
+    image_paths = args['image_paths']
+    class_labels = args['class_labels'].strip("[]").split(",")
 
     model = load_model(model_path)
-    predicted_class, confidence = predict_image(model, image_path, class_labels)
 
-    print(predicted_class)
-    print(confidence)
+    for image_path in image_paths:
+        predicted_class, confidence = predict_image(model, image_path, class_labels)
+        print(f"{predicted_class} | {confidence:.2f}")
 
 if __name__ == "__main__":
     main()

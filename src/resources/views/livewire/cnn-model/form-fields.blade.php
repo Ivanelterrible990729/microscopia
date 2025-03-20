@@ -58,7 +58,7 @@ formInline
 class="my-5 flex-col items-start pt-5 px-2 first:mt-0 first:pt-0 xl:flex-row"
 formInline
 >
-    <x-base.form-label for="form.labelIds" class="xl:!mr-10 xl:w-64">
+    <x-base.form-label for="form.file" class="xl:!mr-10 xl:w-64">
         <div class="text-left">
             <div class="flex items-center">
                 <div class="font-medium">{{ __('File') }}</div>
@@ -127,6 +127,83 @@ formInline
 
         <div x-show="uploading">
             <progress max="100" x-bind:value="progress" class="w-full"></progress>
+        </div>
+    </div>
+</x-base.form-inline>
+
+<x-base.form-inline
+class="my-5 flex-col items-start pt-5 px-2 first:mt-0 first:pt-0 xl:flex-row"
+formInline
+x-data="{ showMore: false }"
+wire:ignore
+>
+    <x-base.form-label for="form.accuracy" class="xl:!mr-10 xl:w-64" x-on:click="showMore = !showMore">
+        <div class="text-left">
+            <div class="flex items-center">
+                <div class="font-medium">{{ __('More details') }}</div>
+                <x-base.lucide
+                    x-show="!showMore"
+                    icon="arrow-down-circle"
+                    class="mx-2"
+                />
+                <x-base.lucide
+                    x-show="showMore"
+                    icon="arrow-up-circle"
+                    class="mx-2"
+                />
+            </div>
+            <div class="mt-3 text-xs leading-relaxed text-slate-500" x-show="showMore">
+                {{ __('Indicate here the metrics of the model.') }}
+            </div>
+        </div>
+    </x-base.form-label>
+    <div class="mt-3 w-full flex-1 xl:mt-0" x-show="showMore">
+        <div class="flex flex-row items-center mb-2">
+            <label for="form.accuracy" class="w-32 mr-2">Accuracy</label>
+            <x-base.form-input
+                id="form.accuracy"
+                name="form.accuracy"
+                wire:model='form.accuracy'
+                type="number"
+                step="0.0001"
+                min="0"
+            />
+        </div>
+
+        <div class="flex flex-row items-center mb-2">
+            <label for="form.accuracy" class="w-32 mr-2">Loss</label>
+            <x-base.form-input
+                id="form.loss"
+                name="form.loss"
+                wire:model='form.loss'
+                type="number"
+                step="0.0001"
+                min="0"
+            />
+        </div>
+
+        <div class="flex flex-row items-center mb-2">
+            <label for="form.accuracy" class="w-32 mr-2">Val accuracy</label>
+            <x-base.form-input
+                id="form.val_accuracy"
+                name="form.val_accuracy"
+                wire:model='form.val_accuracy'
+                type="number"
+                step="0.0001"
+                min="0"
+            />
+        </div>
+
+        <div class="flex flex-row items-center mb-2">
+            <label for="form.accuracy" class="w-32 mr-2">Val loss</label>
+            <x-base.form-input
+                id="form.val_loss"
+                name="form.val_loss"
+                wire:model='form.val_loss'
+                type="number"
+                step="0.0001"
+                min="0"
+            />
         </div>
     </div>
 </x-base.form-inline>
