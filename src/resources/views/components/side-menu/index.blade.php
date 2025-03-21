@@ -90,7 +90,8 @@
             <x-base.button
                 class="px-4 py-3 bg-black border rounded-lg w-full text-white"
                 as="a"
-                href="{{ route('larecipe.show', '1.0') }}"
+                target="_blank"
+                href="{{ route('larecipe.show', 'usuario') }}"
             >
                 <x-base.lucide
                     icon="book-text"
