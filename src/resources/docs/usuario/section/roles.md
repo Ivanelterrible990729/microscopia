@@ -40,7 +40,7 @@ Para crear un rol, desde el listado de roles, haga clic en el botón ubicado en 
     Crear rol
 </span>.
 
-- Se abrirá un modal con los campos requeridos para registrar un modal.
+- Se abrirá un modal con los campos requeridos para registrar un rol.
 - Deberá completar el formulario para crear un rol.
 - Haga clic en <span class="bg-success p-2 border rounded-lg">
                     <i class="fa fa-save"></i>
@@ -100,3 +100,5 @@ Para crear un rol, desde el listado de roles, haga clic en el botón ubicado en 
 - Confirme la acción en la advertencia que aparece.
 
 > {success} Será redirigido al listado de roles una vez el rol haya sido eliminado.
+
+---
