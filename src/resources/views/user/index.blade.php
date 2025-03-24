@@ -65,7 +65,7 @@
                     {{ __("For creating a new user, click in 'Create user'.") }}
                 </li>
                 <li>
-                    <a href="{{ route('larecipe.show', ['version' => 'usuario', 'page' => 'section/usuarios']) }}" class="text-blue-500">
+                    <a href="{{ route('larecipe.show', ['version' => 'usuario', 'page' => 'section/usuarios']) }}" target="_blank" class="text-blue-500">
                         {{ __("For more information, see the documentation.") }}
                     </a>
                 </li>

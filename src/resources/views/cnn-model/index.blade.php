@@ -69,7 +69,7 @@
                     {{ __("For creating a new model, click in 'Create CNN model'.") }}
                 </li>
                 <li>
-                    <a href="{{ route('larecipe.show', ['version' => 'usuario', 'page' => 'section/modelos-cnn']) }}" class="text-blue-500">
+                    <a href="{{ route('larecipe.show', ['version' => 'usuario', 'page' => 'section/modelos-cnn']) }}" target="_blank" class="text-blue-500">
                         {{ __("For more information, see the documentation.") }}
                     </a>
                 </li>

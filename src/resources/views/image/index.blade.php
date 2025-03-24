@@ -66,7 +66,7 @@
                 {{ __('Click in any image to see more details.') }}
             </li>
             <li>
-                <a href="{{ route('larecipe.show', ['version' => 'usuario', 'page' => 'section/gestion-imagenes']) }}" class="text-blue-500">
+                <a href="{{ route('larecipe.show', ['version' => 'usuario', 'page' => 'section/gestion-imagenes']) }}" target="_blank" class="text-blue-500">
                     {{ __("For more information, see the documentation.") }}
                 </a>
             </li>
