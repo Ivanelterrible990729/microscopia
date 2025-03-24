@@ -66,7 +66,9 @@
                     {{ __('Click in any log ID in the listing to see more details.') }}
                 </li>
                 <li>
-                    {{ __("For more information, see the documentation.") }}
+                    <a href="{{ route('larecipe.show', ['version' => 'usuario', 'page' => 'section/registro-actividad']) }}" class="text-blue-500">
+                        {{ __("For more information, see the documentation.") }}
+                    </a>
                 </li>
             </ul>
         </x-base.alert>
