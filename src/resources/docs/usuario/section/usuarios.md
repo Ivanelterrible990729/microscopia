@@ -25,7 +25,7 @@ En este módulo, se realiza la gestión de usuarios en el sistema. Entre las ope
 
 Lo primero que usted verá al entrar al módulo de usuarios será un listado de los mismos. En este listado se encuentran las columnas "Foto", "Nombre", "Cargo", "Correo electrónico", y "Roles". En este listado, también es posible filtrar usuarios por su estatus o por sus roles.
 
-> {info} Para visualizar el detalle de un usaurio en específico, haga clic en el nombre del usuario.
+> {info} Para visualizar el detalle de un usuario en específico, haga clic en el nombre del usuario.
 
 ---
 
