@@ -45,7 +45,7 @@
             {{-- versions dropdown --}}
             <larecipe-dropdown>
                 <larecipe-button type="primary" size="sm" class="flex items-center">
-                    <span class="hidden sm:block mr-2">
+                    <span class="hidden sm:block mr-1">
                         {{ __('Version') }}
                     </span>
                     {{ $currentVersion }} <i class="mx-1 fa fa-angle-down"></i>
@@ -53,11 +53,19 @@
 
                 <template slot="list">
                     <ul class="list-reset">
-                        @foreach ($versions as $version)
+                        {{-- @foreach ($versions as $version)
                             <li class="py-2 hover:bg-grey-lightest">
                                 <a class="px-6 text-grey-darkest" href="{{ route('larecipe.show', ['version' => $version, 'page' => $currentSection]) }}">{{ $version }}</a>
                             </li>
-                        @endforeach
+                        @endforeach --}}
+                        <li class="py-2 hover:bg-grey-lightest">
+                            <a class="px-6 text-grey-darkest" href="{{ route('larecipe.show', ['version' => 'usuario', 'page' => 'overview']) }}">{{ 'usuario' }}</a>
+                        </li>
+                        @if (request()->user()->hasRole(App\Enums\RoleEnum::Desarrollador->value))
+                            <li class="py-2 hover:bg-grey-lightest">
+                                <a class="px-6 text-grey-darkest" href="{{ route('larecipe.show', ['version' => 'desarrollador', 'page' => 'overview']) }}">{{ 'desarrollador' }}</a>
+                            </li>
+                        @endif
                     </ul>
                 </template>
             </larecipe-dropdown>

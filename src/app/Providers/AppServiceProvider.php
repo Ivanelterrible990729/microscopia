@@ -6,6 +6,7 @@ use App\Contracts\Services\ActivityInterface;
 use App\Enums\RoleEnum;
 use App\Models\User;
 use App\Policies\ActivityPolicy;
+use App\Policies\DocumentationPolicy;
 use App\Policies\RolePolicy;
 use App\Services\ActivitylogService;
 use Illuminate\Support\Facades\Gate;
@@ -41,5 +42,7 @@ class AppServiceProvider extends ServiceProvider
 
             return $user && $user->hasRole(RoleEnum::Desarrollador);
         });
+
+        Gate::define('viewLarecipe', [DocumentationPolicy::class, 'show']);
     }
 }

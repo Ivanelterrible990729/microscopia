@@ -42,7 +42,7 @@ class RolesTable extends DataTableComponent
                 ->searchable(
                     fn(Builder $query, $searchTerm) => $query->orWhere('id', 'like', "%$searchTerm%")
                 ),
-            Column::make("Name", "name")
+            Column::make(__("Name"), "name")
                 ->sortable()
                 ->searchable(),
             Column::make(__("Created at"), "created_at")

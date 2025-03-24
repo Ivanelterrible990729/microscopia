@@ -56,9 +56,7 @@ Route::middleware([
     // CNN MODELS  ================================================
     // ============================================================
 
-    Route::get('cnn-models/', [CnnModelController::class, 'index'])->name('cnn-model.index');
-    Route::get('cnn-models/{cnnModel}', [CnnModelController::class, 'show'])->name('cnn-model.show');
-    Route::delete('cnn-models/{cnnModel}', [CnnModelController::class, 'destroy'])->name('cnn-model.destroy');
+    Route::resource('cnn-model', CnnModelController::class)->only(['index', 'show', 'destroy']);
 
     // IMAGES =====================================================
     // ============================================================

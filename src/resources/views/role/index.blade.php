@@ -65,7 +65,9 @@
                     {{ __("For creating new roles, click in 'new Role'.") }}
                 </li>
                 <li>
-                    {{ __("For more information, see the documentation") }}
+                    <a href="{{ route('larecipe.show', ['version' => 'usuario', 'page' => 'section/roles']) }}" target="_blank" class="text-blue-500">
+                        {{ __("For more information, see the documentation.") }}
+                    </a>
                 </li>
             </ul>
         </x-base.alert>
