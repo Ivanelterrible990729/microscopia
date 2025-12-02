@@ -20,8 +20,8 @@ class ImageIncrease extends Component
 
     public function mount()
     {
-        $endDate = now()->translatedFormat('j M, Y');
-        $startDate = now()->subMonth()->translatedFormat('j M, Y');
+        $endDate = now()->subMonth()->translatedFormat('j M, Y');
+        $startDate = now()->subMonth(3)->translatedFormat('j M, Y');
 
         $this->dates = $startDate . ' - ' . $endDate;
         $this->images = [
@@ -44,8 +44,8 @@ class ImageIncrease extends Component
             return;
         }
 
-        $startDate = Carbon::parse($dates[0]);
-        $endDate = Carbon::parse($dates[1]);
+        $startDate = Carbon::createFromLocaleFormat('j M, Y', 'es', str_replace('.', '', $dates[0]));
+        $endDate = Carbon::createFromLocaleFormat('j M, Y', 'es', str_replace('.', '', $dates[1]));
 
         $monthsInRange = [];
         $currentMonth = $startDate->copy();
