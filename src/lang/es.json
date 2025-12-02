@@ -305,7 +305,7 @@
     "Please select the permissions listed below.": "Por favor, seleccione los permisos enlistados a continuación.",
     "Please, review all the images before confirming the wizard": "Por favor, revise todas las imágenes antes de confirmar el wizard.",
     "Prediction": "Predicción",
-    "Prediction's presicion": "Presición de la predicción",
+    "Prediction's precision": "Precisión de la predicción",
     "Predictions": "Predicciones",
     "Prefix": "Prefijo",
     "Previous": "Anterior",
@@ -516,5 +516,7 @@
     "Be conscious this process can take some time.": "Tenga en cuenta que este proceso puede tomar más tiempo de lo esperado.",
     "Do not close this page during training process.": "No cierre esta página durante el proceso de entrenamiento.",
     "Indicate here the metrics of the model.": "Indique aquí las métricas del modelo.",
-    "More details": "Más detalles"
+    "More details": "Más detalles",
+    "No description.": "Sin descripción.",
+    "Analysis date": "Fecha del análisis"
 }

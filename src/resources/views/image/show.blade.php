@@ -105,7 +105,7 @@
                             {{ __('Description') }}
                         </span>
                         <div class="bg-slate-100 border rounded px-2 py-1">
-                            {{ $image->description ?? 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio illum fugiat qui, in mollitia similique dicta architecto ea beatae tempore ex perspiciatis. Delectus rem nostrum ipsa quod esse nulla iste?' }}
+                            {{ $image->description ?? __('No description.') }}
                         </div>
                     </div>
 

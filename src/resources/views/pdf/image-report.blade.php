@@ -18,15 +18,24 @@
                     />
 
                     <h2 class="text-2xl font-black uppercase text-slate-500 opacity-30">
-                        {{ __('Analysis report') }}
+                        {{ __('ITRANS') }}
                     </h2>
                 </header>
 
-                <div class="text-green-700 text-sm mb-10">
-                    {{ now()->translatedFormat('j \d\e F \d\e\l Y') }}
+                <h3 class="text-2xl uppercase font-bold text-center mb-10">
+                    {{ __('Analysis report') }}
+                </h3>
+
+                <div class="flex flex-row items-start justify-between mt-4">
+                    <div class="font-bold">
+                        {{ __('Analysis date') }}:
+                    </div>
+                    <div class="w-1/2 text-justify">
+                        {{ now()->translatedFormat('j \d\e F \d\e\l Y') }}
+                    </div>
                 </div>
 
-                <div class="flex flex-row items-start justify-between mt-8">
+                <div class="flex flex-row items-start justify-between mt-4">
                     <div class="font-bold">
                         {{ __('Name of the image') }}
                     </div>
@@ -35,16 +44,16 @@
                     </div>
                 </div>
 
-                <div class="flex flex-row items-start justify-between mt-8">
+                <div class="flex flex-row items-start justify-between mt-4">
                     <div class="font-bold">
                         {{ __('Description') }}
                     </div>
                     <div class="w-1/2 text-justify">
-                        {{ $register['image_description']  }}
+                        {{ $register['image_description']  ?? __('No description.') }}
                     </div>
                 </div>
 
-                <div class="flex flex-row items-start justify-between mt-8">
+                <div class="flex flex-row items-start justify-between mt-4">
                     <div class="font-bold">
                         {{ __('Illustration') }}
                     </div>
@@ -56,7 +65,7 @@
                     </div>
                 </div>
 
-                <div class="flex flex-row items-start justify-between mt-8">
+                <div class="flex flex-row items-start justify-between mt-4">
                     <div class="font-bold">
                         {{ __('Prediction') }}
                     </div>
@@ -65,16 +74,16 @@
                     </div>
                 </div>
 
-                <div class="flex flex-row items-start justify-between mt-8">
+                <div class="flex flex-row items-start justify-between mt-4">
                     <div class="font-bold">
-                        {{ __("Prediction's presicion") }}
+                        {{ __("Prediction's precision") }}
                     </div>
                     <div class="w-1/2 text-justify">
                         {{ $register['precision']  }}%
                     </div>
                 </div>
 
-                <div class="flex flex-row items-start justify-between mt-8">
+                <div class="flex flex-row items-start justify-between mt-4">
                     <div class="font-bold">
                         {{ __('Model used') }}
                     </div>

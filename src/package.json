@@ -28,6 +28,7 @@
         "litepicker": "^2.0.12",
         "lucide": "^0.469.0",
         "pristinejs": "^1.0.0",
+        "puppeteer": "^24.31.0",
         "simplebar": "^5.3.9",
         "tabulator-tables": "^5.3.4",
         "tailwind-merge": "^1.8.1",
