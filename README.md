@@ -1,6 +1,6 @@
 # Microscopía ITRANS
 
-Este es un proyecto de Laravel 11 que tiene de stack Jetstream/Livewire que bien puede ser utilizado facilmente tanto en Docker como en Laragon.
+This project uses Laravel 11 and Livewire as stack for the web page, as well Python to perform Convolutional Neural Networks models on the back-end.
 
 ## Instalación del proyecto (Docker)
 
@@ -10,3 +10,4 @@ Ejecute los siguientes comandos:
 - `docker-compose exec app bash`
 - `php artisan migrate`
 - `npm install && npm run build`
+
